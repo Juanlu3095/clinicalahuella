@@ -1,1 +1,65 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Import Nunito font family
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+// Define the theme object.
+$lahuella-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: (
+      plain-family: Nunito,
+      brand-family: Nunito,
+      bold-weight: 900,
+      medium-weight: 500,
+      regular-weight: 300,
+    ),
+  density: (
+    scale: 0,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+:root {
+  @include mat.all-component-themes($lahuella-theme);
+  --lightbrown: #ce984c;
+  --dark: #4c5462;
+  --gray: #d9d9d9;
+  --lengthSm1: 0.25rem; // 4px
+  --lengthSm2: 0.5rem; // 8px
+  --lengthSm3: 0.75rem; // 12px
+  --lengthMd1: 1rem; // 16px
+  --lengthMd2: 1.25rem; // 20px
+  --lengthMd3: 1.5rem; // 24px
+  --lengthLg1: 2rem; // 32px
+  --lengthLg2: 3rem; // 48px
+  --lengthLg3: 4rem; // 64px
+}
+
+// Comment out the line below if you want to use the pre-defined typography utility classes.
+// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
+// @include mat.typography-hierarchy($lahuella-theme);
+
+// Comment out the line below if you want to use the deprecated `color` inputs.
+// @include mat.color-variants-backwards-compatibility($lahuella-theme);
 /* You can add global styles to this file, and also import other style files */
+body { 
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html, body { height: 100%; }
