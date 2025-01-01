@@ -10,7 +10,7 @@ export const routes: Routes = [
         loadComponent: () => import('./client/contact/contact.component').then((m) => m.ContactComponent),
     },
     {
-        path: 'reservar-cita',
+        path: 'solicitar-cita',
         loadComponent: () => import('./client/book/book.component').then((m) => m.BookComponent),
     },
     {

@@ -5,3 +5,22 @@
 .button-menu{
     background-color: var(--lightbrown) !important;
 }
+
+.mobile-menu{
+    display: none;
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+    .menu{
+        display: none;
+    }
+
+    .toolbar{
+        padding: 0 1rem;
+    }
+
+    .mobile-menu{
+        display: block;
+    }
+}

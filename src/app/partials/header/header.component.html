@@ -1,16 +1,43 @@
+<!-- DESKTOP & TABLET -->
 <header class="header">
-    <mat-toolbar class="toolbar px-10">
+    <mat-toolbar class="toolbar desktop px-10">
         <mat-toolbar-row class="flex justify-between">
             <div>
-                <img class="w-16" src="../../../assets/logo/lahuella.png" alt="logo-lahuella">
+                <a routerLink="">
+                    <img class="w-16" src="../../../assets/logo/lahuella.png" alt="logo-lahuella">
+                </a>
             </div>
             
             <nav class="menu flex gap-4 items-center">
                 <a routerLink="" class="item-menu text-base">Inicio</a>
                 <a routerLink="/blog" class="item-menu text-base">Blog</a>
                 <a routerLink="/contacto" class="item-menu text-base">Contacto</a>
-                <button mat-flat-button class="button-menu text-base" routerLink="/reservar-cita">Reservar cita</button>
+                <button mat-flat-button class="button-menu text-base" routerLink="/solicitar-cita">Reservar cita</button>
             </nav>
+
+            <!-- MOBILE MENU -->
+            <div class="mobile-menu">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Botón para menú">
+                  <mat-icon>menu</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <a routerLink="">Inicio</a>
+                </button>
+                <button mat-menu-item>
+                  <a routerLink="/blog">Blog</a>
+                </button>
+                <button mat-menu-item>
+                  <a routerLink="/contacto">Contacto</a>
+                </button>
+                <button mat-menu-item>
+                  <a routerLink="/solicitar-cita">Solicitar cita</a>
+                </button>
+              </mat-menu>
+            </div>
+            
         </mat-toolbar-row>
     </mat-toolbar>
 </header>
+
+<!-- MOBILE -->

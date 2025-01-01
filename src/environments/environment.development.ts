@@ -1,1 +1,3 @@
-export const environment = {};
+export const environment = {
+    apiendpoint: 'http://localhost:3000'
+};

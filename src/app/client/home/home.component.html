@@ -1,13 +1,118 @@
+<!-- HEADER -->
 <app-header></app-header>
 
 <main>
+    <!-- HERO -->
     <section class="hero">
-        
+        <div class="hero-body">
+            <h2 class="italic txt-lightbrown font-medium lg:text-5xl md:text-3xl">Clínica veterinaria</h2>
+            <h1 class="txt-dark font-semibold lg:text-6xl md:text-4xl">La Huella</h1>
+            <p class="italic txt-dark font-normal lg:text-xl md:text-base">El mejor cuidado para tu mejor amigo</p>
+            <button mat-flat-button routerLink="/contacto">¡Contáctanos!</button>
+        </div>
     </section>
 
-    <section class="services">
-        
+    <!-- SERVICES -->
+    <section class="services py-12 lg:px-10 md:px-5">
+        <div class="services-header">
+            <h2 class="txt-lightbrown text-center lg:text-3xl md:text-2xl">NUESTROS SERVICIOS</h2>
+        </div>
+        <div class="services-schema pt-12 flex">
+            <div class="services-item mx-4 w-1/5">
+                <img class="w-28 align-center" src="../../../assets/img/consultas.webp" alt="consultas">
+                <h3 class="txt-dark text-center lg:text-xl md:text-base py-3">CONSULTAS</h3>
+                <p class="text-center lg:text-base md:text-sm">Revisión de salud y diagnósticos de tu mascota.</p>
+            </div>
+            <div class="services-item mx-4 w-1/5">
+                <img class="w-28 align-center" src="../../../assets/img/vacunas.webp" alt="vacunas">
+                <h3 class="txt-dark text-center lg:text-xl md:text-base py-3">VACUNACIÓN</h3>
+                <p class="text-center lg:text-base md:text-sm">Calendarios de vacunación para prevenir enfermedades de tu mascota.</p>
+            </div>
+            <div class="services-item mx-4 w-1/5">
+                <img class="w-28 align-center" src="../../../assets/img/desparasitacion.webp" alt="desparasitacion">
+                <h3 class="txt-dark text-center lg:text-xl md:text-base py-3">DESPARASITACIÓN</h3>
+                <p class="text-center lg:text-base md:text-sm">Interna y externa, para prevenir parásitos como gusanos y pulgas.</p>
+            </div>
+            <div class="services-item mx-4 w-1/5">
+                <img class="w-28 align-center" src="../../../assets/img/registro.webp" alt="registro">
+                <h3 class="txt-dark text-center lg:text-xl md:text-base py-3">REGISTRO</h3>
+                <p class="text-center lg:text-base md:text-sm">Implantación de microchips para identificación de mascotas.</p>
+            </div>
+            <div class="services-item mx-4 w-1/5">
+                <img class="w-28 align-center" src="../../../assets/img/urgencias.webp" alt="urgencias">
+                <h3 class="txt-dark text-center lg:text-xl md:text-base py-3">URGENCIAS 24 H.</h3>
+                <p class="text-center lg:text-base md:text-sm">Atención 24 horas para casos de urgencia.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST IN LA HUELLA -->
+    <section class="trust py-12 px-10">
+        <div class="trust-header" id="trust">
+            <h2 class="txt-lightbrown text-center lg:text-3xl md:text-2xl">¿POR QUÉ CONFIAR EN LA HUELLA?</h2>
+        </div>
+        <div class="trust-schema lg:pt-12 md:pt-6">
+            <div class="trust-row flex justify-evenly lg:my-8 md:my-4 lg:mx-16 md:mx-4">
+                <div class="trust-item w-1/2">
+                    <img class="w-8 absolute lg:left-36 md:left-24 rotate-180" src="../../../assets/img/huella.webp" alt="huella">
+                    <h3 class="txt-lightbrown text-center lg:text-xl md:text-lg mb-4">+20 AÑOS EXPERIENCIA</h3>
+                    <p class="text-center lg:text-base md:text-sm">
+                        Somos un equipo de profesionales con más de 20 años de experiencia en el sector.
+                    </p>
+                </div>
+                <div class="trust-item w-1/2">
+                    <h3 class="txt-lightbrown text-center lg:text-xl md:text-lg mb-4">TECNOLOGÍA MODERNA</h3>
+                    <p class="text-center lg:text-base md:text-sm">
+                        Contamos con tecnología avanzada para ofrecer diagnósticos precisos y tratamientos efectivos en nuestro veterinario.
+                    </p>
+                    <img class="w-8 absolute float-end" src="../../../assets/img/huella.webp" alt="huella">
+                </div>
+            </div>
+            <div class="trust-row flex justify-evenly lg:my-8 md:my-4 lg:mx-16 md:mx-4">
+                <div class="trust-item w-1/2">
+                    <h3 class="txt-lightbrown text-center lg:text-xl md:text-lg mb-4">ENFOQUE HUMANO</h3>
+                    <p class="text-center lg:text-base md:text-sm">
+                        Tratamos a cada mascota con el amor que tú les darías, ofreciendo atención
+                        personalizada y seguimiento constante.
+                    </p>
+                    <div class="float-right justify-items-start mr-8">
+                        <img class="w-8 absolute rotate-45" src="../../../assets/img/huella.webp" alt="huella">
+                    </div>
+                </div>
+                <div class="trust-item w-1/2">
+                    <img class="w-8 absolute rotate-90" src="../../../assets/img/huella.webp" alt="huella">
+                    <h3 class="txt-lightbrown text-center lg:text-xl md:text-lg mb-4">DISPONIBILIDAD</h3>
+                    <p class="text-center lg:text-base md:text-sm">
+                        Estamos disponibles para emergencias 24/7, asegurando que tu mascota reciba atención inmediata cuando
+                        más lo necesita
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter py-20 px-10">
+        <div class="news-container lg:mx-24 md:mx-12 py-8">
+            <h2 class="txt-lightbrown text-center lg:text-3xl md:text-2xl">¡INSCRÍBETE A NUESTRA NEWSLETTER!</h2>
+            <div class="news-body flex justify-center items-center lg:gap-8 md:gap-8 my-8">
+                <div class="news-item">
+                    <img class="w-32" src="../../../assets/img/gato.webp" alt="gato">
+                </div>
+                <div class="news-item">
+                    <p class="lg:text-base md:text-sm">Introduce a continuación tu email para recibir nuestro boletín:</p>
+                    <form class="newsForm flex justify-center gap-2 my-4" [formGroup]="newsletterForm">
+                        <input type="email" class="p-1 grow rounded" placeholder="tuemail@dominio.com" formControlName="email" required>
+                        <button mat-flat-button class="rounded p-1 h-8" (click)="crearNewsletter()">Enviar</button>
+                    </form>
+                </div>
+                <div class="news-item">
+                    <img class="w-32" src="../../../assets/img/perro.webp" alt="perro">
+                </div>
+            </div>
+        </div>
     </section>
 </main>
 
+<!-- FOOTER -->
 <app-footer></app-footer>

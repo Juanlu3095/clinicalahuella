@@ -1,0 +1,40 @@
+$mobileMAX: 767px;
+
+.copyright{
+    background-color: var(--dark);
+    color: white;
+}
+
+.footer-body{
+    @media (max-width: $mobileMAX) {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+}
+
+.footer-image {
+    @media (max-width: $mobileMAX) {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.footer-image img {
+    @media (max-width: $mobileMAX) {
+        width: 10rem;
+    }
+}
+
+.footer-item h2{
+    @media (max-width: 767px) {
+        font-size: var(--lengthMd2);
+    }
+}
+
+.footer-item nav{
+    @media (max-width: 767px) {
+        display: flex;
+        justify-content: center;
+    }
+}
