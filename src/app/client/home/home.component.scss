@@ -67,6 +67,8 @@ $tabletMAX: 1023px;
 }
 
 .hero-body h2{
+    font-family: 'Nunito';
+    font-weight: bold;
     @media (max-width: $mobileMAX) {
         font-size: var(--lengthMd2);
     }

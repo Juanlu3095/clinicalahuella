@@ -53,8 +53,8 @@ export class HomeComponent implements OnInit{
         email: this.newsletterForm.value.email || '' // Con esto obligamos a que el form no sea null
       }
       this.newsletterService.postNewsletter(email).subscribe({
-        next: (respuesta) => {
-          console.log(respuesta)
+        next: (response) => {
+          console.log(response)
         },
         error: (error) => {
           console.error(error)
