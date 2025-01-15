@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { HeaderComponent } from '../../partials/header/header.component';
 import { FooterComponent } from '../../partials/footer/footer.component';
-import { Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +12,7 @@ import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/cor
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
+import { BookService } from '../../services/book.service';
 
 @Component({
   selector: 'app-book',
@@ -24,7 +25,9 @@ import { ResponsivedesignService } from '../../services/responsivedesign.service
 export class BookComponent implements OnInit, OnDestroy{
 
   private title = inject(Title)
+  private meta = inject(Meta)
   private responsive = inject(ResponsivedesignService)
+  private bookService = inject(BookService)
   rowHeight: string = ''
   subscription: Subscription = new Subscription()
 
@@ -39,6 +42,8 @@ export class BookComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.title.setTitle('Reservar cita - Clínica veterinaria La Huella');
+    this.meta.updateTag({ name: 'description', content: 'Reserva cita para tu mascota en nuestra clínica veterinaria de Málaga.' })
+    this.meta.updateTag({ name: 'keywords', content: 'reserva cita, cita mascota, clínica málaga'})
     this.responsiveDesign();
   }
 
@@ -47,8 +52,26 @@ export class BookComponent implements OnInit, OnDestroy{
   }
 
   solicitarReserva() {
-    if(this.bookForm.valid) {
+    if(this.bookForm.valid && this.bookForm.value) {
       console.log(this.bookForm.value)
+
+      const book = {
+        nombre: this.bookForm.value.nombre || '',
+        apellidos: this.bookForm.value.apellidos || '',
+        email: this.bookForm.value.email || '',
+        telefono: this.bookForm.value.telefono || undefined,
+        fecha: this.bookForm.value.fecha || '',
+        hora: this.bookForm.value.hora || '',
+      }
+      this.bookService.postBook(book).subscribe({
+        next: (response) => {
+          console.log(book)
+          console.log('Respuesta:', response)
+        }, error: (error) => {
+          console.error(book)
+          console.error(error)
+        }
+      })
     }
   }
 

@@ -1,6 +1,7 @@
-import { Component, OnInit, afterRender, inject, PLATFORM_ID, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, afterRender, inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { HeaderComponent } from '../../partials/header/header.component';
 import { FooterComponent } from '../../partials/footer/footer.component';
+import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -20,6 +21,8 @@ import { Newsletter } from '../../interfaces/newsletter';
 export class HomeComponent implements OnInit{
 
   @ViewChild('trust') trust!: any;
+  private title = inject(Title)
+  private meta = inject(Meta)
   private readonly platformId = inject(PLATFORM_ID)
   private newsletterService = inject(NewsletterService)
 
@@ -44,7 +47,9 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    
+    this.title.setTitle('Clínica veterinaria La Huella')
+    this.meta.updateTag({ name: 'description', content: 'Consultas veterinarias para perros y gatos en nuestra clínica de Málaga.' })
+    this.meta.updateTag({ name: 'keywords', content: 'clínica veterinaria, cuidado de mascotas, málaga, perro, gato' })
   }
 
   crearNewsletter() {

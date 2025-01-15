@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { MessageService } from '../../services/message.service';
@@ -21,6 +21,7 @@ import { MessageService } from '../../services/message.service';
 export class ContactComponent implements OnInit, OnDestroy{
 
   private title = inject(Title)
+  private meta = inject(Meta)
   private responsive = inject(ResponsivedesignService)
   private messageService = inject(MessageService)
   rowHeight: string = ''
@@ -39,6 +40,8 @@ export class ContactComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.title.setTitle('Contacto - Clínica veterinaria La Huella')
+    this.meta.updateTag({ name: 'description', content: 'Formulario de contacto para nuestra clínica veterinaria de Málaga.' })
+    this.meta.updateTag({ name: 'keywords', content: 'contacto, formulario contacto, málaga, clínica veterinaria málaga'})
     this.responsiveDesign()
   }
 

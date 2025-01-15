@@ -1,13 +1,13 @@
-export interface Message {
+export interface Book {
     id: string,
     nombre: string,
     apellidos: string,
     email: string,
     telefono: number,
-    asunto: string,
-    mensaje: string,
+    fecha: string,
+    hora: string,
     created_at: Date,
     updated_at: Date
 }
 
-export type MessageOptional = Partial<Message>
+export type BookOptional = Partial<Book>
