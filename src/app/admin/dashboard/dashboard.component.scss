@@ -1,0 +1,31 @@
+// VENTANA ARRIBA
+.window{
+    background-color: var(--dark);
+    padding: 0.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+// SIDENAV IZQA.
+.sidenav{
+    background-color: var(--lightbrown);
+    border-radius: 0;
+    text-align: center; 
+}
+
+.logo-container img{
+    width: 130px;
+    transform: translatey(0px);
+	animation: float 6s ease-in-out infinite;
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+    // filter: drop-shadow(5px 5px 10px #000); // Para que la sombra sólo afecte al contorno de la imagen
+    background-color: #ffffff;
+    border-radius: 1rem;
+}
+
+// Ruta activa
+.active-link{
+    background-color: #d9d9d9; /* Cambia a tu color deseado */
+    font-weight: bold;
+}

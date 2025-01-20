@@ -22,6 +22,28 @@ export const routes: Routes = [
         loadComponent: () => import('./client/book/book.component').then((m) => m.BookComponent),
     },
     {
+        path: 'admin',
+        loadComponent: () => import('./admin/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+        children: [
+            {
+                path: '',
+                loadComponent: () => import('./admin/inicio/inicio.component').then((m) => m.InicioComponent),
+            },
+            {
+                path: 'reservas',
+                loadComponent: () => import('./admin/reservas/reservas.component').then((m) => m.ReservasComponent),
+            },
+            {
+                path: 'citas',
+                loadComponent: () => import('./admin/citas/citas.component').then((m) => m.CitasComponent),
+            },
+            {
+                path: 'blog',
+                loadComponent: () => import('./admin/blog/blog.component').then((m) => m.BlogComponent),
+            }
+        ]
+    },
+    {
         path: '**',
         loadComponent: () => import('./client/notfound/notfound.component').then((m) => m.NotfoundComponent),
     },

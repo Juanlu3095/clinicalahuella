@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { NewsletterService } from '../../services/newsletter.service';
 import { Newsletter } from '../../interfaces/newsletter';
 
@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit{
   })
 
   constructor() {
-    
     afterRender(() => {
       if(isPlatformBrowser(this.platformId)) {
         window.addEventListener("scroll", function() { // Todo esto se ejecutará al hacer scroll
@@ -43,6 +42,7 @@ export class HomeComponent implements OnInit{
             }
         });
       }
+      
     })
   }
 
