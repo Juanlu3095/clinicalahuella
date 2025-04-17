@@ -1,9 +1,18 @@
 <main>
-    <section class="encabezado">
+    <section class="encabezado flex flex-row items-center gap-6">
         <h1>Blog</h1>
+        <button mat-stroked-button class="nuevo">Añadir entrada</button>
     </section>
 
-    <section class="reservas">
-        
+    <section class="posts">
+        @if(posts) {
+            
+            <app-datatable [columns]="columns" [displayedColumns]="displayedColumns" [data]="posts"
+             (selectionChange)="onSelectionChange($event)" [buttons]="botones">
+            </app-datatable>
+            
+        } @else {
+            <p>No hay posts.</p>
+        }
     </section>
 </main>

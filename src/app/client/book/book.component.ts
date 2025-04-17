@@ -12,7 +12,7 @@ import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/cor
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
-import { BookService } from '../../services/book.service';
+import { BookService } from '../../services/api/book.service';
 
 @Component({
   selector: 'app-book',
@@ -36,7 +36,7 @@ export class BookComponent implements OnInit, OnDestroy{
     apellidos: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     email: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1), Validators.email])),
     telefono: new FormControl<number | null>(null, Validators.compose([Validators.required, Validators.min(1)])),
-    fecha: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(4)])),
+    fecha: new FormControl<Date>(new Date, Validators.compose([Validators.required, Validators.minLength(4)])),
     hora: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(3)])),
   })
 
@@ -60,15 +60,15 @@ export class BookComponent implements OnInit, OnDestroy{
         apellidos: this.bookForm.value.apellidos || '',
         email: this.bookForm.value.email || '',
         telefono: this.bookForm.value.telefono || undefined,
-        fecha: this.bookForm.value.fecha || '',
+        fecha: this.bookForm.value.fecha?.toLocaleDateString('en-CA') || '', // Formato YYYY-MM-DD
         hora: this.bookForm.value.hora || '',
       }
       this.bookService.postBook(book).subscribe({
         next: (response) => {
           console.log(book)
           console.log('Respuesta:', response)
-        }, error: (error) => {
-          console.error(book)
+        },
+        error: (error) => {
           console.error(error)
         }
       })

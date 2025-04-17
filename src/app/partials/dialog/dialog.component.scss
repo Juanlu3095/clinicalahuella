@@ -1,0 +1,21 @@
+.eliminar{
+    background-color: red;
+    color: white;
+}
+
+.guardar{
+    background-color:var(--lightbrown);
+    color: white;
+}
+
+.cancelar {
+    color: var(--dark);
+}
+
+.cancelar:hover {
+    background-color: #ffffff !important;
+}
+
+.no-button{
+    display: none;
+}

@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
-import { Post, PostOptional } from '../interfaces/post';
-
-type Apiresponse = { response: string, data?: Post }; // Ésta es la respuesta que recibimos de la api
+import { Observable, Subject, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Post, PostOptional } from '../../interfaces/post';
+import { Apiresponse } from '../../interfaces/apiresponse';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +12,14 @@ export class PostService {
 
   private readonly http = inject(HttpClient)
   private readonly endpoint = environment.apiendpoint
+  private _refresh$ = new Subject<void>(); // Observable
     
   constructor() { }
+
+  // Obtenemos el Observable
+  get refresh$() {
+    return this._refresh$;
+  }
   
   // Pasaremos por parámetro de consulta el slug o la categoría. Si no hay parámetros, se devuelven todos los post
   getPosts({ slug, categoria }: PostOptional): Observable<Apiresponse> {
@@ -35,7 +40,27 @@ export class PostService {
     return this.http.get<Apiresponse>(`${this.endpoint}/posts/${id}`)
   }
 
-  postBook(post: PostOptional): Observable<Apiresponse> {
-    return this.http.post<Apiresponse>(`${this.endpoint}/posts`, post)
+  postPost(post: PostOptional): Observable<Apiresponse> {
+    return this.http.post<Apiresponse>(`${this.endpoint}/posts`, post).pipe(
+      tap(() => {
+        this.refresh$.next()
+      })
+    )
+  }
+
+  updatePost(id: number, post: PostOptional): Observable<Apiresponse> {
+    return this.http.patch<Apiresponse>(`${this.endpoint}/posts/${id}`, post).pipe(
+      tap(() => {
+        this.refresh$.next()
+      })
+    )
+  }
+
+  deletePost(id: number): Observable<Apiresponse> {
+    return this.http.delete<Apiresponse>(`${this.endpoint}/posts/${id}`).pipe(
+      tap(() => {
+        this.refresh$.next()
+      })
+    )
   }
 }

@@ -95,3 +95,12 @@ iframe{
         max-width: fit-content;
     }
 }
+
+button.btn-aceptar {
+    margin-top: 1rem;
+    background-color: var(--lightbrown);
+}
+
+/* #modal:active, #modal:hover, #modal:visited, #modal:link {
+    visibility: hidden;
+} */

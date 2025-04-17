@@ -48,6 +48,11 @@ $lahuella-theme: mat.define-theme((
   --lengthLg1: 2rem; // 32px
   --lengthLg2: 3rem; // 48px
   --lengthLg3: 4rem; // 64px
+
+  @include mat.snack-bar-overrides((
+    container-color: var(--dark),
+    button-color: var(--lightbrown),
+  ));
 }
 
 .txt-lightbrown{

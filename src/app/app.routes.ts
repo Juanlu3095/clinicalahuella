@@ -40,6 +40,10 @@ export const routes: Routes = [
             {
                 path: 'blog',
                 loadComponent: () => import('./admin/blog/blog.component').then((m) => m.BlogComponent),
+            },
+            {
+                path: 'categorias',
+                loadComponent: () => import('./admin/categorias/categorias.component').then((m) => m.CategoriasComponent),
             }
         ]
     },

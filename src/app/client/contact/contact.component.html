@@ -97,6 +97,17 @@
                 </p>
             </div>
 
+            <div id="modal" #modal class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center invisible">
+                <div class="bg-white p-8 rounded-lg">                    
+                  <div class="aspect-w-16 aspect-h-9">
+                    <h3>¡Mensaje enviado!</h3>
+                    <p>Gracias por tu interés en nuestros servicios.</p>
+                    <p>Nos pondremos en contacto contigo lo antes posible.</p>
+                    <button mat-flat-button class="text-white btn-aceptar" (click)="cerrarModal()">Aceptar</button>
+                  </div>
+                </div>
+            </div>
+
             <hr>
 
             <!-- GOOGLE MAPS -->

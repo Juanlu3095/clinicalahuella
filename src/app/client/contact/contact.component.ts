@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { HeaderComponent } from '../../partials/header/header.component';
 import { FooterComponent } from '../../partials/footer/footer.component';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -9,7 +9,7 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 import { Meta, Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
-import { MessageService } from '../../services/message.service';
+import { MessageService } from '../../services/api/message.service';
 
 @Component({
   selector: 'app-contact',
@@ -26,6 +26,7 @@ export class ContactComponent implements OnInit, OnDestroy{
   private messageService = inject(MessageService)
   rowHeight: string = ''
   subscription: Subscription = new Subscription()
+  @ViewChild('modal', {static: true} ) ventanaModal: ElementRef<HTMLElement> = {} as ElementRef
 
   contactForm = new FormGroup({
     nombre: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
@@ -61,13 +62,31 @@ export class ContactComponent implements OnInit, OnDestroy{
       }
 
       this.messageService.postMessage(message).subscribe({
-        next: (response) => {
-          console.log(response)
+        next: (respuesta) => {
+          console.log(respuesta)
+          this.abrirModal()
         },
         error: (error) => {
           console.error(error)
         }
       })
+    }
+  }
+
+  abrirModal(): void {
+    if(this.ventanaModal.nativeElement.classList.contains('invisible')) {
+      this.ventanaModal.nativeElement.classList.remove('invisible')
+    }
+
+    /* this.ventanaModal.nativeElement.onclick = (event: MouseEvent) => {
+      console.log(event.target)
+      console.log('Ventana modal: ', document.getElementById('modal')?.contains(event.target as HTMLElement))
+    } */
+  }
+
+  cerrarModal(): void {
+    if(!this.ventanaModal.nativeElement.classList.contains('invisible')) {
+      this.ventanaModal.nativeElement.classList.add('invisible')
     }
   }
 

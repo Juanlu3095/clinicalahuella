@@ -1,24 +1,32 @@
-<section class="window flex justify-between">
-    <div class="title txt-lightbrown">DASHBOARD</div>
+<header class="window flex justify-between">
+    <div class="title">
+        @if(dispositivo == "Móvil" || dispositivo == "Tablet") {
+            <mat-icon (click)="sidenav.toggle()" class="menu-toogle">menu</mat-icon>
+        }
+        <span class="txt-lightbrown">DASHBOARD</span>
+    </div>
     <div class="perfil flex items-center gap-4">
         <p class="txt-lightbrown">Pepe Pérez</p>
         <img class="w-12 align-center" src="../../../assets/img/user.webp" alt="foto-perfil">
     </div>
-</section>
+</header>
 
 <section class="content">
     <mat-sidenav-container>
-        <mat-sidenav class="sidenav" mode="side" opened="true" [style.width.%]="20" #sidenav>
-            <div class="logo-container flex justify-center py-8">
-                <img class="w-24 logo" src="../../../assets/logo/lahuella.png" alt="logo-lahuella">
-            </div>
-            <mat-nav-list role="navigation">
-                <mat-list-item class="nav-item" routerLink="/admin" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Inicio</mat-list-item>
-                <mat-list-item class="nav-item" routerLink="/admin/reservas" routerLinkActive="active-link">Reservas</mat-list-item>
-                <mat-list-item class="nav-item" routerLink="/admin/citas" routerLinkActive="active-link">Citas</mat-list-item>
-                <mat-list-item class="nav-item" routerLink="/admin/blog" routerLinkActive="active-link">Blog</mat-list-item>
-                <mat-list-item class="nav-item">Cerrar sesión</mat-list-item>
-            </mat-nav-list>
+        <mat-sidenav class="sidenav" [mode]="mode" [opened]="open" [style.width.%]="sidenavWidth" #sidenav>
+            <aside>
+                <div class="logo-container flex justify-center py-8">
+                    <img class="w-24 logo" src="../../../assets/logo/lahuella.png" alt="logo-lahuella">
+                </div>
+                <mat-nav-list role="navigation">
+                    <mat-list-item class="nav-item" routerLink="/admin" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Inicio</mat-list-item>
+                    <mat-list-item class="nav-item" routerLink="/admin/reservas" routerLinkActive="active-link">Reservas</mat-list-item>
+                    <mat-list-item class="nav-item" routerLink="/admin/citas" routerLinkActive="active-link">Citas</mat-list-item>
+                    <mat-list-item class="nav-item" routerLink="/admin/blog" routerLinkActive="active-link">Blog</mat-list-item>
+                    <mat-list-item class="nav-item" routerLink="/admin/categorias" routerLinkActive="active-link">Categorías</mat-list-item>
+                    <mat-list-item class="nav-item">Cerrar sesión</mat-list-item>
+                </mat-nav-list>
+            </aside>
         </mat-sidenav>
         <mat-sidenav-content [style.minHeight.vh]="100">
             <router-outlet></router-outlet>

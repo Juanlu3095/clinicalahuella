@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../partials/header/header.component';
 import { FooterComponent } from '../../partials/footer/footer.component';
 import { Title } from '@angular/platform-browser';
-import { PostService } from '../../services/post.service';
+import { PostService } from '../../services/api/post.service';
 import { PostOptional } from '../../interfaces/post';
 
 @Component({

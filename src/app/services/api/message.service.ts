@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
-import { Message, MessageOptional } from '../interfaces/message';
-
-type Apiresponse = { response: string, data?: Message }; // Ésta es la respuesta que recibimos de la api
+import { environment } from '../../../environments/environment';
+import { Message, MessageOptional } from '../../interfaces/message';
+import { Apiresponse } from '../../interfaces/apiresponse';
 
 @Injectable({
   providedIn: 'root'

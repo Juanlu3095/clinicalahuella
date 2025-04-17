@@ -7,6 +7,16 @@
     gap: 0.5rem;
 }
 
+.title {
+    display: flex;
+    gap: 1rem;
+}
+
+// MENÚ HAMBURGUESA
+.menu-toogle {
+    color: var(--lightbrown);
+}
+
 // SIDENAV IZQA.
 .sidenav{
     background-color: var(--lightbrown);
