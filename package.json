@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:url": "ng test --include=src/app/%npm_config_url%",
     "serve:ssr:lahuella": "node dist/lahuella/server/server.mjs"
   },
   "private": true,

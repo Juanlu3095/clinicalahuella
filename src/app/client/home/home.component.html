@@ -103,7 +103,7 @@
                     <p class="lg:text-base md:text-sm">Introduce a continuación tu email para recibir nuestro boletín:</p>
                     <form class="newsForm flex justify-center gap-2 my-4" [formGroup]="newsletterForm">
                         <input type="email" class="p-1 grow rounded" placeholder="tuemail@dominio.com" formControlName="email" required>
-                        <button mat-flat-button class="rounded p-1 h-8" (click)="crearNewsletter()">Enviar</button>
+                        <button mat-flat-button class="rounded p-1 h-8" (click)="crearNewsletter()" disabled="{{!newsletterForm.valid}}">Enviar</button>
                     </form>
                 </div>
                 <div class="news-item">

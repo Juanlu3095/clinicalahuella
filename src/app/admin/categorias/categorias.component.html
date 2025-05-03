@@ -32,7 +32,7 @@
 
 <!-- CONTENIDO DEL MODAL PARA EDITAR CATEGORÍA -->
 <ng-template #contentEditar>
-    <div>
+    <div class="modalEditar">
         <form [formGroup]="editarCategoriaForm" class="categoria-form">
             <mat-form-field class="example-full-width">
                 <mat-label>Nombre</mat-label>
@@ -44,14 +44,14 @@
 
 <!-- CONTENIDO DEL MODAL PARA ELIMINAR CATEGORÍA -->
 <ng-template #contentEliminar>
-    <div>
+    <div class="modalEliminar">
         ¿Estás seguro de querer eliminar la categoría "{{ categoria.nombre }}"?
     </div>
 </ng-template>
 
 <!-- CONTENIDO DEL MODAL PARA ELIMINAR LA SELECCIÓN DE CATEGORÍAS -->
 <ng-template #contentEliminarSeleccion>
-    <div>
+    <div class="modalEliminarSeleccion">
         ¿Estás seguro de querer las categorías seleccionadas?
         <br>
         <span class="caution">¡OJO! Si has pulsado el botón para seleccionar todo, se eliminarán todos los productos, incluidos aquellos que no aparezcan en la vista actual.</span>

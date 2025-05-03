@@ -4,4 +4,4 @@ export interface Apiresponse {
     error: string
 }
 
-export type ApiresponseOptional = Partial<Apiresponse>
+export type ApiresponsePartial = Partial<Apiresponse>

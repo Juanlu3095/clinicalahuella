@@ -10,4 +10,4 @@ export interface Message {
     updated_at: Date
 }
 
-export type MessageOptional = Partial<Message>
+export type MessagePartial = Partial<Message>

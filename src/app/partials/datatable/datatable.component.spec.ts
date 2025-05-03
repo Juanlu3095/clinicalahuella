@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DatatableComponent } from './datatable.component';
 
 describe('DatatableComponent', () => {
-  let component: DatatableComponent;
-  let fixture: ComponentFixture<DatatableComponent>;
+  let component: DatatableComponent<any>;
+  let fixture: ComponentFixture<DatatableComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

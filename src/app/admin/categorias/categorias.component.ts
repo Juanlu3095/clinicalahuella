@@ -33,8 +33,8 @@ export class CategoriasComponent implements OnInit{
   suscripcion: Subscription = new Subscription();
 
   public botones: TableButton[] = [
-    {id: 1, nombre: 'Editar', class: 'editar', accion: (id:number) => this.editarCategoria(id) }, // () => para poder usar this..., le pasamos la id del mensaje
-    {id: 2, nombre: 'Eliminar', class: 'danger', accion: (id: number) => this.deleteCategoria(id)},
+    {id: 1, nombre: 'Editar', class: 'editar', accion: (id:number) => this.modalEditarCategoria(id) }, // () => para poder usar this..., le pasamos la id del mensaje
+    {id: 2, nombre: 'Eliminar', class: 'danger', accion: (id: number) => this.modalDeleteCategoria(id)},
   ]
 
   @ViewChild('contentEditar') modalEditar!: TemplateRef<HTMLElement>;
@@ -88,7 +88,7 @@ export class CategoriasComponent implements OnInit{
     }
   }
 
-  editarCategoria(id: number) {
+  modalEditarCategoria(id: number) {
     let title: string = 'Editar categoría'; // Título del modal
     let btnClass = 'guardar'; // Clase para el botón de aceptar
     let btnCancel = 'cancelar';
@@ -101,25 +101,29 @@ export class CategoriasComponent implements OnInit{
 
     this.dialogService.openDialog(this.modalEditar, title, btnClass, btnCancel).then(confirm => {
       if(confirm && this.editarCategoriaForm.valid) {
-        let categoria = {
-          nombre: this.editarCategoriaForm.value.nombre_editar || ''
-        }
-
-        this.categoryService.updateCategory(id, categoria).subscribe({
-          next: (respuesta) => {
-            this.snackbar.open('Categoría actualizada.', 'Aceptar', {
-              duration: 3000
-            })
-          },
-          error: (error) => {
-            console.error(error)
-          }
-        })
+        this.editarCategoria(id)
       }
     })
   }
 
-  deleteCategoria(id: number) {
+  editarCategoria(id: number) {
+    let categoria = {
+      nombre: this.editarCategoriaForm.value.nombre_editar || ''
+    }
+
+    this.categoryService.updateCategory(id, categoria).subscribe({
+      next: (respuesta) => {
+        this.snackbar.open('Categoría actualizada.', 'Aceptar', {
+          duration: 3000
+        })
+      },
+      error: (error) => {
+        console.error(error)
+      }
+    })
+  }
+
+  modalDeleteCategoria(id: number) {
     let title: string = 'Eliminar categoría'; // Título del modal
     let btnClass = 'eliminar'; // Clase para el botón de aceptar
     let btnCancel = 'cancelar';
@@ -130,16 +134,20 @@ export class CategoriasComponent implements OnInit{
 
     this.dialogService.openDialog(this.modalEliminar, title, btnClass, btnCancel).then(confirm => {
       if(confirm) {
-        this.categoryService.deleteCategory(id).subscribe({
-          next: (respuesta) => {
-            this.snackbar.open('Categoría eliminada.', 'Aceptar', {
-              duration: 3000
-            })
-          },
-          error: (error) => {
-            console.error(error)
-          }
+        this.deleteCategoria(id)
+      }
+    })
+  }
+
+  deleteCategoria(id: number) {
+    this.categoryService.deleteCategory(id).subscribe({
+      next: (respuesta) => {
+        this.snackbar.open('Categoría eliminada.', 'Aceptar', {
+          duration: 3000
         })
+      },
+      error: (error) => {
+        console.error(error)
       }
     })
   }

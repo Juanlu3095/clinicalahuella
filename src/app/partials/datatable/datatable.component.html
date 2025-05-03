@@ -50,7 +50,7 @@
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
             <td mat-cell *matCellDef="let row">
             @for (button of buttons; track button.id) { <!-- BOTONES DINÁMICOS -->
-                <button mat-stroked-button class="{{button.class}}" (click)="button.accion(row.id)">{{ button.nombre}}</button>
+                <button mat-stroked-button class="{{button.class}} {{button.class + row.id}}" (click)="button.accion(row.id)">{{ button.nombre}}</button>
             }
             
             </td>

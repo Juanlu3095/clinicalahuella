@@ -11,56 +11,56 @@ import { Category, CategoryPartial } from '../../interfaces/category';
 export class CategoryService {
 
   private readonly http = inject(HttpClient)
-    private readonly endpoint = environment.apiendpoint
-    private _refresh$ = new Subject<void>(); // Observable
+  private readonly endpoint = environment.apiendpoint
+  private _refresh$ = new Subject<void>(); // Observable
       
-    constructor() { }
+  constructor() { }
   
-    // Obtenemos el Observable
-    get refresh$() {
-      return this._refresh$;
-    }
+  // Obtenemos el Observable
+  get refresh$() {
+    return this._refresh$;
+  }
 
-    getCategories(): Observable<Apiresponse> {
-      return this.http.get<Apiresponse>(`${this.endpoint}/categories`)
-    }
+  getCategories(): Observable<Apiresponse> {
+    return this.http.get<Apiresponse>(`${this.endpoint}/categories`)
+  }
 
-    getCategory(id: number): Observable<Apiresponse> {
-      return this.http.get<Apiresponse>(`${this.endpoint}/categories/${id}`)
-    }
+  getCategory(id: number): Observable<Apiresponse> {
+    return this.http.get<Apiresponse>(`${this.endpoint}/categories/${id}`)
+  }
 
-    postCategory(categoryForm: CategoryPartial): Observable<Apiresponse> {
-      return this.http.post<Apiresponse>(`${this.endpoint}/categories`, categoryForm).pipe(
-        tap(() => {
-          this._refresh$.next()
-        })
-      )
-    }
+  postCategory(categoryForm: CategoryPartial): Observable<Apiresponse> {
+    return this.http.post<Apiresponse>(`${this.endpoint}/categories`, categoryForm).pipe(
+      tap(() => {
+        this._refresh$.next()
+      })
+    )
+  }
 
-    updateCategory(id: number, categoryForm: CategoryPartial): Observable<Apiresponse> {
-      return this.http.patch<Apiresponse>(`${this.endpoint}/categories/${id}`, categoryForm).pipe(
-        tap(() => {
-          this._refresh$.next()
-        })
-      )
-    }
+  updateCategory(id: number, categoryForm: CategoryPartial): Observable<Apiresponse> {
+    return this.http.patch<Apiresponse>(`${this.endpoint}/categories/${id}`, categoryForm).pipe(
+      tap(() => {
+        this._refresh$.next()
+      })
+    )
+  }
 
-    deleteCategory(id: number): Observable<Apiresponse> {
-      return this.http.delete<Apiresponse>(`${this.endpoint}/categories/${id}`).pipe(
-        tap(() => {
-          this._refresh$.next()
-        })
-      )
-    }
+  deleteCategory(id: number): Observable<Apiresponse> {
+    return this.http.delete<Apiresponse>(`${this.endpoint}/categories/${id}`).pipe(
+      tap(() => {
+        this._refresh$.next()
+      })
+    )
+  }
 
-    deleteCategories(ids: Array<number>): Observable<Apiresponse> {
-      let body = {
-        ids: ids
-      }
-      return this.http.delete<Apiresponse>(`${this.endpoint}/categories`, { body: body }).pipe(
-        tap(() => {
-          this._refresh$.next()
-        })
-      )
+  deleteCategories(ids: Array<number>): Observable<Apiresponse> {
+    let body = {
+      ids: ids
     }
+    return this.http.delete<Apiresponse>(`${this.endpoint}/categories`, { body: body }).pipe(
+      tap(() => {
+        this._refresh$.next()
+      })
+    )
+  }
 }
