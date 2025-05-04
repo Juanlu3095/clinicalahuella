@@ -44,6 +44,14 @@ export const routes: Routes = [
             {
                 path: 'categorias',
                 loadComponent: () => import('./admin/categorias/categorias.component').then((m) => m.CategoriasComponent),
+            },
+            {
+                path: 'newsletters',
+                loadComponent: () => import('./admin/newsletters/newsletters.component').then((m) => m.NewslettersComponent),
+            },
+            {
+                path: 'mensajes',
+                loadComponent: () => import('./admin/mensajes/mensajes.component').then((m) => m.MensajesComponent),
             }
         ]
     },

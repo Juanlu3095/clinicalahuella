@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { CategoryService } from '../../services/api/category.service';
 import { DialogService } from '../../services/material/dialog.service';
 import { Category } from '../../interfaces/category';
@@ -16,11 +16,11 @@ import { DatatableService } from '../../services/material/datatable.service';
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [DatatableComponent,  MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, ReactiveFormsModule, FormsModule],
+  imports: [DatatableComponent, MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, ReactiveFormsModule, FormsModule],
   templateUrl: './categorias.component.html',
   styleUrl: './categorias.component.scss'
 })
-export class CategoriasComponent implements OnInit{
+export class CategoriasComponent implements OnInit, OnDestroy{
   
   private categoryService = inject(CategoryService)
   private snackbar = inject(MatSnackBar)
@@ -29,7 +29,7 @@ export class CategoriasComponent implements OnInit{
   public categoria: Category = {} as Category
   columns: string[] = ['nombre']
   displayedColumns = ['select',...this.columns, 'acciones'];
-  selectedIds: number[] = []; // Parece que cuando se eliminan ids y se vuelve a seleccionar otros, los antiguos siguen aquí!!!
+  selectedIds: number[] = [];
   suscripcion: Subscription = new Subscription();
 
   public botones: TableButton[] = [
@@ -54,9 +54,13 @@ export class CategoriasComponent implements OnInit{
   ngOnInit(): void {
     this.getCategorias()
 
-    this.categoryService.refresh$.subscribe(() => {
+    this.suscripcion = this.categoryService.refresh$.subscribe(() => {
       this.getCategorias()
     })
+  }
+
+  ngOnDestroy(): void {
+    this.suscripcion.unsubscribe()
   }
 
   getCategorias(): void {

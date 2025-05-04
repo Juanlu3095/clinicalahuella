@@ -35,8 +35,8 @@ export class DatatableComponent<T> implements OnChanges, OnInit, OnDestroy {
   @Input() btnDangerAll: boolean = false; // Permite mostrar o no si se muestra el botón de eliminar todo
 
   // Output -> Datos del hijo al padre (Datatable => Componente que tenga la tabla)
-  @Output() selectionChange = new EventEmitter<number[]>(); // Con esto mandamos al padre los ids seleccionados para los checkbox
-
+  @Output() selectionChange = new EventEmitter<any>(); // Con esto mandamos al padre los ids seleccionados para los checkbox
+  // Lo que se emite en el evento pueden ser string o number (ids normales o HEX)
   dataSource = new MatTableDataSource<T>();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = {} as MatPaginator; // Hace referencia a mat-paginator en el HTML. Añadimos {static:true} para cambiar el label de registros por página.
   @ViewChild(MatSort) sort!: MatSort; // Hace referencia a mat-sort en el HTML
