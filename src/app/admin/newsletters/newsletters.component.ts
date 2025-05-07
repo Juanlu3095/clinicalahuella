@@ -23,15 +23,15 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class NewslettersComponent implements OnInit, OnDestroy{
 
-  private newsletterService = inject(NewsletterService)
+  private readonly newsletterService = inject(NewsletterService)
   private snackbar = inject(MatSnackBar)
-  private datatableService = inject(DatatableService)
-  private dialogService = inject(DialogService)
+  private readonly datatableService = inject(DatatableService)
+  private readonly dialogService = inject(DialogService)
   public newsletters: Newsletter[] = []
   public newsletter: Newsletter = {} as Newsletter
   columns: string[] = ['email', 'fecha']
   displayedColumns = ['select',...this.columns, 'acciones'];
-  selectedIds: string[] = []; // Parece que cuando se eliminan ids y se vuelve a seleccionar otros, los antiguos siguen aquí!!!
+  selectedIds: string[] = [];
   suscripcion: Subscription = new Subscription();
   
   public botones: TableButton[] = [
@@ -55,10 +55,10 @@ export class NewslettersComponent implements OnInit, OnDestroy{
   constructor() {}
 
   ngOnInit(): void {
-    this.getNewsletters()
+    this.getAllNewsletters()
 
     this.suscripcion = this.newsletterService.refresh$.subscribe(() => {
-      this.getNewsletters()
+      this.getAllNewsletters()
     })
   }
 
@@ -66,7 +66,7 @@ export class NewslettersComponent implements OnInit, OnDestroy{
     this.suscripcion.unsubscribe()
   }
 
-  getNewsletters() {
+  getAllNewsletters() {
     this.newsletterService.getNewsletters().subscribe({
       next: (respuesta: ApiresponsePartial) => {
         respuesta.data.forEach((newsletter: { created_at: string; }) => {
