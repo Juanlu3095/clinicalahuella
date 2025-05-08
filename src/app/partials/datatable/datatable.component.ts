@@ -6,7 +6,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 import {SelectionModel} from '@angular/cdk/collections';
 import { TableButton } from '../../interfaces/tablebutton';
 import { environment } from '../../../environments/environment.development';
@@ -41,6 +41,7 @@ export class DatatableComponent<T> implements OnChanges, OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = {} as MatPaginator; // Hace referencia a mat-paginator en el HTML. Añadimos {static:true} para cambiar el label de registros por página.
   @ViewChild(MatSort) sort!: MatSort; // Hace referencia a mat-sort en el HTML
   @ViewChild('btnDangerAll', { static: false }) botonEliminarTodo: ElementRef = {} as ElementRef;
+  @ViewChild('checkBox', {static: true}) checkbox: ElementRef = {} as ElementRef
 
   storageEndpoint = environment.FilesEndpoint;
 

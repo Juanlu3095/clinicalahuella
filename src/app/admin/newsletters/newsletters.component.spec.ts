@@ -7,6 +7,8 @@ import { ApiresponsePartial } from '../../interfaces/apiresponse';
 import { appConfig } from '../../app.config';
 import { DialogService } from '../../services/material/dialog.service';
 import { By } from '@angular/platform-browser';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { DatatableComponent } from '../../partials/datatable/datatable.component';
 
 // Mock de la respuesta que no devuelve datos
 const mockApiResponse = {
@@ -83,6 +85,8 @@ describe('NewslettersComponent', () => {
   let fixture: ComponentFixture<NewslettersComponent>; // wrapper del componente
   let newsletterService: NewsletterService;
   let dialogService: DialogService;
+  let overlayContainer: OverlayContainer; // servicio de angular material para renderizar elementos como matDialog del overlay
+  let overlayContainerElement: HTMLElement; // el HTML donde están los elementos del overlay
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -101,6 +105,8 @@ describe('NewslettersComponent', () => {
     component = fixture.componentInstance;
     newsletterService = TestBed.inject(NewsletterService)
     dialogService = TestBed.inject(DialogService)
+    overlayContainer = TestBed.inject(OverlayContainer);
+    overlayContainerElement = overlayContainer.getContainerElement();
     //fixture.detectChanges(); // Inicia los hooks, llama a ngOnInit. Si esto se usa, se llama a getNewsletters más veces con el refresh$
   });
 
@@ -141,6 +147,10 @@ describe('NewslettersComponent', () => {
       email_nuevo: 'Pepa@gmail.es'
     })
 
+    const postNewsletter = {
+      email: 'Pepa@gmail.es'
+    }
+
     component.ngOnInit(); // Ejecutamos OnInit, llamando a getNewsletters y suscribiéndonos a refresh$
     expect(newsletterService.getNewsletters).withContext('Al ejecutarse ngOnInit por primera vez.').toHaveBeenCalledTimes(1)
 
@@ -150,6 +160,7 @@ describe('NewslettersComponent', () => {
 
     expect(newsletterService.getNewsletters).withContext('Al borrar una newsletter.').toHaveBeenCalledTimes(2)
     expect(newsletterService.postNewsletter).toHaveBeenCalled()
+    expect(newsletterService.postNewsletter).toHaveBeenCalledWith(postNewsletter) // Comprobamos que se le haya pasado el argumento correcto
     done()
   })
 
@@ -162,8 +173,10 @@ describe('NewslettersComponent', () => {
     dialogServiceSpy.and.returnValue(mockDialogResponse)
 
     component.modalEditarNewsletter('1')
+
     expect(dialogService.openDialog).toHaveBeenCalled()
     expect(newsletterService.getNewsletter).toHaveBeenCalled()
+    expect(newsletterService.getNewsletter).toHaveBeenCalledWith('1') // Comprobamos que se le haya pasado la id correcta al método del servicio
     done()
   })
 
@@ -177,6 +190,10 @@ describe('NewslettersComponent', () => {
       email_editar: 'pepe@gmail.com'
     })
 
+    const updateNewsletter = { // Lo que le pasamos al método del servicio
+      email: 'pepe@gmail.com'
+    }
+
     component.ngOnInit(); // Ejecutamos OnInit, llamando a getNewsletters y suscribiéndonos a refresh$
     expect(newsletterService.getNewsletters).withContext('Al ejecutarse ngOnInit por primera vez.').toHaveBeenCalledTimes(1)
 
@@ -185,6 +202,7 @@ describe('NewslettersComponent', () => {
 
     expect(newsletterService.getNewsletters).withContext('Al borrar una newsletter.').toHaveBeenCalledTimes(2)
     expect(newsletterService.updateNewsletter).toHaveBeenCalled()
+    expect(newsletterService.updateNewsletter).toHaveBeenCalledWith('1', updateNewsletter) // Comprobamos que se le haya pasado los argumentos al método del servicio
     done()
   })
 
@@ -199,6 +217,7 @@ describe('NewslettersComponent', () => {
 
     expect(dialogService.openDialog).toHaveBeenCalled()
     expect(newsletterService.getNewsletter).toHaveBeenCalled()
+    expect(newsletterService.getNewsletter).toHaveBeenCalledWith('1') // Comprobamos que se le haya pasado la id correcta al método del servicio
     done()
   })
 
@@ -217,6 +236,7 @@ describe('NewslettersComponent', () => {
     expect(newsletterService.getNewsletters).withContext('Al borrar una newsletter.').toHaveBeenCalledTimes(2)
 
     expect(newsletterService.deleteNewsletter).toHaveBeenCalled()
+    expect(newsletterService.deleteNewsletter).toHaveBeenCalledWith('1') // Comprobamos que se le haya pasado '1' como argumento del método del servicio
     done()
   })
 
@@ -245,5 +265,23 @@ describe('NewslettersComponent', () => {
     expect(newsletterService.deleteSelectedNewsletter).toHaveBeenCalled()
     expect(newsletterService.getNewsletters).withContext('Al borrar newsletters.').toHaveBeenCalledTimes(2)
     done()
+  })
+
+  it('should call onSelectionChange when clicking mat-checkbox', () => {
+    const onSelectionSpy = spyOn(component, 'onSelectionChange'); // crea espía para onSelectionChange del componente
+
+    fixture.detectChanges(); // Renderiza la tabla
+
+    // Localiza el elemento del HTML de newsletters asociado a datatable
+    const datatableDE = fixture.debugElement.query(By.directive(DatatableComponent));
+    // Accede al componente datatable y sus propiedades mediante una instancia.
+    // Como si fuera TestBed.inject(datatableComponent)
+    const datatableComponent = datatableDE.componentInstance as DatatableComponent<any>;
+
+    // selectionChange es un output de datatable que emite hacia el padre: (selectionChange)="onSelectionChange($event)" en el HTML
+    // Hace que se ejecute onSelectionChange de newsletters.component
+    datatableComponent.selectionChange.emit(['fakeId']); // Hacemos que emita manualmente algo y que lo capte el componente
+
+    expect(onSelectionSpy).toHaveBeenCalledWith(['fakeId']);
   })
 });

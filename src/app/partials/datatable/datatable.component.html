@@ -13,13 +13,16 @@
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef> <!-- Se ejecutan tanto toggleAllRows como emitSelectedIds -->
-                <mat-checkbox (change)="toggleAllRows() ; emitSelectedIds()"
+                <mat-checkbox 
+                            (change)="toggleAllRows() ; emitSelectedIds()"
                             [checked]="selection.hasValue() && isAllSelected()"
                             [indeterminate]="selection.hasValue() && !isAllSelected()"
-                            [aria-label]="checkboxLabel()"></mat-checkbox>
+                            [aria-label]="checkboxLabel()">
+                </mat-checkbox>
             </th>
             <td mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()"
+                <mat-checkbox #checkBox class="selectBox"
+                            (click)="$event.stopPropagation()"
                             (change)="selection.toggle(row); emitSelectedIds()"
                             [checked]="selection.isSelected(row)"
                             [aria-label]="checkboxLabel(row)">
