@@ -74,8 +74,8 @@ export class DatatableComponent<T> implements OnChanges, OnInit, OnDestroy {
 
   // Función para aplicar el filtro
   aplicarFiltro(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value; // Contiene la palabra del input del filtro
+    this.dataSource.filter = filterValue.trim().toLowerCase(); // Al igualar a dataSource.filter, automáticamente se filtra en dataSource por el valor dado
 
     // Nos lleva automáticamente a la primera página del listado, se ejecuta sólo cuando se activa el filtro (p.ej. escribiendo algo en el filtro.)
     if (this.dataSource.paginator) {
