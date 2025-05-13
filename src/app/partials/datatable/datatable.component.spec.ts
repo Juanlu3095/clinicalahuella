@@ -85,10 +85,6 @@ describe('DatatableComponent', () => {
     ]
   }
 
-  const mockMethods = {
-    
-  }
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
