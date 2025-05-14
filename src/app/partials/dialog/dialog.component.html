@@ -3,6 +3,6 @@
     <ng-container *ngTemplateOutlet="data.html"></ng-container> 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close [class]="data.btnCancel">Cancelar</button>
-    <button mat-button [class]="data.btnClass" color="primary" (click)="confirmar()" cdkFocusInitial>Confirmar</button>
+    <button mat-button mat-dialog-close *ngIf="data.btnCancel" [class]="data.btnCancel">Cancelar</button>
+    <button mat-button *ngIf="data.btnClass" [class]="data.btnClass" color="primary" (click)="confirmar()" cdkFocusInitial>Confirmar</button>
 </mat-dialog-actions>

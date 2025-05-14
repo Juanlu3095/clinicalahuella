@@ -29,7 +29,10 @@ export class MessageService {
   }
 
   postMessage(message: MessagePartial): Observable<ApiresponsePartial> {
-    return this.http.post<ApiresponsePartial>(`${this.endpoint}/messages`, message).pipe(
+    const {nombre, apellidos, email, telefono, asunto, mensaje} = message
+    return this.http.post<ApiresponsePartial>(`${this.endpoint}/messages`, {
+      nombre, apellidos, email, telefono, asunto, mensaje
+    }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -37,7 +40,10 @@ export class MessageService {
   }
 
   updateMessage(id: string, messageForm: MessagePartial): Observable<ApiresponsePartial> {
-    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/messages/${id}`, messageForm).pipe(
+    const {nombre, apellidos, email, telefono, asunto, mensaje} = messageForm
+    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/messages/${id}`, {
+      nombre, apellidos, email, telefono, asunto, mensaje
+    }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -46,6 +52,17 @@ export class MessageService {
 
   deleteMessage(id: string): Observable<ApiresponsePartial> {
     return this.http.delete<ApiresponsePartial>(`${this.endpoint}/messages/${id}`).pipe(
+      tap(() => {
+        this._refresh$.next()
+      })
+    )
+  }
+
+  deleteMessages(ids: Array<string>): Observable<Apiresponse> {
+    let body = {
+      ids: ids
+    }
+    return this.http.delete<Apiresponse>(`${this.endpoint}/messages`, { body: body }).pipe(
       tap(() => {
         this._refresh$.next()
       })

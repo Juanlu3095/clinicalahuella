@@ -1,0 +1,38 @@
+$mediaMovil: 767px;
+$mediaTabletMin: 768px;
+$mediaTabletMax: 1023px;
+$mediaPortatilMin: 1024px;
+$mediaDesktopMin: 1440px;
+
+main{
+    margin: 0 2rem; 
+}
+
+.encabezado{
+    margin: 1rem 0;
+}
+
+h1{
+    font-size: var(--lengthLg1);
+}
+
+// Datos en el modal para ver mensajes
+div.mensaje-data {
+    margin: 1rem 0;
+}
+
+h3 {
+    font-size: var(--lengthMd2);
+}
+
+button.nuevo {
+    color: var(--dark);
+}
+  
+.example-full-width {
+    width: 100%;
+}
+
+.caution {
+    color: red;
+}

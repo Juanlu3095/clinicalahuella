@@ -103,7 +103,7 @@ export class CategoriasComponent implements OnInit, OnDestroy{
       })
     })
 
-    this.dialogService.openDialog(this.modalEditar, title, btnClass, btnCancel).then(confirm => {
+    this.dialogService.openDialog({html: this.modalEditar, title, btnClass, btnCancel}).then(confirm => {
       if(confirm && this.editarCategoriaForm.valid) {
         this.editarCategoria(id)
       }
@@ -136,7 +136,7 @@ export class CategoriasComponent implements OnInit, OnDestroy{
       this.categoria = respuesta.data[0]
     })
 
-    this.dialogService.openDialog(this.modalEliminar, title, btnClass, btnCancel).then(confirm => {
+    this.dialogService.openDialog({html: this.modalEliminar, title, btnClass, btnCancel}).then(confirm => {
       if(confirm) {
         this.deleteCategoria(id)
       }
@@ -161,7 +161,7 @@ export class CategoriasComponent implements OnInit, OnDestroy{
     let btnClass = 'eliminar'; // Clase para el botón de aceptar
     let btnCancel = 'cancelar';
 
-    this.dialogService.openDialog(this.modalEliminarSeleccion, title, btnClass, btnCancel).then(confirm => {
+    this.dialogService.openDialog({html: this.modalEliminarSeleccion, title, btnClass, btnCancel}).then(confirm => {
       if(confirm) {
         this.categoryService.deleteCategories(this.selectedIds).subscribe({
           next: (respuesta) => {

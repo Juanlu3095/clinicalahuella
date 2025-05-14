@@ -100,7 +100,7 @@ export class NewslettersComponent implements OnInit, OnDestroy{
 
     // Intentar que no cierre al pulsar en confirmar y no sea correcto el input
     // Mostrar error si el input es incorrecto
-    this.dialogService.openDialog(this.modalNuevo, title, btnClass, btnCancel).then(confirm => {
+    this.dialogService.openDialog({html: this.modalNuevo, title, btnClass, btnCancel}).then(confirm => {
       if(confirm && this.crearNewsForm.valid) {
         this.crearNewsletter()
       }
@@ -140,7 +140,7 @@ export class NewslettersComponent implements OnInit, OnDestroy{
       })
     })
 
-    this.dialogService.openDialog(this.modalEditar, title, btnClass, btnCancel).then(confirm => {
+    this.dialogService.openDialog({html: this.modalEditar, title, btnClass, btnCancel}).then(confirm => {
       if(confirm && this.editarNewsForm.valid) {
         this.editarNewsletter(id)
       }
@@ -182,7 +182,7 @@ export class NewslettersComponent implements OnInit, OnDestroy{
       this.newsletter = respuesta.data
     })
 
-    this.dialogService.openDialog(this.modalEliminar, title, btnClass, btnCancel).then(confirm => {
+    this.dialogService.openDialog({html: this.modalEliminar, title, btnClass, btnCancel}).then(confirm => {
       if(confirm) {
         this.eliminarNewsletter(id)
       }
@@ -216,7 +216,7 @@ export class NewslettersComponent implements OnInit, OnDestroy{
     let btnClass = 'eliminar'; // Clase para el botón de aceptar
     let btnCancel = 'cancelar';
 
-    this.dialogService.openDialog(this.modalEliminarSeleccion, title, btnClass, btnCancel).then(confirm => {
+    this.dialogService.openDialog({html: this.modalEliminarSeleccion, title, btnClass, btnCancel}).then(confirm => {
       if(confirm) {
         this.eliminarSeleccionNewsletters()
       }

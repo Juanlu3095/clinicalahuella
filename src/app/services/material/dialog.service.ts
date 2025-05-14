@@ -10,10 +10,12 @@ export class DialogService {
 
   constructor(public dialog: MatDialog) { }
 
-  openDialog(html: TemplateRef<HTMLElement>, title?: string, btnClass?: string, btnCancel?: string) { // Le pasamos como parámetro la referencia del componente a abrir como modal(html)
+  // Le pasamos como parámetro la referencia del componente a abrir como modal(html)
+  openDialog({ html, title, btnClass, btnCancel} : {html: TemplateRef<HTMLElement>, title?: string, btnClass?: string, btnCancel?: string} ) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {html: html, title: title, btnClass: btnClass, btnCancel: btnCancel },
-      width: '40vw',
+      //width: '40vw',
+      minWidth: '40vw'
     });
 
     return firstValueFrom(dialogRef.afterClosed()); // Convertimos el observable en una promesa, el cual se ejecuta al cerrar el modal
