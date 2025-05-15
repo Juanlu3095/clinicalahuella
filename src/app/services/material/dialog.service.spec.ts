@@ -35,7 +35,7 @@ describe('DialogService', () => {
 
     const dialog = {} as TemplateRef<HTMLElement>
 
-    await service.openDialog(dialog, 'Prueba', 'ok', 'cancelar').then(respuesta => { // También se puede usar doneFn
+    await service.openDialog({html: dialog, title: 'Prueba', btnClass: 'ok', btnCancel: 'cancelar'}).then(respuesta => { // También se puede usar doneFn
       expect(respuesta).toBeTruthy()
       expect(respuesta).toEqual('confirm')
     })

@@ -1,7 +1,7 @@
 <main>
     <section class="encabezado flex flex-row items-center gap-6">
         <h1>Mensajes</h1>
-        <button mat-stroked-button class="nuevo" (click)="modalCrearMensaje()">Añadir mensaje</button>
+        <button mat-stroked-button class="nuevo" (click)="modalPostMensaje()">Añadir mensaje</button>
     </section>
 
     <section class="mensajes">
@@ -9,7 +9,7 @@
             @if(mensajes) {
             
                 <app-datatable [columns]="columns" [displayedColumns]="displayedColumns" [data]="mensajes"
-                 (selectionChange)="onSelectionChange($event)" [buttons]="botones" [eliminarSeleccionados]="deleteSeleccionMensajes.bind(this)">
+                 (selectionChange)="onSelectionChange($event)" [buttons]="botones" [eliminarSeleccionados]="modalDeleteSeleccionMensajes.bind(this)">
                 </app-datatable>
                 
             } @else {

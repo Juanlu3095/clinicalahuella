@@ -67,7 +67,7 @@ const mockNewsletterService: {
 } = {
   refresh$: new Subject<void>(),
   getNewsletters: () => of(mockApiResponseWithData), // Hacemos que cada método del servicio nos devuelva un observable simulado
-  getNewsletter: () => of(mockApiResponseWithData),
+  getNewsletter: () => of(mockApiResponseWithOneData),
   postNewsletter: () => of(mockApiResponse),
   updateNewsletter: () => of(mockApiResponse),
   deleteNewsletter: () => of(mockApiResponse),

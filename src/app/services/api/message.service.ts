@@ -58,11 +58,11 @@ export class MessageService {
     )
   }
 
-  deleteMessages(ids: Array<string>): Observable<Apiresponse> {
+  deleteMessages(ids: Array<string>): Observable<ApiresponsePartial> {
     let body = {
       ids: ids
     }
-    return this.http.delete<Apiresponse>(`${this.endpoint}/messages`, { body: body }).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/messages`, { body: body }).pipe(
       tap(() => {
         this._refresh$.next()
       })

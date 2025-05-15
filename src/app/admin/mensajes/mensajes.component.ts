@@ -37,7 +37,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
 
   public botones: TableButton[] = [
     {id: 1, nombre: 'Ver', class: 'ver', accion: (id:string) => this.modalVerMensaje(id)},
-    {id: 2, nombre: 'Editar', class: 'editar', accion: (id:string) => this.modalEditarMensaje(id) }, // () => para poder usar this..., le pasamos la id del mensaje
+    {id: 2, nombre: 'Editar', class: 'editar', accion: (id:string) => this.modalUpdateMensaje(id) }, // () => para poder usar this..., le pasamos la id del mensaje
     {id: 3, nombre: 'Eliminar', class: 'danger', accion: (id: string) => this.modalDeleteMensaje(id)},
   ]
 
@@ -77,7 +77,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
     this.suscripcion.unsubscribe()
   }
 
-  getMensajes (): void { // LA PRIMERA FECHA SALE 'INVALID DATE', FALTA OPCIÓN VER MENSAJE
+  getMensajes(): void { // LA PRIMERA FECHA SALE 'INVALID DATE', FALTA OPCIÓN VER MENSAJE
     this.mensajeService.getMessages().subscribe({
       next: (respuesta) => {
         // Convertimos el created_at
@@ -141,7 +141,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
     })
   }
 
-  modalCrearMensaje() {
+  modalPostMensaje() {
     let title: string = 'Nuevo mensaje'; // Título del modal
     let btnClass = 'guardar'; // Clase para el botón de aceptar
     let btnCancel = 'cancelar';
@@ -181,7 +181,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
     })
   }
 
-  modalEditarMensaje(id: string) {
+  modalUpdateMensaje(id: string) {
     let title: string = 'Editar mensaje'; // Título del modal
     let btnClass = 'guardar'; // Clase para el botón de aceptar
     let btnCancel = 'cancelar';
@@ -212,12 +212,12 @@ export class MensajesComponent implements OnInit, OnDestroy{
 
     this.dialogService.openDialog({html:this.modalEditar, title, btnClass, btnCancel}).then(confirm => {
       if(confirm && this.editarMensajeForm.valid) {
-        this.editarMensaje(id)
+        this.updateMensaje(id)
       }
     })
   }
 
-  editarMensaje(id: string) {
+  updateMensaje(id: string) {
     let mensaje = {
       nombre: this.editarMensajeForm.value.nombre_editar || '',
       apellidos: this.editarMensajeForm.value.apellidos_editar || '',
@@ -301,24 +301,28 @@ export class MensajesComponent implements OnInit, OnDestroy{
     })
   }
 
-  deleteSeleccionMensajes() {
+  modalDeleteSeleccionMensajes() {
     let title: string = 'Eliminar mensajes'; // Título del modal
     let btnClass = 'eliminar'; // Clase para el botón de aceptar
     let btnCancel = 'cancelar';
 
     this.dialogService.openDialog({html: this.modalEliminarSeleccion, title, btnClass, btnCancel}).then(confirm => {
       if(confirm) {
-        this.mensajeService.deleteMessages(this.selectedIds).subscribe({
-          next: (respuesta) => {
-            this.snackbar.open('Mensajes eliminados.', 'Aceptar', {
-              duration: 3000
-            })
-            this.datatableService._observable$.next() // Emitimos observable para reiniciar las ids
-          },
-          error: (error: HttpErrorResponse) => {
-            console.error(error) // MODIFICAR API PARA ELIMINAR MENSAJES SELECCIONADOS
-          }
+        this.deleteMensajes()
+      }
+    })
+  }
+
+  deleteMensajes() {
+    this.mensajeService.deleteMessages(this.selectedIds).subscribe({
+      next: (respuesta) => {
+        this.snackbar.open('Mensajes eliminados.', 'Aceptar', {
+          duration: 3000
         })
+        this.datatableService._observable$.next() // Emitimos observable para reiniciar las ids
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error) // MODIFICAR API PARA ELIMINAR MENSAJES SELECCIONADOS
       }
     })
   }
