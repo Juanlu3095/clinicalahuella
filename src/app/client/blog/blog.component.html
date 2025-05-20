@@ -22,83 +22,27 @@
     <section class="blog py-12 pt-28 lg:px-24 md:px-5">
 
       <div class="posts">
-        <mat-card class="post-card" appearance="outlined">
-          <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-          <mat-card-header>
-            <mat-card-title class="txt-lightbrown font-semibold">Título</mat-card-title>
-            <mat-card-subtitle>Categorías</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <p>
-              The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-              A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-              bred for hunting.
-            </p>
-          </mat-card-content>
-          <mat-card-actions>
-            <a routerLink="/blog/post">Leer más</a>
-          </mat-card-actions>
-        </mat-card>
-
-        <mat-card class="post-card" appearance="outlined">
-            <mat-card-header>
-              <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title>Shiba Inu</mat-card-title>
-              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-              <p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                bred for hunting.
-              </p>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>LIKE</button>
-              <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-
-        <mat-card class="post-card" appearance="outlined">
-            <mat-card-header>
-              <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title>Shiba Inu</mat-card-title>
-              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-              <p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                bred for hunting.
-              </p>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>LIKE</button>
-              <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-
-        <mat-card class="post-card" appearance="outlined">
-            <mat-card-header>
-              <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title>Shiba Inu</mat-card-title>
-              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-              <p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                bred for hunting.
-              </p>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>LIKE</button>
-              <button mat-button>SHARE</button>
-            </mat-card-actions>
-          </mat-card>
+        @for (post of posts; track post.id) {
+          <article>
+            <mat-card class="post-card" appearance="outlined">
+              <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+              <mat-card-header>
+                <mat-card-title class="txt-lightbrown font-semibold">{{ post.titulo }}</mat-card-title>
+                <mat-card-subtitle>{{ post.categoria }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>
+                  {{ post.contenido!.length > 20 ? (post.contenido | slice: 0 : 20) + '...' : post.contenido}}
+                </p>
+              </mat-card-content>
+              <mat-card-actions>
+                <a routerLink="/blog/{{ post.slug }}">Leer más</a>
+              </mat-card-actions>
+            </mat-card>
+          </article>
+        } @empty {
+          <p>No se han encontrado posts</p>
+        }
       </div>
     
       <!-- Paginator -->

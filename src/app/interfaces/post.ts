@@ -6,8 +6,11 @@ export interface Post {
     contenido: string,
     foto_url: string,
     categoria: string,
+    categoria_id: number,
+    metadescription: string,
+    keywords: string,
     created_at: Date,
     updated_at: Date
 }
 
-export type PostOptional = Partial<Post>
+export type PostPartial = Partial<Post>

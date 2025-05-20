@@ -22,7 +22,7 @@ export class BlogComponent implements OnInit{
   suscripcion: Subscription = new Subscription();
 
   public botones: TableButton[] = [
-    {id: 1, nombre: 'Ver', class: 'ver', accion: (id:number) => this.verMensaje(id) }, // () => para poder usar this..., le pasamos la id del mensaje
+    {id: 1, nombre: 'Ver', class: 'ver', accion: (id:number) => this.getPost(id) }, // nos lleva a la página del post en el cliente
     {id: 2, nombre: 'Editar', class: 'editar', accion: (id:number) => this.verMensaje(id) },
     {id: 3, nombre: 'Eliminar', class: 'danger', accion: (id: number) => this.verMensaje(id)},
   ]
@@ -38,10 +38,21 @@ export class BlogComponent implements OnInit{
   }
 
   getPosts() {
-    this.postService.getPosts({slug: '', categoria: ''}).subscribe({
+    this.postService.getPosts({categoria: ''}).subscribe({
       next: (respuesta) => {
           this.posts = respuesta.data
           console.log(this.posts)
+      },
+      error: (error) => {
+        console.error(error)
+      }
+    })
+  }
+
+  getPost(id: number) {
+    this.postService.getPostById(id).subscribe({
+      next: (respuesta) => {
+        console.log(respuesta)
       },
       error: (error) => {
         console.error(error)
