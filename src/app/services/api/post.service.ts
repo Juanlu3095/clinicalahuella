@@ -22,18 +22,22 @@ export class PostService {
   }
   
   // Pasaremos por parámetro de consulta el slug o la categoría. Si no hay parámetros, se devuelven todos los post
-  getPosts({ categoria, limit }: {categoria?: string, limit?: number}): Observable<ApiresponsePartial> {
+  getPosts({ categoria, estado, limit }: {categoria?: string, estado?: string, limit?: number}): Observable<ApiresponsePartial> {
+    let params = new HttpParams() // params es inmutable
+
     if(categoria) {
-      const params = new HttpParams().set('categoria', categoria)
-      return this.http.get<ApiresponsePartial>(`${this.endpoint}/posts`, {params: params})
+      params = params.set('categoria', categoria) // Al ser inmutable debemos guardar los params manualmente
+    }
+
+    if(estado) {
+      params = params.set('estado', estado)
     }
 
     if(limit) {
-      const params = new HttpParams().set('limit', limit)
-      return this.http.get<ApiresponsePartial>(`${this.endpoint}/posts`, {params: params})
+      params = params.set('limit', limit)
     }
-
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/posts`)
+    
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/posts`, {params: params}) // Si se cumplen varias condiciones también se guardan en params
   }
 
   getPostById (id: number) {
@@ -64,6 +68,17 @@ export class PostService {
     return this.http.delete<ApiresponsePartial>(`${this.endpoint}/posts/${id}`).pipe(
       tap(() => {
         this.refresh$.next()
+      })
+    )
+  }
+
+  deletePosts(ids: Array<number>) {
+    let body = {
+      ids: ids
+    }
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/posts`, { body: body }).pipe(
+      tap(() => {
+        this._refresh$.next()
       })
     )
   }

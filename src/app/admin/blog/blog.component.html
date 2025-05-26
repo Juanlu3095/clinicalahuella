@@ -1,14 +1,14 @@
 <main>
     <section class="encabezado flex flex-row items-center gap-6">
         <h1>Blog</h1>
-        <button mat-stroked-button class="nuevo">Añadir entrada</button>
+        <button mat-stroked-button class="nuevo" routerLink="nuevo">Añadir entrada</button>
     </section>
 
     <section class="posts">
         @if(posts) {
             
             <app-datatable [columns]="columns" [displayedColumns]="displayedColumns" [data]="posts"
-             (selectionChange)="onSelectionChange($event)" [buttons]="botones">
+             [eliminarSeleccionados]="modalEliminarSeleccionPosts.bind(this)" (selectionChange)="onSelectionChange($event)" [buttons]="botones">
             </app-datatable>
             
         } @else {
@@ -16,3 +16,20 @@
         }
     </section>
 </main>
+
+
+<!-- CONTENIDO DEL MODAL PARA ELIMINAR POSTS -->
+<ng-template #contentEliminar>
+    <div class="modalEliminar">
+        ¿Estás seguro de querer eliminar el post "{{ post.titulo }}"?
+    </div>
+</ng-template>
+
+<!-- CONTENIDO DEL MODAL PARA ELIMINAR LA SELECCIÓN DE POSTS -->
+<ng-template #contentEliminarSeleccion>
+    <div class="modalEliminarSeleccion">
+        ¿Estás seguro de querer las suscripciones seleccionadas?
+        <br>
+        <span class="caution">¡OJO! Si has pulsado el botón para seleccionar todo, se eliminarán todos los posts, incluidas aquellas que no aparezcan en la vista actual.</span>
+    </div>
+</ng-template>

@@ -9,6 +9,9 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import localeEs from '@angular/common/locales/es';
 import { MatCardModule } from '@angular/material/card';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 registerLocaleData(localeEs, 'es');
 
@@ -25,12 +28,14 @@ export class BlogPostComponent implements OnInit, OnDestroy{
   slug: string = ''
   post: PostPartial = {}
   lastposts: PostPartial[] = []
+  filesEndPoint: string = environment.FilesEndpoint
   suscripcion: Subscription = new Subscription()
   private title = inject(Title)
   private meta = inject(Meta)
   private activatedRoute = inject(ActivatedRoute)
   private router = inject(Router)
   private postService = inject(PostService)
+  private snackbar = inject(MatSnackBar)
 
   ngOnInit(): void {
     this.getLastPosts()
@@ -58,20 +63,25 @@ export class BlogPostComponent implements OnInit, OnDestroy{
             { name: 'keywords', content: this.post.keywords ? this.post.keywords : 'blog, novedades, noticias animales, noticias mundo animal'}
           )
         },
-        error: (error) => {
-          console.error(error)
+        error: (error: HttpErrorResponse) => {
+          if(error.status === 404) {
+            this.snackbar.open('Post no encontrados.', 'Aceptar', {
+              duration: 3000
+            })
+          } else {
+            this.snackbar.open('Ha ocurrido un error.', 'Aceptar', {
+              duration: 3000
+            })
+          }
         }
       })
     }
   }
 
   getLastPosts () {
-    this.postService.getPosts({limit: 3}).subscribe({
+    this.postService.getPosts({estado: 'publicado', limit: 3}).subscribe({
       next: (respuesta) => {
         this.lastposts = respuesta.data
-      },
-      error: (error) => {
-        console.error(error)
       }
     })
   }

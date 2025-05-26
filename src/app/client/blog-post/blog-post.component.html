@@ -6,7 +6,11 @@
         @if (post) {
             <h1 class="txt-lightbrown">{{ post.titulo }}</h1>
             <p>Publicado el {{ post.created_at | date: 'fullDate' }} | Categoría: {{ post.categoria }}</p>
-            <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            @if (post.imagen) {
+                <img src="{{ filesEndPoint + post.imagen }}" alt="Imagen de portada del post">
+            } @else {
+                <img src="../../../assets/img/sincategoria.png" alt="Sin categoria">
+            }
             <p class="post-content">{{ post.contenido }}</p>
 
         } @else {
@@ -18,16 +22,20 @@
         <h3>Últimos posts</h3>
         <div class="lastposts-container">
             @for (post of lastposts; track post.id) {
-                <article class="">
+                <article>
                     <mat-card class="post-card" appearance="outlined">
-                        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+                        @if (post.imagen) {
+                            <img mat-card-image src="{{ filesEndPoint + post.imagen }}" alt="Imagen de portada del post">
+                        } @else {
+                            <img mat-card-image src="../../../assets/img/sincategoria.png" alt="Sin categoria">
+                        }
                         <mat-card-header>
                             <mat-card-title class="txt-lightbrown font-semibold">{{ post.titulo }}</mat-card-title>
                             <mat-card-subtitle>{{ post.categoria }}</mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
                             <p>
-                            {{ post.contenido!.length > 20 ? (post.contenido | slice: 0 : 20) + '...' : post.contenido}}
+                            {{ post.contenido!.length > 60 ? (post.contenido | slice: 0 : 60) + '...' : post.contenido}}
                             </p>
                         </mat-card-content>
                         <mat-card-actions>
@@ -35,6 +43,8 @@
                         </mat-card-actions>
                     </mat-card>
                 </article>
+            } @empty {
+                <p>No se han encontrado posts.</p>
             }
         </div>
     </aside>

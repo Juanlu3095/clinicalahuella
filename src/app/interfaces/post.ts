@@ -4,9 +4,9 @@ export interface Post {
     slug: string,
     extracto: string,
     contenido: string,
-    foto_url: string,
+    imagen: string | null, // La imagen que se sube al backend
     categoria: string,
-    categoria_id: number,
+    categoria_id: number | null,
     metadescription: string,
     keywords: string,
     created_at: Date,

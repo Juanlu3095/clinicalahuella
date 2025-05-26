@@ -11,6 +11,8 @@ import { PostPartial } from '../../interfaces/post';
 import { PostService } from '../../services/api/post.service';
 import { ApiresponsePartial } from '../../interfaces/apiresponse';
 import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-blog',
@@ -26,6 +28,9 @@ export class BlogComponent implements OnInit{
   private title = inject(Title)
   private meta = inject(Meta)
   private postService = inject(PostService)
+  private snackbar = inject(MatSnackBar)
+
+  filesEndPoint: string = environment.FilesEndpoint
 
   ngOnInit(): void {
     this.title.setTitle('Blog - Clínica veterinaria La Huella')
@@ -36,12 +41,20 @@ export class BlogComponent implements OnInit{
   }
 
   getPosts () {
-    this.postService.getPosts({}).subscribe({
+    this.postService.getPosts({estado:'publicado'}).subscribe({
       next: (respuesta: ApiresponsePartial) => {
         this.posts = respuesta.data
       },
       error: (error: HttpErrorResponse) => {
-        console.error(error)
+        if (error.status === 404) {
+          this.snackbar.open('Posts no encontrados.', 'Aceptar', {
+            duration: 3000
+          })
+        } else {
+          this.snackbar.open('Ha ocurrido un error.', 'Aceptar', {
+            duration: 3000
+          })
+        }
       }
     })
   }

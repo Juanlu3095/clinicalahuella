@@ -25,7 +25,14 @@
         @for (post of posts; track post.id) {
           <article>
             <mat-card class="post-card" appearance="outlined">
-              <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+              <!-- Poner un if para el caso en que el post no tenga imagen, y usar environment para guardar url del directorio -->
+              <div class="img-container">
+                @if (post.imagen != null) {
+                  <img mat-card-image src="{{ filesEndPoint + post.imagen }}" alt="Foto de portada del post">
+                } @else {
+                  <img mat-card-image src="../../../assets/img/sincategoria.png" alt="Sin categoria">
+                }
+              </div>
               <mat-card-header>
                 <mat-card-title class="txt-lightbrown font-semibold">{{ post.titulo }}</mat-card-title>
                 <mat-card-subtitle>{{ post.categoria }}</mat-card-subtitle>
@@ -41,7 +48,7 @@
             </mat-card>
           </article>
         } @empty {
-          <p>No se han encontrado posts</p>
+          <p>No se han encontrado posts.</p>
         }
       </div>
     

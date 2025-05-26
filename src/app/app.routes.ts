@@ -42,6 +42,14 @@ export const routes: Routes = [
                 loadComponent: () => import('./admin/blog/blog.component').then((m) => m.BlogComponent),
             },
             {
+                path: 'blog/nuevo',
+                loadComponent: () => import('./admin/post-nuevo/post-nuevo.component').then((m) => m.PostNuevoComponent),
+            },
+            {
+                path: 'blog/:id/editar',
+                loadComponent: () => import('./admin/post-editar/post-editar.component').then((m) => m.PostEditarComponent),
+            },
+            {
                 path: 'categorias',
                 loadComponent: () => import('./admin/categorias/categorias.component').then((m) => m.CategoriasComponent),
             },
