@@ -30,6 +30,10 @@ export class BlogComponent implements OnInit{
   private postService = inject(PostService)
   private snackbar = inject(MatSnackBar)
 
+  paginatedData: PostPartial[] = []; // El array que contendrá los posts por página seleccionada, se actualiza al cambiar de página con paginateData
+  pageSize = 6; // Número de elementos por página por defecto
+  currentPage = 0; // Usamos esto para el slice de paginateData
+
   filesEndPoint: string = environment.FilesEndpoint
 
   ngOnInit(): void {
@@ -44,6 +48,7 @@ export class BlogComponent implements OnInit{
     this.postService.getPosts({estado:'publicado'}).subscribe({
       next: (respuesta: ApiresponsePartial) => {
         this.posts = respuesta.data
+        this.paginateData()
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 404) {
@@ -57,6 +62,22 @@ export class BlogComponent implements OnInit{
         }
       }
     })
+  }
+
+  // PAGINACIÓN
+  paginateData() {
+    const startIndex = this.currentPage * this.pageSize; // La paginación empieza en la posicion 0
+    const endIndex = startIndex + this.pageSize; // Marcaría la última posición del array posts
+
+    // slice permite excluir del array elementos de un extremo al otro, siendo startIndex el inicio de la página y endIndex el final
+    this.paginatedData = this.posts.slice(startIndex, endIndex); 
+  }
+
+  // Se ejecuta cuando cambiamos el numero de elementos por página en mat-paginator
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize; // las propiedadespageSize y pageIndex las da el tipo PageEvent
+    this.currentPage = event.pageIndex;
+    this.paginateData(); // Se actualizan los filtros de las páginas para generar el paginador
   }
 
 }

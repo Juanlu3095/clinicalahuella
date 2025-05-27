@@ -22,7 +22,7 @@
     <section class="blog py-12 pt-28 lg:px-24 md:px-5">
 
       <div class="posts">
-        @for (post of posts; track post.id) {
+        @for (post of paginatedData; track post.id) {
           <article>
             <mat-card class="post-card" appearance="outlined">
               <!-- Poner un if para el caso en que el post no tenga imagen, y usar environment para guardar url del directorio -->
@@ -54,8 +54,11 @@
     
       <!-- Paginator -->
       <mat-paginator class="paginator"
-      pageSize="6"
-      hidePageSize="true">
+      [length]="posts.length"
+      [pageSize]="pageSize"
+      aria-label="select page"
+      hidePageSize="true"
+      (page)="onPageChange($event)">
       </mat-paginator>
 
     </section>
