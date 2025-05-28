@@ -6,9 +6,10 @@ export interface Post {
     contenido: string,
     imagen: string | null, // La imagen que se sube al backend
     categoria: string,
-    categoria_id: number | null,
+    categoriaId: number | null,
     metadescription: string,
     keywords: string,
+    estado: string,
     created_at: Date,
     updated_at: Date
 }

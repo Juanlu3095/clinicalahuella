@@ -12,6 +12,7 @@ import { ApiresponsePartial } from '../../interfaces/apiresponse';
 import { PostService } from '../../services/api/post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-nuevo',
@@ -25,6 +26,7 @@ export class PostNuevoComponent implements OnInit{
   private categoriasService = inject(CategoryService)
   private postService = inject(PostService)
   private snackbar = inject(MatSnackBar)
+  private router = inject(Router)
   categorias: Category[] = []
 
   postForm = new FormGroup({
@@ -77,7 +79,8 @@ export class PostNuevoComponent implements OnInit{
         this.snackbar.open('Post creado.', 'Aceptar', {
           duration: 3000
         })
-        // FALTA ENVIAR A LA PÁGINA DE EDICIÓN DEL POST
+        // Redireccionamos a la página para editar la entrada
+        this.router.navigate([`admin/blog/${respuesta.data}/editar`])
       },
       error: (error) => {
         this.snackbar.open('Ha ocurrido un error.', 'Aceptar', {

@@ -5,11 +5,11 @@
     <section class="post py-12 pt-12 lg:px-24 md:px-5">
         @if (post) {
             <h1 class="txt-lightbrown">{{ post.titulo }}</h1>
-            <p>Publicado el {{ post.created_at | date: 'fullDate' }} | Categoría: {{ post.categoria }}</p>
+            <p>Publicado el {{ post.created_at | date: 'fullDate' }} | Categoría: {{ post.categoria != null ? post.categoria : 'Sin categoría' }}</p>
             @if (post.imagen) {
                 <img src="{{ filesEndPoint + post.imagen }}" alt="Imagen de portada del post">
             } @else {
-                <img src="../../../assets/img/sincategoria.png" alt="Sin categoria">
+                <img src="../../../assets/img/sinimagen.png" alt="Sin imagen">
             }
             <p class="post-content">{{ post.contenido }}</p>
 
@@ -27,11 +27,15 @@
                         @if (post.imagen) {
                             <img mat-card-image src="{{ filesEndPoint + post.imagen }}" alt="Imagen de portada del post">
                         } @else {
-                            <img mat-card-image src="../../../assets/img/sincategoria.png" alt="Sin categoria">
+                            <img mat-card-image src="../../../assets/img/sinimagen.png" alt="Sin imagen">
                         }
                         <mat-card-header>
                             <mat-card-title class="txt-lightbrown font-semibold">{{ post.titulo }}</mat-card-title>
-                            <mat-card-subtitle>{{ post.categoria }}</mat-card-subtitle>
+                            @if (post.categoria != null) {
+                                <mat-card-subtitle>{{ post.categoria }}</mat-card-subtitle>
+                            } @else {
+                                <mat-card-subtitle>Sin categoría</mat-card-subtitle>
+                            }
                         </mat-card-header>
                         <mat-card-content>
                             <p>

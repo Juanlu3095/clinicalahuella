@@ -148,9 +148,14 @@ export class BlogComponent implements OnInit{
     this.postService.deletePosts(this.selectedIds).subscribe({
       next: (respuesta) => {
         this.datatableService._observable$.next() // Emitimos observable para reiniciar las ids
+        this.snackbar.open('Posts eliminados.', 'Aceptar', {
+          duration: 3000
+        })
       },
       error: (error) => {
-        console.error(error)
+        this.snackbar.open('Ha ocurrido un error.', 'Aceptar', {
+          duration: 3000
+        })
       }
     })
   }

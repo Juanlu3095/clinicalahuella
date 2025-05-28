@@ -30,12 +30,16 @@
                 @if (post.imagen != null) {
                   <img mat-card-image src="{{ filesEndPoint + post.imagen }}" alt="Foto de portada del post">
                 } @else {
-                  <img mat-card-image src="../../../assets/img/sincategoria.png" alt="Sin categoria">
+                  <img mat-card-image src="../../../assets/img/sinimagen.png" alt="Sin categoria">
                 }
               </div>
               <mat-card-header>
                 <mat-card-title class="txt-lightbrown font-semibold">{{ post.titulo }}</mat-card-title>
-                <mat-card-subtitle>{{ post.categoria }}</mat-card-subtitle>
+                @if (post.categoria != null) {
+                  <mat-card-subtitle>{{ post.categoria }}</mat-card-subtitle>
+                } @else {
+                  <mat-card-subtitle>Sin categoría</mat-card-subtitle>
+                }
               </mat-card-header>
               <mat-card-content>
                 <p>

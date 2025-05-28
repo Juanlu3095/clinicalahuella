@@ -65,7 +65,7 @@ export class BlogPostComponent implements OnInit, OnDestroy{
         },
         error: (error: HttpErrorResponse) => {
           if(error.status === 404) {
-            this.snackbar.open('Post no encontrados.', 'Aceptar', {
+            this.snackbar.open('Post no encontrado.', 'Aceptar', {
               duration: 3000
             })
           } else {
