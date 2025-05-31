@@ -104,4 +104,32 @@
             </div>
         </aside>
     </form>
+
+    <button class="btn-ai" [disabled]="chatAbierto" (click)="abrirAiChat()">
+        <mat-icon fontIcon="smart_toy" class="ai-icon"></mat-icon>
+    </button>
 </main>
+
+<!-- CHAT AI -->
+<ng-template #AIchat class="chat-container">
+    <div class="chat-history" #chatHistory>
+        <ng-container *ngFor="let item of chatMessages">
+            <div class="messages" [ngClass]="item.actor == 'bot' ? 'bot-message' : 'user-message'">
+                <p class="responses" [innerHTML]="formatText(item.message)"></p>
+            </div>
+            <br><br><br>
+        </ng-container>
+        <ng-container *ngIf="loading">
+            <app-skeleton></app-skeleton>
+        </ng-container>
+    </div>
+
+    <div *ngIf="loading" class="pensando">
+        <p>El asistente está pensando...</p>
+    </div>
+
+    <div class="chat-inputs">
+        <input matInput type="text" id="message-input" (keyup.enter)="sendData()" [(ngModel)]="prompt" placeholder="Escribe tu mensaje..." [disabled]="loading" autocomplete="off"/>
+        <button mat-flat-button id="send-button" (click)="sendData()" [disabled]="loading">Enviar</button>
+    </div>
+</ng-template>

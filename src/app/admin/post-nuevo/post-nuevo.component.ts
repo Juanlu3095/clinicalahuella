@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,14 +10,19 @@ import { CategoryService } from '../../services/api/category.service';
 import { Category } from '../../interfaces/category';
 import { ApiresponsePartial } from '../../interfaces/apiresponse';
 import { PostService } from '../../services/api/post.service';
+import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { DialogService } from '../../services/material/dialog.service';
+import { DialogPosition } from '@angular/material/dialog';
+import { SkeletonComponent } from '../../partials/skeleton/skeleton.component';
+import { GeminiService } from '../../services/api/gemini.service';
 
 @Component({
   selector: 'app-post-nuevo',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule],
+  imports: [SkeletonComponent, ReactiveFormsModule, FormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule],
   templateUrl: './post-nuevo.component.html',
   styleUrl: './post-nuevo.component.scss'
 })
@@ -25,9 +30,22 @@ export class PostNuevoComponent implements OnInit{
 
   private categoriasService = inject(CategoryService)
   private postService = inject(PostService)
+  public dialogService = inject(DialogService)
+  private responsiveService = inject(ResponsivedesignService)
+  private geminiService = inject(GeminiService)
   private snackbar = inject(MatSnackBar)
   private router = inject(Router)
   categorias: Category[] = []
+  positionDialogueRight: string = '5rem'
+  positionDialogueLeft: string = ''
+
+  // CHAT GEMINI
+  @ViewChild('AIchat') aiChat!: TemplateRef<HTMLElement>;
+  @ViewChild('chatHistory') historialChat!: ElementRef;
+  chatAbierto: boolean = false
+  prompt: string = ''; // El mensaje que se le envía a Gemini AI. Necesitamos el import de FormsModule para que NgModel funcione
+  loading: boolean = false; // Para desactivar el botón de enviar mensaje mientras Gemini AI procesa la respuesta
+  chatMessages: any[] = [];
 
   postForm = new FormGroup({
     titulo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
@@ -42,6 +60,7 @@ export class PostNuevoComponent implements OnInit{
 
   ngOnInit(): void {
     this.getCategories()
+    this.mobileResponsiveDesign()
   }
 
   getCategories () {
@@ -101,5 +120,64 @@ export class PostNuevoComponent implements OnInit{
       });
       reader.readAsDataURL(file); // Inicia la lectura del archivo dando lugar a data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...
     }
+  }
+
+  async abrirAiChat() { // DIALOG NO SE CIERRA
+    const title: string = 'Asistente IA' // Título del modal
+    const panelClass: string = 'no-scroll-dialog'
+    const position: DialogPosition = { right: this.positionDialogueRight, bottom: '5rem'} // Usar responsiveDesignService para el movil ??
+    const hasBackdrop: boolean = false
+    this.chatAbierto = true
+
+    await this.dialogService.openDialog({ html: this.aiChat, title, position, hasBackdrop, panelClass })
+    this.chatAbierto = false
+  }
+
+  cerrarDialogs() { // CREAR UNA VARIABLE QUE CAMBIE AL PULSAR EN EL ICONO DEL BOT PARA QUE NO SE PUEDA ABRIR MAS VENTANAS MODALES
+    this.dialogService.closeAll()
+  }
+
+  sendData() {
+    if(this.prompt && !this.loading) {
+      this.loading = true;
+      this.historialChat.nativeElement.scrollTop = this.historialChat.nativeElement.scrollHeight
+      const data = this.prompt;
+      this.chatMessages.push({ actor: 'user', message: data })
+      this.prompt = '';
+      this.geminiService.enviarPromptAI(data).subscribe({
+        next: (respuesta) => {
+          console.log(respuesta)
+          this.chatMessages.push({actor: 'bot', message: respuesta.candidates[0].content.parts[0].text })
+          this.historialChat.nativeElement.scrollTop = this.historialChat.nativeElement.scrollHeight
+          this.loading = false;
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error)
+          this.loading = false;
+          if (error.status === 503) {
+            this.snackbar.open('El asistente no puede responder. Inténtelo más tarde.', 'Aceptar', {
+              duration: 3000
+            })
+          }
+        }
+      });
+      
+    }
+  }
+
+  formatText(text: string) {
+    const result = text.replaceAll('*', '');
+    return result;
+  }
+
+  // ESTO FALLA EN OTROS CON EL MARGIN-RIGHT
+  mobileResponsiveDesign () {
+    this.responsiveService.obtenerDispositivo().subscribe((dispositivo) => {
+      if (dispositivo === 'Móvil') {
+        this.positionDialogueRight = ''
+      } else {
+        this.positionDialogueRight = '5rem'
+      }
+    })
   }
 }

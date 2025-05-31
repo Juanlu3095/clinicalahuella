@@ -2,6 +2,7 @@ import { Component, Inject, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { DialogService } from '../../services/material/dialog.service';
 
 @Component({
   selector: 'app-dialog',
@@ -15,6 +16,7 @@ export class DialogComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>, // componente que queremos que se comporte como un modal
     @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogService: DialogService
   ) {}
 
   confirmar(): void {
