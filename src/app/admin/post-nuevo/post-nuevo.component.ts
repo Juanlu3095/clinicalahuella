@@ -18,6 +18,7 @@ import { DialogService } from '../../services/material/dialog.service';
 import { DialogPosition } from '@angular/material/dialog';
 import { SkeletonComponent } from '../../partials/skeleton/skeleton.component';
 import { GeminiService } from '../../services/api/gemini.service';
+import { Geminiresponse } from '../../interfaces/geminiresponse';
 
 @Component({
   selector: 'app-post-nuevo',
@@ -50,7 +51,7 @@ export class PostNuevoComponent implements OnInit{
   postForm = new FormGroup({
     titulo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     slug: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
-    contenido: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
+    contenido: new FormControl<string>('', Validators.minLength(1)),
     categoria: new FormControl<number | null>(null),
     imagen: new FormControl<string | null>(null, Validators.minLength(1)),
     estado: new FormControl<string>('borrador', Validators.compose([Validators.required, Validators.minLength(1)])),
@@ -83,34 +84,42 @@ export class PostNuevoComponent implements OnInit{
   }
 
   crearPost () {
-    const post = {
-      titulo: this.postForm.value.titulo || '',
-      slug: this.postForm.value.slug || '',
-      contenido: this.postForm.value.contenido || '',
-      categoriaId: this.postForm.value.categoria || null,
-      imagen: this.postForm.value.imagen || null,
-      estado: this.postForm.value.estado || 'borrador',
-      keywords: this.postForm.value.keywords || '',
-      metadescripcion: this.postForm.value.metadescripcion || ''
-    }
-    this.postService.postPost(post).subscribe({
-      next: (respuesta) => {
-        this.snackbar.open('Post creado.', 'Aceptar', {
-          duration: 3000
-        })
-        // Redireccionamos a la página para editar la entrada
-        this.router.navigate([`admin/blog/${respuesta.data}/editar`])
-      },
-      error: (error) => {
-        this.snackbar.open('Ha ocurrido un error.', 'Aceptar', {
-          duration: 3000
-        })
+    if(this.postForm.valid) {
+      const post = {
+        titulo: this.postForm.value.titulo || '',
+        slug: this.postForm.value.slug || '',
+        contenido: this.postForm.value.contenido || '',
+        categoriaId: this.postForm.value.categoria || null,
+        imagen: this.postForm.value.imagen || null,
+        estado: this.postForm.value.estado || 'borrador',
+        keywords: this.postForm.value.keywords || '',
+        metadescripcion: this.postForm.value.metadescripcion || ''
       }
-    })
+      this.postService.postPost(post).subscribe({
+        next: (respuesta) => {
+          this.snackbar.open('Post creado.', 'Aceptar', {
+            duration: 3000
+          })
+          // Redireccionamos a la página para editar la entrada
+          this.router.navigate([`admin/blog/${respuesta.data}/editar`])
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 422) {
+            this.snackbar.open('Los campos del post no son correctos.', 'Aceptar', {
+            duration: 3000
+          })
+          } else {
+            this.snackbar.open('Ha ocurrido un error.', 'Aceptar', {
+            duration: 3000
+          })
+          }
+        }
+      })
+    }
   }
 
   // Permite cargar un archivo desde el input, obtener su contenido en base64 y guardarlo en postForm.value.imagen
-  setFileData(event: Event): void {
+  enviarImagen(event: Event): void {
     const eventTarget: HTMLInputElement | null = event.target as HTMLInputElement | null; // Convierte el eventTarget a HTMLInput para usar sus métodos
     if (eventTarget?.files?.[0]) { // Verifica que haya un archivo en el evento
       const file: File = eventTarget.files[0]; // Obtenemos el archivo seleccionado en el input
@@ -137,35 +146,30 @@ export class PostNuevoComponent implements OnInit{
     this.dialogService.closeAll()
   }
 
-  sendData() {
+  enviarMensajeAi() {
     if(this.prompt && !this.loading) {
       this.loading = true;
       this.historialChat.nativeElement.scrollTop = this.historialChat.nativeElement.scrollHeight
       const data = this.prompt;
       this.chatMessages.push({ actor: 'user', message: data })
       this.prompt = '';
-      this.geminiService.enviarPromptAI(data).subscribe({
-        next: (respuesta) => {
-          console.log(respuesta)
-          this.chatMessages.push({actor: 'bot', message: respuesta.candidates[0].content.parts[0].text })
+      this.geminiService.enviarPromptAI(this.chatMessages).subscribe({
+        next: (respuesta: Geminiresponse) => {
+          this.chatMessages.push({actor: 'model', message: respuesta.candidates[0].content.parts[0].text })
           this.historialChat.nativeElement.scrollTop = this.historialChat.nativeElement.scrollHeight
           this.loading = false;
         },
-        error: (error: HttpErrorResponse) => {
-          console.error(error)
+        error: (error) => {
           this.loading = false;
-          if (error.status === 503) {
-            this.snackbar.open('El asistente no puede responder. Inténtelo más tarde.', 'Aceptar', {
-              duration: 3000
-            })
-          }
+          this.snackbar.open('El asistente no puede responder. Inténtelo más tarde.', 'Aceptar', {
+            duration: 3000
+          })
         }
       });
-      
     }
   }
 
-  formatText(text: string) {
+  formatearTexto(text: string) {
     const result = text.replaceAll('*', '');
     return result;
   }

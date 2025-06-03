@@ -93,7 +93,7 @@
             <div class="input-border">
                 <mat-form-field class="field-full-width">
                     <mat-label>Categoría</mat-label>
-                    <mat-select required formControlName="categoria" ngDefaultControl>
+                    <mat-select formControlName="categoria" ngDefaultControl>
                         @if (categorias) {
                             @for (categoria of categorias; track categoria.id) {
                                 <mat-option [value]="categoria.id">{{ categoria.nombre }}</mat-option>

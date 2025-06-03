@@ -11,9 +11,9 @@ export class GeminiService {
 
   constructor() { }
 
-  enviarPromptAI (prompt: string) {
+  enviarPromptAI (chatMessages: any[]) {
     const body = {
-      query: prompt
+      messages: chatMessages
     }
     return this.http.post<any>(`${this.endpoint}/ai`, body)
   }

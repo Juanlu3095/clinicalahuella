@@ -41,7 +41,7 @@ export class PostEditarComponent implements OnInit{
   postEditarForm = new FormGroup({
     titulo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     slug: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
-    contenido: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
+    contenido: new FormControl<string>('', Validators.minLength(1)),
     categoria: new FormControl<number | null>(null),
     imagen: new FormControl<string | null>(null, Validators.minLength(1)),
     estado: new FormControl<string>('borrador', Validators.compose([Validators.required, Validators.minLength(1)])),
@@ -107,31 +107,39 @@ export class PostEditarComponent implements OnInit{
   }
 
   editarPost () {
-    const post = {
-      titulo: this.postEditarForm.value.titulo || '',
-      slug: this.postEditarForm.value.slug || '',
-      contenido: this.postEditarForm.value.contenido || '',
-      categoriaId: this.postEditarForm.value.categoria || null, // HAY QUE CONSEGUIR QUE ESTO SÓLO SE ENVIE SI SE ELIGE UNO NUEVO
-      estado: this.postEditarForm.value.estado || 'borrador',
-      keywords: this.postEditarForm.value.keywords || '',
-      metadescription: this.postEditarForm.value.metadescripcion || ''
-    }
-    if (this.postEditarForm.value.imagen != null) {
-      Object.assign(post , {imagen: this.postEditarForm.value.imagen}) // Añadimos la imagen en caso de que se haya seleccionado una nueva
-    }
-
-    this.postService.updatePost(this.idPost, post).subscribe({
-      next: (respuesta) => {
-        this.snackbar.open('Post actualizado.', 'Aceptar', {
-          duration: 3000
-        })
-      },
-      error: (error) => {
-        this.snackbar.open('Ha ocurrido un error.', 'Aceptar', {
-          duration: 3000
-        })
+    if (this.postEditarForm.valid) {
+      const post = {
+        titulo: this.postEditarForm.value.titulo || '',
+        slug: this.postEditarForm.value.slug || '',
+        contenido: this.postEditarForm.value.contenido || '',
+        categoriaId: this.postEditarForm.value.categoria || null, // HAY QUE CONSEGUIR QUE ESTO SÓLO SE ENVIE SI SE ELIGE UNO NUEVO
+        estado: this.postEditarForm.value.estado || 'borrador',
+        keywords: this.postEditarForm.value.keywords || '',
+        metadescription: this.postEditarForm.value.metadescripcion || ''
       }
-    })
+      if (this.postEditarForm.value.imagen != null) {
+        Object.assign(post , {imagen: this.postEditarForm.value.imagen}) // Añadimos la imagen en caso de que se haya seleccionado una nueva
+      }
+  
+      this.postService.updatePost(this.idPost, post).subscribe({
+        next: (respuesta) => {
+          this.snackbar.open('Post actualizado.', 'Aceptar', {
+            duration: 3000
+          })
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 422) {
+            this.snackbar.open('Los campos del post no son correctos.', 'Aceptar', {
+            duration: 3000
+          })
+          } else {
+            this.snackbar.open('Ha ocurrido un error.', 'Aceptar', {
+              duration: 3000
+            })
+          }
+        }
+      })
+    }
   }
 
   // Permite cargar un archivo desde el input, obtener su contenido en base64 y guardarlo en postForm.value.imagen
