@@ -82,11 +82,13 @@ section.blog {
 }
 
 .img-container {
-    object-fit: cover;
     display: flex;
     justify-content: center;
-    height: 300px;
-    object-fit: contain;
+    height: 250px;
+}
+
+.img-container img {
+    object-fit: contain; // Para que las imágenes no se estiren
 }
 
 mat-card-content {

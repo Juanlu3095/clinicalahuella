@@ -84,7 +84,7 @@
                     </div>
                     <!-- put on top of the fileUploadContainer with opacity 0 -->
                     <input #fileInput class="fileInput" type="file" multiple="multiple" accept="image/*"
-                    (change)="setFileData($event)" />
+                    (change)="enviarImagen($event)" />
                 </div>
                 <input matInput formControlName="imagen" readonly [hidden]="true " />
                 </mat-form-field>
@@ -116,4 +116,12 @@
             </div>
         </aside>
     </form>
+
+    <button class="btn-ai" [disabled]="chatAbierto" (click)="abrirAiChat()">
+        <mat-icon fontIcon="smart_toy" class="ai-icon"></mat-icon>
+    </button>
 </main>
+
+<ng-template #AIchat>
+    <app-aichat></app-aichat>
+</ng-template>

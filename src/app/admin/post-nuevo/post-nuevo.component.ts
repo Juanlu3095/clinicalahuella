@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,29 +16,28 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DialogService } from '../../services/material/dialog.service';
 import { DialogPosition } from '@angular/material/dialog';
-import { SkeletonComponent } from '../../partials/skeleton/skeleton.component';
-import { GeminiService } from '../../services/api/gemini.service';
-import { Geminiresponse } from '../../interfaces/geminiresponse';
+import { AichatComponent } from '../../partials/aichat/aichat.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post-nuevo',
   standalone: true,
-  imports: [SkeletonComponent, ReactiveFormsModule, FormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule, AichatComponent],
   templateUrl: './post-nuevo.component.html',
   styleUrl: './post-nuevo.component.scss'
 })
-export class PostNuevoComponent implements OnInit{
+export class PostNuevoComponent implements OnInit, OnDestroy{
 
   private categoriasService = inject(CategoryService)
   private postService = inject(PostService)
   public dialogService = inject(DialogService)
   private responsiveService = inject(ResponsivedesignService)
-  private geminiService = inject(GeminiService)
   private snackbar = inject(MatSnackBar)
   private router = inject(Router)
   categorias: Category[] = []
   positionDialogueRight: string = '5rem'
   positionDialogueLeft: string = ''
+  suscripcion: Subscription = new Subscription
 
   // CHAT GEMINI
   @ViewChild('AIchat') aiChat!: TemplateRef<HTMLElement>;
@@ -61,7 +60,12 @@ export class PostNuevoComponent implements OnInit{
 
   ngOnInit(): void {
     this.getCategories()
-    this.mobileResponsiveDesign()
+    this.responsiveDesign()
+  }
+  
+  ngOnDestroy(): void {
+    this.dialogService.closeAll()
+    this.suscripcion.unsubscribe()
   }
 
   getCategories () {
@@ -142,41 +146,8 @@ export class PostNuevoComponent implements OnInit{
     this.chatAbierto = false
   }
 
-  cerrarDialogs() { // CREAR UNA VARIABLE QUE CAMBIE AL PULSAR EN EL ICONO DEL BOT PARA QUE NO SE PUEDA ABRIR MAS VENTANAS MODALES
-    this.dialogService.closeAll()
-  }
-
-  enviarMensajeAi() {
-    if(this.prompt && !this.loading) {
-      this.loading = true;
-      this.historialChat.nativeElement.scrollTop = this.historialChat.nativeElement.scrollHeight
-      const data = this.prompt;
-      this.chatMessages.push({ actor: 'user', message: data })
-      this.prompt = '';
-      this.geminiService.enviarPromptAI(this.chatMessages).subscribe({
-        next: (respuesta: Geminiresponse) => {
-          this.chatMessages.push({actor: 'model', message: respuesta.candidates[0].content.parts[0].text })
-          this.historialChat.nativeElement.scrollTop = this.historialChat.nativeElement.scrollHeight
-          this.loading = false;
-        },
-        error: (error) => {
-          this.loading = false;
-          this.snackbar.open('El asistente no puede responder. Inténtelo más tarde.', 'Aceptar', {
-            duration: 3000
-          })
-        }
-      });
-    }
-  }
-
-  formatearTexto(text: string) {
-    const result = text.replaceAll('*', '');
-    return result;
-  }
-
-  // ESTO FALLA EN OTROS CON EL MARGIN-RIGHT
-  mobileResponsiveDesign () {
-    this.responsiveService.obtenerDispositivo().subscribe((dispositivo) => {
+  responsiveDesign () {
+    this.suscripcion = this.responsiveService.obtenerDispositivo().subscribe((dispositivo) => {
       if (dispositivo === 'Móvil') {
         this.positionDialogueRight = ''
       } else {

@@ -1,0 +1,22 @@
+<div class="chat-container">
+    <div class="chat-history" #chatHistory>
+        <ng-container *ngFor="let item of chatMessages">
+            <div class="messages" [ngClass]="item.actor == 'model' ? 'bot-message' : 'user-message'">
+                <p class="responses" [innerHTML]="formatearTexto(item.message)"></p>
+            </div>
+            <br><br><br>
+        </ng-container>
+        <ng-container *ngIf="loading">
+            <app-skeleton></app-skeleton>
+        </ng-container>
+    </div>
+
+    <div *ngIf="loading" class="pensando">
+        <p>El asistente está pensando...</p>
+    </div>
+
+    <div class="chat-inputs">
+        <input matInput type="text" id="message-input" (keyup.enter)="enviarMensajeAi()" [(ngModel)]="prompt" placeholder="Escribe tu mensaje..." [disabled]="loading" autocomplete="off"/>
+        <button mat-flat-button id="send-button" (click)="enviarMensajeAi()" [disabled]="loading">Enviar</button>
+    </div>
+</div>    

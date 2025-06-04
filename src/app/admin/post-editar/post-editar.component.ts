@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,15 +15,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PostPartial } from '../../interfaces/post';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { DialogPosition } from '@angular/material/dialog';
+import { DialogService } from '../../services/material/dialog.service';
+import { AichatComponent } from '../../partials/aichat/aichat.component';
+import { ResponsivedesignService } from '../../services/responsivedesign.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post-editar',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule],
+  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule, AichatComponent],
   templateUrl: './post-editar.component.html',
   styleUrl: './post-editar.component.scss'
 })
-export class PostEditarComponent implements OnInit{
+export class PostEditarComponent implements OnInit, OnDestroy{
 
   private categoriasService = inject(CategoryService)
   private postService = inject(PostService)
@@ -32,11 +37,20 @@ export class PostEditarComponent implements OnInit{
   categorias: Category[] = []
   post: PostPartial = {} as PostPartial
   idPost: number = 0
+  suscripcion: Subscription = new Subscription
 
   @ViewChild('imagenActual') imagenActual: ElementRef<HTMLElement> = {} as ElementRef
   @ViewChild('imagenNueva') imagenNueva: ElementRef<HTMLElement> = {} as ElementRef
 
   filesEndPoint = environment.FilesEndpoint
+
+  // CHATBOT
+  @ViewChild('AIchat') aiChat!: TemplateRef<HTMLElement>;
+  private responsiveService = inject(ResponsivedesignService)
+  positionDialogueRight: string = '5rem'
+  positionDialogueLeft: string = ''
+  chatAbierto: boolean = false
+  public dialogService = inject(DialogService)
 
   postEditarForm = new FormGroup({
     titulo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
@@ -53,6 +67,12 @@ export class PostEditarComponent implements OnInit{
     this.idPost = this.activatedRoute.snapshot.params['id']
     this.getCategories()
     this.getPost(this.idPost)
+    this.responsiveDesign()
+  }
+
+  ngOnDestroy(): void {
+    this.dialogService.closeAll()
+    this.suscripcion.unsubscribe()
   }
 
   getCategories () {
@@ -143,7 +163,7 @@ export class PostEditarComponent implements OnInit{
   }
 
   // Permite cargar un archivo desde el input, obtener su contenido en base64 y guardarlo en postForm.value.imagen
-  setFileData(event: Event): void {
+  enviarImagen(event: Event): void {
     const eventTarget: HTMLInputElement | null = event.target as HTMLInputElement | null; // Convierte el eventTarget a HTMLInput para usar sus métodos
     if (eventTarget?.files?.[0]) { // Verifica que haya un archivo en el evento
       const file: File = eventTarget.files[0]; // Obtenemos el archivo seleccionado en el input
@@ -153,5 +173,26 @@ export class PostEditarComponent implements OnInit{
       });
       reader.readAsDataURL(file); // Inicia la lectura del archivo dando lugar a data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...
     }
+  }
+
+  async abrirAiChat() { // DIALOG NO SE CIERRA
+    const title: string = 'Asistente IA' // Título del modal
+    const panelClass: string = 'no-scroll-dialog'
+    const position: DialogPosition = { right: this.positionDialogueRight, bottom: '5rem'} // Usar responsiveDesignService para el movil ??
+    const hasBackdrop: boolean = false
+    this.chatAbierto = true
+  
+    await this.dialogService.openDialog({ html: this.aiChat, title, position, hasBackdrop, panelClass })
+    this.chatAbierto = false
+  }
+
+  responsiveDesign () {
+    this.suscripcion = this.responsiveService.obtenerDispositivo().subscribe((dispositivo) => {
+      if (dispositivo === 'Móvil') {
+        this.positionDialogueRight = ''
+      } else {
+        this.positionDialogueRight = '5rem'
+      }
+    })
   }
 }
