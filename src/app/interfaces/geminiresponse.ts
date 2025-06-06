@@ -16,3 +16,5 @@ interface content {
 interface message {
     text: string
 }
+
+export type GeminiresponsePartial = Partial<Geminiresponse>

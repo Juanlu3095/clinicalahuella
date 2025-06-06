@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { Geminiresponse } from '../../interfaces/geminiresponse';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,6 @@ export class GeminiService {
     const body = {
       messages: chatMessages
     }
-    return this.http.post<any>(`${this.endpoint}/ai`, body)
+    return this.http.post<Geminiresponse>(`${this.endpoint}/ai`, body)
   }
 }

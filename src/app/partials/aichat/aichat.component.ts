@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../partials/skeleton/skeleton.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,7 +31,8 @@ export class AichatComponent {
       const data = this.prompt;
       this.chatMessages.push({ actor: 'user', message: data })
       this.prompt = '';
-      this.geminiService.enviarPromptAI(this.chatMessages).subscribe({
+      // Se pasa una copia del array porque sino al suscribirnos al servicio, se añade automáticamente el mensaje a chatMessages
+      this.geminiService.enviarPromptAI([...this.chatMessages]).subscribe({
         next: (respuesta: Geminiresponse) => {
           this.chatMessages.push({actor: 'model', message: respuesta.candidates[0].content.parts[0].text })
           this.historialChat.nativeElement.scrollTop = this.historialChat.nativeElement.scrollHeight
@@ -40,7 +41,8 @@ export class AichatComponent {
         error: (error) => {
           this.loading = false;
           this.snackbar.open('El asistente no puede responder. Inténtelo más tarde.', 'Aceptar', {
-            duration: 3000
+            duration: 3000,
+            panelClass: '.snackerror'
           })
         }
       });

@@ -56,7 +56,8 @@ export class BlogComponent implements OnInit{
   getPosts() {
     this.postService.getPosts({}).subscribe({
       next: (respuesta) => {
-          this.posts = respuesta.data
+        console.log(respuesta)
+        this.posts = respuesta.data
       },
       error: (error) => {
         console.error(error)
