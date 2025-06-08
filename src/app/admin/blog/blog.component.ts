@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { PostService } from '../../services/api/post.service';
-import { Post } from '../../interfaces/post';
+import { Post, PostPartial } from '../../interfaces/post';
 import { DatatableComponent } from '../../partials/datatable/datatable.component';
 import { MatButtonModule } from '@angular/material/button';
 import { TableButton } from '../../interfaces/tablebutton';
@@ -21,8 +21,8 @@ import { DatatableService } from '../../services/material/datatable.service';
 })
 export class BlogComponent implements OnInit{
 
-  posts: Post[] = []
-  post: Post = {} as Post
+  posts: PostPartial[] = []
+  post: PostPartial = {} as PostPartial
   columns: string[] = ['titulo', 'slug']
   displayedColumns = ['select',...this.columns, 'acciones'];
   selectedIds: number[] = [];
@@ -56,7 +56,6 @@ export class BlogComponent implements OnInit{
   getPosts() {
     this.postService.getPosts({}).subscribe({
       next: (respuesta) => {
-        console.log(respuesta)
         this.posts = respuesta.data
       },
       error: (error) => {
@@ -68,7 +67,11 @@ export class BlogComponent implements OnInit{
   getPost(id: number) {
     this.postService.getPostById(id).subscribe({
       next: (respuesta) => {
-        this.post = respuesta.data[0]
+        if (Array.isArray(respuesta.data)) {
+          this.post = respuesta.data[0]
+        } else {
+          this.post = respuesta.data
+        }
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 404) {

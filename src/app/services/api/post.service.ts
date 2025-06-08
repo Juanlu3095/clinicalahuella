@@ -5,6 +5,10 @@ import { environment } from '../../../environments/environment';
 import { PostPartial } from '../../interfaces/post';
 import { ApiresponsePartial } from '../../interfaces/apiresponse';
 
+interface ApiresponsePostPartial extends Omit<ApiresponsePartial, 'data'> {
+  data: PostPartial | PostPartial[]
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +17,7 @@ export class PostService {
   private readonly http = inject(HttpClient)
   private readonly endpoint = environment.apiendpoint
   private _refresh$ = new Subject<void>(); // Observable
-    
+  
   constructor() { }
 
   // Obtenemos el Observable
@@ -41,7 +45,7 @@ export class PostService {
   }
 
   getPostById (id: number) {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/posts/${id}`)
+    return this.http.get<ApiresponsePostPartial>(`${this.endpoint}/posts/${id}`)
   }
 
   getPostBySlug(slug: string) {

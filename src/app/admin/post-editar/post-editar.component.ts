@@ -97,7 +97,11 @@ export class PostEditarComponent implements OnInit, OnDestroy{
   getPost (id: number) {
     this.postService.getPostById(id).subscribe({
       next: (respuesta) => {
-        this.post = respuesta.data[0]
+        if (Array.isArray(respuesta.data)) {
+          this.post = respuesta.data[0]
+        } else {
+          this.post = respuesta.data
+        }
 
         this.postEditarForm.patchValue({
           titulo: this.post.titulo,

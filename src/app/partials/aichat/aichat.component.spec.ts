@@ -94,7 +94,7 @@ describe('AichatComponent', () => {
   // ESTE TEST NO DETECTA EL SNACKBAR
   it('should open snackbar when Gemini utility fails', async () => {
     const geminiServiceSpy = spyOn(geminiService, 'enviarPromptAI') // Spy de la función del servicio para enviar y recibir datos con Gemini AI
-    geminiServiceSpy.and.returnValue(throwError(() => new Error(mockApiResponseFail.error)))
+    geminiServiceSpy.and.returnValue(throwError(() => mockApiResponseFail.error))
     component.prompt = '¡Hola!'
     const mensajes = [
       {
