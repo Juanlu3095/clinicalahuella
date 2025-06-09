@@ -114,7 +114,15 @@ export class PostEditarComponent implements OnInit, OnDestroy{
         })
       },
       error: (error: HttpErrorResponse) => {
-        console.error(error)
+        if (error.status === 404) {
+          this.snackbar.open('Post no encontrado.', 'Aceptar', {
+            duration: 3000
+          })
+        } else {
+          this.snackbar.open('No se ha podido obtener los posts.', 'Aceptar', {
+            duration: 3000
+          })
+        }
       }
     })
   }

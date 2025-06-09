@@ -57,13 +57,15 @@
       </div>
     
       <!-- Paginator -->
-      <mat-paginator class="paginator"
-      [length]="posts.length"
-      [pageSize]="pageSize"
-      aria-label="select page"
-      hidePageSize="true"
-      (page)="onPageChange($event)">
-      </mat-paginator>
+      @if (posts) {
+        <mat-paginator class="paginator"
+          [length]="posts.length"
+          [pageSize]="pageSize"
+          aria-label="select page"
+          hidePageSize="true"
+          (page)="onPageChange($event)">
+        </mat-paginator>
+      }
 
     </section>
 </main>

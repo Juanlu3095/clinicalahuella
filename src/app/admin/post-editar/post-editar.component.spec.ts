@@ -53,8 +53,7 @@ const mockGetPostServiceResponse = {
 }
 
 const mockPostServiceResponse = {
-  "message": "Post actualizado.",
-  "data": {} // ver si esto es necesario
+  "message": "Post actualizado."
 }
 
 const mockPostService: {
@@ -200,7 +199,22 @@ describe('PostEditarComponent', () => {
   })
 
   it('should send image, enviarImagen()', () => {
+    spyOn(component, 'enviarImagen').and.callThrough();
+    fixture.detectChanges();
 
+    const fileInput = fixture.debugElement.query(By.css('.fileInput')).nativeElement
+    const mockFile = new File([''], 'test.txt', { type: 'text/plain' });
+    const dt = new DataTransfer()
+    dt.items.add(mockFile)
+
+    fileInput.files = dt.files
+    const changeEvent = new Event('change');
+    fileInput.dispatchEvent(changeEvent)
+
+    fixture.detectChanges();
+    expect(component.enviarImagen).toHaveBeenCalled()
+    expect(component.enviarImagen).toHaveBeenCalledWith(changeEvent)
+    expect(component.postEditarForm.value.imagen).not.toEqual(null) // imagen del form sigue siendo null, quizá porque la imagen es falsa?
   })
 
   it('should open aichat', () => {

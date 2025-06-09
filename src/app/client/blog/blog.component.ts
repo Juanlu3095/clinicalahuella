@@ -31,7 +31,7 @@ export class BlogComponent implements OnInit{
   private snackbar = inject(MatSnackBar)
 
   paginatedData: PostPartial[] = []; // El array que contendrá los posts por página seleccionada, se actualiza al cambiar de página con paginateData
-  pageSize = 6; // Número de elementos por página por defecto
+  pageSize = 1; // Número de elementos por página por defecto
   currentPage = 0; // Usamos esto para el slice de paginateData
 
   filesEndPoint: string = environment.FilesEndpoint
@@ -70,12 +70,12 @@ export class BlogComponent implements OnInit{
     const endIndex = startIndex + this.pageSize; // Marcaría la última posición del array posts
 
     // slice permite excluir del array elementos de un extremo al otro, siendo startIndex el inicio de la página y endIndex el final
-    this.paginatedData = this.posts.slice(startIndex, endIndex); 
+    this.paginatedData = this.posts.slice(startIndex, endIndex);
   }
 
   // Se ejecuta cuando cambiamos el numero de elementos por página en mat-paginator
   onPageChange(event: PageEvent) {
-    this.pageSize = event.pageSize; // las propiedadespageSize y pageIndex las da el tipo PageEvent
+    this.pageSize = event.pageSize; // las propiedades pageSize y pageIndex las da el tipo PageEvent
     this.currentPage = event.pageIndex;
     this.paginateData(); // Se actualizan los filtros de las páginas para generar el paginador
   }
