@@ -31,7 +31,7 @@ export class BlogComponent implements OnInit{
   private snackbar = inject(MatSnackBar)
 
   paginatedData: PostPartial[] = []; // El array que contendrá los posts por página seleccionada, se actualiza al cambiar de página con paginateData
-  pageSize = 1; // Número de elementos por página por defecto
+  pageSize = 6; // Número de elementos por página por defecto
   currentPage = 0; // Usamos esto para el slice de paginateData
 
   filesEndPoint: string = environment.FilesEndpoint
