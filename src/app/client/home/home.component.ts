@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     }
   }
 
-  private scrollMovement(){ // Todo esto se ejecutará al hacer scroll
+  scrollMovement(){ // Todo esto se ejecutará al hacer scroll
     var trust = document.getElementById("trust"); // Seleccionamos el elemento a observar
     if(trust) {
       let box = trust!.getBoundingClientRect(); // Devuelve las coordenadas del elemento trust con respecto al viewport
