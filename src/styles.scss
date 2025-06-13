@@ -70,6 +70,15 @@ $lahuella-theme: mat.define-theme((
   border-radius: 1rem !important;
 }
 
+// Datetimepicker
+.timepicker-overlay {
+    z-index: 1000 !important;
+}
+
+.timepicker-backdrop-overlay {
+    z-index: 1000 !important;
+}
+
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
 // For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.

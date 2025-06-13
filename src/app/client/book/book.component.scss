@@ -1,7 +1,7 @@
 // Constantes para las media queries
 $mobileMAX: 767px;
 $tabletMIN: 768px;
-$tabletMAX: 1023px;
+$tabletMAX: 1024px;
 
 /* HERO */
 .hero {
@@ -61,14 +61,31 @@ section.book {
         gap: 4rem;
         padding-top: 3rem;
     }
+
+    @media (min-width: $tabletMIN) and (max-width: $tabletMAX) {
+        gap: 2rem;
+    }
 }
 
-.form, .contact-info{
+.form{
     width: 50%;
     padding: 0 4rem;
 
     @media (min-width: $tabletMIN) and (max-width: $tabletMAX) {
+        width: 55%;
+    }
+
+    @media (max-width: $mobileMAX) {
         width: 100%;
+    }
+}
+
+.contact-info{
+    width: 50%;
+    padding: 0 4rem;
+
+    @media (min-width: $tabletMIN) and (max-width: $tabletMAX) {
+        width: 45%;
     }
 
     @media (max-width: $mobileMAX) {

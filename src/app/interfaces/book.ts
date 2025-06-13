@@ -10,4 +10,4 @@ export interface Book {
     updated_at: Date
 }
 
-export type BookOptional = Partial<Book>
+export type BookPartial = Partial<Book>

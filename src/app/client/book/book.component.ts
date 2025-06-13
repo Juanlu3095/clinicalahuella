@@ -13,6 +13,7 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 import { Subscription } from 'rxjs';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { BookService } from '../../services/api/book.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-book',
@@ -28,6 +29,7 @@ export class BookComponent implements OnInit, OnDestroy{
   private meta = inject(Meta)
   private responsive = inject(ResponsivedesignService)
   private bookService = inject(BookService)
+  private matsnackbar = inject(MatSnackBar)
   rowHeight: string = ''
   subscription: Subscription = new Subscription()
 
@@ -67,6 +69,9 @@ export class BookComponent implements OnInit, OnDestroy{
         next: (response) => {
           console.log(book)
           console.log('Respuesta:', response)
+          this.matsnackbar.open('Reserva realizada.', 'Aceptar', {
+            duration: 3000
+          })
         },
         error: (error) => {
           console.error(error)
@@ -82,8 +87,11 @@ export class BookComponent implements OnInit, OnDestroy{
           case 'Móvil':
             this.rowHeight = "4:1";
             break;
+          case 'Tablet':
+            this.rowHeight = "5:1";
+            break;
           default:
-            this.rowHeight = "7:1";
+            this.rowHeight = "6:1";
             break;
         }
       },
@@ -108,5 +116,5 @@ export class BookComponent implements OnInit, OnDestroy{
         clockHandColor: '#ce984c',
         clockFaceTimeInactiveColor: '#fff'
     }
-};
+  };
 }

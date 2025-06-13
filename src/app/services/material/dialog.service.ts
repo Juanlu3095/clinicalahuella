@@ -16,7 +16,7 @@ export class DialogService {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {html: html, title: title, btnClass: btnClass, btnCancel: btnCancel },
       //width: '40vw',
-      minWidth: '40vw',
+      minWidth: '50vw',
       position, // { right: '5rem', bottom: '5rem'}, Posición del dialog
       hasBackdrop: hasBackdrop ?? true, // Permite quitar el sombreado de fuera del dialog
       panelClass // Clase que le damos al overlay del dialog. Debe ir en styles.scss, el global, para que funcione,
