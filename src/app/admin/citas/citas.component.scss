@@ -9,3 +9,35 @@ main{
 h1{
     font-size: var(--lengthLg1);
 }
+
+// Datos en el modal para ver citas
+div.cita-data {
+    margin: 1rem 0;
+}
+
+h3 {
+    font-size: var(--lengthMd2);
+}
+
+button.nuevo {
+    color: var(--dark);
+}
+  
+.example-full-width {
+    width: 100%;
+}
+
+div.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.modal-buttons button {
+    background-color: var(--lightbrown);
+
+}
+
+.eliminar {
+    color: white !important;
+}

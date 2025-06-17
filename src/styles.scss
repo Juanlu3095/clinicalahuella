@@ -53,6 +53,12 @@ $lahuella-theme: mat.define-theme((
     container-color: var(--dark),
     button-color: var(--lightbrown),
   ));
+
+  // Styles for FullCalendar
+  --fc-event-bg-color: var(--lightbrown);
+  --fc-event-border-color: var(--lightbrown);
+  --fc-button-bg-color: var(--lightbrown);
+  --fc-button-border-color: var(--lightbrown)
 }
 
 .txt-lightbrown{
