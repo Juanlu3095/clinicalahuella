@@ -2,7 +2,6 @@ import { Component, inject, OnInit, TemplateRef, ViewChild, LOCALE_ID, OnDestroy
 import { CommonModule, DatePipe, formatDate, registerLocaleData  } from '@angular/common';
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TableButton } from '../../interfaces/tablebutton';
-import { ApiresponsePartial } from '../../interfaces/apiresponse';
 import { DatatableService } from '../../services/material/datatable.service';
 import { DialogService } from '../../services/material/dialog.service';
 import { DatatableComponent } from '../../partials/datatable/datatable.component';

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, PLATFORM_ID, LOCALE_ID, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
-import { CommonModule, registerLocaleData  } from '@angular/common';
+import { CommonModule, registerLocaleData, formatDate } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core';
@@ -11,7 +11,7 @@ import { AppointmentService } from '../../services/api/appointment.service';
 import { DialogService } from '../../services/material/dialog.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,13 +21,17 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMaterialTimepickerModule, NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Book } from '../../interfaces/book';
+import { BookService } from '../../services/api/book.service';
+import { DatatableComponent } from '../../partials/datatable/datatable.component';
+import { TableButton } from '../../interfaces/tablebutton';
 
 registerLocaleData(localeEs, 'es');
 
 @Component({
   selector: 'app-citas',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FullCalendarModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatGridListModule, NgxMaterialTimepickerModule, MatDatepickerModule],
+  imports: [DatatableComponent, CommonModule, ReactiveFormsModule, FullCalendarModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatGridListModule, NgxMaterialTimepickerModule, MatDatepickerModule],
   providers: [provideNativeDateAdapter(), {provide: MAT_DATE_LOCALE, useValue: 'es-ES'}, {provide: LOCALE_ID, useValue: 'es'}],
   templateUrl: './citas.component.html',
   styleUrl: './citas.component.scss'
@@ -37,7 +41,9 @@ export class CitasComponent implements OnInit, OnDestroy {
   citas: Appointment[] = []
   cita: Appointment = {} as Appointment
   eventos: EventInput[] = []
+  reservas: Book[] = []
   private citasService = inject(AppointmentService)
+  private reservasService = inject(BookService)
   private responsiveDesignService = inject(ResponsivedesignService)
   public readonly platformId = inject(PLATFORM_ID) // Se usa esto en el HTML para que el calendario sólo cargue cuando el renderizado ya se haya realizado con SSR
   public dialogService = inject(DialogService)
@@ -45,10 +51,19 @@ export class CitasComponent implements OnInit, OnDestroy {
   subscription: Subscription[] = []
   rowHeight: string = ''
 
+  // Tabla reservas
+  columns: string[] = ['nombre', 'apellidos', 'fecha', 'hora'] // LA FECHA HAY QUE PONERLA EN DD-MM-YYYY (EN ESPAÑOL)
+  displayedColumns = [...this.columns, 'acciones'];
+
+  public botones: TableButton[] = [
+    {id: 1, nombre: 'Añadir', class: 'ver', accion: (id: string) => this.crearReservaCita(id)}
+  ]
+
   @ViewChild('contentVer') modalVer!: TemplateRef<HTMLElement>;
   @ViewChild('contentNuevo') modalNuevo!: TemplateRef<HTMLElement>;
   @ViewChild('contentEditar') modalEditar!: TemplateRef<HTMLElement>;
   @ViewChild('contentEliminar') modalEliminar!: TemplateRef<HTMLElement>;
+  @ViewChild('contentReservaCita') modalReservaCita!: TemplateRef<HTMLElement>;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -86,6 +101,11 @@ export class CitasComponent implements OnInit, OnDestroy {
         this.getCitas()
       })
     )
+
+    this.subscription.push(this.reservasService.refresh$.subscribe(() => {
+        this.getReservas()
+      })
+    )
   }
 
   ngOnDestroy(): void {
@@ -95,7 +115,6 @@ export class CitasComponent implements OnInit, OnDestroy {
   getCitas () { // Al crear evento o borrarlo, no ve las actualizaciones al llamar a la api
     this.citasService.getAllAppointments().subscribe({
       next: (respuesta) => {
-        console.log(respuesta)
         this.citas = respuesta.data
         this.citas.forEach((cita) => {
           let fechaCita = new Date(cita.fecha).toLocaleDateString('es', {year: 'numeric', month: '2-digit', day: '2-digit'}) // El 2º parámetro es el de las opciones
@@ -107,10 +126,11 @@ export class CitasComponent implements OnInit, OnDestroy {
           })
         })
         this.calendarOptions.events = this.eventos
-        console.log('Eventos: ', this.eventos)
       },
       error: (error) => {
-        console.error(error)
+        this.matsnackbar.open('No se ha podido obtener las citas.', 'Aceptar', {
+          duration: 3000
+        })
       }
     })
   }
@@ -127,7 +147,6 @@ export class CitasComponent implements OnInit, OnDestroy {
   getCita(id: string) {
     this.citasService.getAppointment(id).subscribe({
       next: (respuesta) => {
-        console.log(respuesta)
         this.cita = respuesta.data[0]
       },
       error: (error: HttpErrorResponse) => {
@@ -169,7 +188,9 @@ export class CitasComponent implements OnInit, OnDestroy {
           })
         },
         error: (error) => {
-          console.error(error)
+          this.matsnackbar.open('No se ha podido crear la cita.', 'Aceptar', {
+            duration: 3000
+          })
         }
       })
     }
@@ -204,7 +225,6 @@ export class CitasComponent implements OnInit, OnDestroy {
           this.editarCita(id)
         }
       })
-
     }
   }
 
@@ -226,7 +246,9 @@ export class CitasComponent implements OnInit, OnDestroy {
           this.dialogService.closeAll()
         },
         error: (error) => {
-          console.error(error)
+          this.matsnackbar.open('Cita no actualizada.', 'Aceptar', {
+            duration: 3000
+          })
         }
       })
     }
@@ -254,11 +276,82 @@ export class CitasComponent implements OnInit, OnDestroy {
       },
       error: (error: HttpErrorResponse) => {
         if(error.status === 404) {
-
+          this.matsnackbar.open('Cita no encontrada.', 'Aceptar', {
+            duration: 3000
+          })
         }
-        console.error(error)
       }
     })
+  }
+
+  // Método para ver las reservas de los clientes que se pueden añadir a las citas
+  modalAgregarReservaCita () {
+    let title: string = 'Crear cita desde reserva'; // Título del modal
+    let btnCancel = 'cancelar';
+
+    this.getReservas()
+    this.dialogService.openDialog({html: this.modalReservaCita, title, btnCancel})
+  }
+
+  // Obtiene todas las reservas para añadirla a una tabla con un botón para añadirla a las citas
+  getReservas() {
+    this.reservasService.getAllBooks().subscribe({
+      next: (respuesta) => {
+        this.reservas = respuesta.data
+        this.reservas.forEach((elemento) => {
+          elemento.fecha = formatDate(new Date(elemento.fecha!), 'dd/MM/yyyy', 'es-ES')
+        })
+      },
+      error: (error) => {
+        this.matsnackbar.open('No se ha podido obtener las reservas.', 'Aceptar', {
+          duration: 3000
+        })
+      }
+    })
+  }
+
+  eliminarReserva(id: string) {
+    this.reservasService.deleteBook(id).subscribe({
+      next: (respuesta) => {
+        
+      },
+      error: (error) => {
+        this.matsnackbar.open('No se ha eliminado la reserva al crear la cita.', 'Aceptar', {
+          duration: 3000
+        })
+      }
+    })
+  }
+
+  // Método para agregar una reserva a las citas
+  crearReservaCita(id: string) {
+    let reserva = this.reservas.find((reserva) => reserva.id == id)
+    const [dia, mes, año] = reserva!.fecha.split("/"); // Obtenemos dia mes y año separando por '/'
+    let fechaConvertida = `${año}/${mes}/${dia}` // Modificamos el formato de la fecha para introducirla en las citas
+    
+    if (reserva) {
+      let nuevaCita: AppointmentPartial = {
+        nombre: reserva.nombre || '',
+        apellidos: reserva.apellidos || '',
+        email: reserva.email || '',
+        telefono: Number(reserva.telefono) || undefined,
+        fecha: new Date(fechaConvertida).toLocaleDateString('en-CA') || '', // Formato YYYY-MM-DD
+        hora: reserva.hora || '',
+      }
+      this.citasService.postAppointment(nuevaCita).subscribe({
+        next: (respuesta) => {
+          this.matsnackbar.open('Cita creada.', 'Aceptar', {
+            duration: 3000
+          })
+          this.eliminarReserva(id)
+        },
+        error: (error) => {
+          this.matsnackbar.open('No se ha podido crear la cita.', 'Aceptar', {
+            duration: 3000
+        })
+        }
+      })
+    }
   }
 
   // Diseño responsivo
