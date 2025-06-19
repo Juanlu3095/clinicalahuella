@@ -55,8 +55,6 @@ export class BookComponent implements OnInit, OnDestroy{
 
   solicitarReserva() {
     if(this.bookForm.valid && this.bookForm.value) {
-      console.log(this.bookForm.value)
-
       const book = {
         nombre: this.bookForm.value.nombre || '',
         apellidos: this.bookForm.value.apellidos || '',
@@ -65,7 +63,7 @@ export class BookComponent implements OnInit, OnDestroy{
         fecha: this.bookForm.value.fecha?.toLocaleDateString('en-CA') || '', // Formato YYYY-MM-DD
         hora: this.bookForm.value.hora || '',
       }
-      this.bookService.postBook(book).subscribe({
+      this.bookService.postBooking(book).subscribe({
         next: (response) => {
           console.log(book)
           console.log('Respuesta:', response)

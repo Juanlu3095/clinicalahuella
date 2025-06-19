@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { BookPartial } from '../../interfaces/book';
+import { BookingPartial } from '../../interfaces/book';
 import { ApiresponsePartial } from '../../interfaces/apiresponse';
 
 @Injectable({
@@ -20,15 +20,15 @@ export class BookService {
     return this._refresh$
   }
 
-  getAllBooks (): Observable<ApiresponsePartial> {
+  getAllBookings (): Observable<ApiresponsePartial> {
     return this.http.get<ApiresponsePartial>(`${this.endpoint}/bookings`)
   }
 
-  getBook(id: string): Observable<ApiresponsePartial> {
+  getBooking(id: string): Observable<ApiresponsePartial> {
     return this.http.get<ApiresponsePartial>(`${this.endpoint}/bookings/${id}`)
   }
   
-  postBook(book: BookPartial): Observable<ApiresponsePartial> {
+  postBooking(book: BookingPartial): Observable<ApiresponsePartial> {
     return this.http.post<ApiresponsePartial>(`${this.endpoint}/bookings`, book).pipe(
       tap(() => {
         this._refresh$.next()
@@ -36,7 +36,7 @@ export class BookService {
     )
   }
 
-  updateBook(id: string, book: BookPartial): Observable<ApiresponsePartial> {
+  updateBooking(id: string, book: BookingPartial): Observable<ApiresponsePartial> {
     return this.http.patch<ApiresponsePartial>(`${this.endpoint}/bookings/${id}`, book).pipe(
       tap(() => {
         this._refresh$.next()
@@ -44,7 +44,7 @@ export class BookService {
     )
   }
 
-  deleteBook(id: string) {
+  deleteBooking(id: string) {
     return this.http.delete<ApiresponsePartial>(`${this.endpoint}/bookings/${id}`).pipe(
       tap(() => {
         this._refresh$.next()
@@ -52,11 +52,11 @@ export class BookService {
     )
   }
 
-  deleteBooks(ids: Array<string>) {
+  deleteBookings(ids: Array<string>) {
     const body = { // No va a modificarse el contenido una vez se pasen los parámetros, por eso const
       ids: ids
     }
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/bookings/`, { body: body }).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/bookings`, { body: body }).pipe(
       tap(() => {
         this._refresh$.next()
       })

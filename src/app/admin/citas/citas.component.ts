@@ -21,7 +21,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMaterialTimepickerModule, NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Book } from '../../interfaces/book';
+import { Booking } from '../../interfaces/book';
 import { BookService } from '../../services/api/book.service';
 import { DatatableComponent } from '../../partials/datatable/datatable.component';
 import { TableButton } from '../../interfaces/tablebutton';
@@ -41,7 +41,7 @@ export class CitasComponent implements OnInit, OnDestroy {
   citas: Appointment[] = []
   cita: Appointment = {} as Appointment
   eventos: EventInput[] = []
-  reservas: Book[] = []
+  reservas: Booking[] = []
   private citasService = inject(AppointmentService)
   private reservasService = inject(BookService)
   private responsiveDesignService = inject(ResponsivedesignService)
@@ -295,7 +295,7 @@ export class CitasComponent implements OnInit, OnDestroy {
 
   // Obtiene todas las reservas para añadirla a una tabla con un botón para añadirla a las citas
   getReservas() {
-    this.reservasService.getAllBooks().subscribe({
+    this.reservasService.getAllBookings().subscribe({
       next: (respuesta) => {
         this.reservas = respuesta.data
         this.reservas.forEach((elemento) => {
@@ -311,7 +311,7 @@ export class CitasComponent implements OnInit, OnDestroy {
   }
 
   eliminarReserva(id: string) {
-    this.reservasService.deleteBook(id).subscribe({
+    this.reservasService.deleteBooking(id).subscribe({
       next: (respuesta) => {
         
       },

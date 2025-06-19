@@ -1,4 +1,4 @@
-export interface Book {
+export interface Booking {
     id: string,
     nombre: string,
     apellidos: string,
@@ -10,4 +10,4 @@ export interface Book {
     updated_at: Date
 }
 
-export type BookPartial = Partial<Book>
+export type BookingPartial = Partial<Booking>

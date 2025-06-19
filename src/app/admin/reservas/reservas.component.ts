@@ -14,7 +14,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMaterialTimepickerModule, NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { BookService } from '../../services/api/book.service';
-import { BookPartial } from '../../interfaces/book';
+import { BookingPartial } from '../../interfaces/book';
 import localeEs from '@angular/common/locales/es';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
@@ -32,8 +32,8 @@ registerLocaleData(localeEs, 'es');
 })
 export class ReservasComponent implements OnInit, OnDestroy{
 
-  reservas: BookPartial[] = []
-  reserva: BookPartial = {} as BookPartial
+  reservas: BookingPartial[] = []
+  reserva: BookingPartial = {} as BookingPartial
   rowHeight: string = ''
   subscription: Subscription[] = []
 
@@ -99,7 +99,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
   }
 
   getReservas () {
-    this.reservasService.getAllBooks().subscribe({
+    this.reservasService.getAllBookings().subscribe({
       next: (respuesta) => {
         this.reservas = respuesta.data
         this.reservas.forEach((elemento) => {
@@ -123,7 +123,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
   }
 
   getReserva(id: string) {
-    this.reservasService.getBook(id).subscribe({
+    this.reservasService.getBooking(id).subscribe({
       next: (respuesta) => {
         this.reserva = respuesta.data
       },
@@ -147,7 +147,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
 
   crearReserva() {
     if (this.nuevaReservaForm.valid) {
-      const nuevaReserva: BookPartial = {
+      const nuevaReserva: BookingPartial = {
         nombre: this.nuevaReservaForm.value.nombre_nuevo || '',
         apellidos: this.nuevaReservaForm.value.apellidos_nuevo || '',
         email: this.nuevaReservaForm.value.email_nuevo || '',
@@ -155,7 +155,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
         fecha: this.nuevaReservaForm.value.fecha_nuevo?.toLocaleDateString('en-CA') || '', // Formato YYYY-MM-DD
         hora: this.nuevaReservaForm.value.hora_nuevo || '',
       }
-      this.reservasService.postBook(nuevaReserva).subscribe({
+      this.reservasService.postBooking(nuevaReserva).subscribe({
         next: (respuesta) => {
           this.matsnackbar.open('Reserva creada.', 'Aceptar', {
             duration: 3000
@@ -173,7 +173,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
     let btnCancel = 'cancelar';
     let btnClass = 'guardar'
 
-    this.reservasService.getBook(id).subscribe((respuesta) => {
+    this.reservasService.getBooking(id).subscribe((respuesta) => {
       const fecha = respuesta.data.hora
       const hours = fecha.slice(0,2)
       const minutes = fecha.slice(3,5)
@@ -200,7 +200,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
 
   editarReserva (id: string) {
     if (this.editarReservaForm.valid) {
-      const editarReserva: BookPartial = {
+      const editarReserva: BookingPartial = {
         nombre: this.editarReservaForm.value.nombre_editar || '',
         apellidos: this.editarReservaForm.value.apellidos_editar || '',
         email: this.editarReservaForm.value.email_editar || '',
@@ -209,7 +209,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
         hora: this.editarReservaForm.value.hora_editar || '',
       }
       console.log(editarReserva)
-      this.reservasService.updateBook(id, editarReserva).subscribe({
+      this.reservasService.updateBooking(id, editarReserva).subscribe({
         next: (respuesta) => {
           this.matsnackbar.open('Reserva actualizada.', 'Aceptar', {
             duration: 3000
@@ -227,7 +227,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
     let btnClass = 'eliminar'; // Clase para el botón de eliminar
     let btnCancel = 'cancelar';
     
-    this.reservasService.getBook(id).subscribe({
+    this.reservasService.getBooking(id).subscribe({
       next: (respuesta) => {
         this.reserva = respuesta.data
       },
@@ -253,7 +253,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
   }
 
   eliminarReserva(id: string) {
-    this.reservasService.deleteBook(id).subscribe({
+    this.reservasService.deleteBooking(id).subscribe({
       next: (respuesta) => {
         this.matsnackbar.open('Reserva eliminada.', 'Aceptar', {
           duration: 3000
@@ -278,7 +278,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
   }
 
   eliminarReservas () {
-    this.reservasService.deleteBooks(this.selectedIds).subscribe({
+    this.reservasService.deleteBookings(this.selectedIds).subscribe({
       next: (respuesta) => {
         this.matsnackbar.open('Reservas eliminadas.', 'Aceptar', {
           duration: 3000
