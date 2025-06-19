@@ -25,8 +25,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class BookComponent implements OnInit, OnDestroy{
 
-  private title = inject(Title)
-  private meta = inject(Meta)
+  title = inject(Title)
+  meta = inject(Meta)
   private responsive = inject(ResponsivedesignService)
   private bookService = inject(BookService)
   private matsnackbar = inject(MatSnackBar)
@@ -55,6 +55,8 @@ export class BookComponent implements OnInit, OnDestroy{
 
   solicitarReserva() {
     if(this.bookForm.valid && this.bookForm.value) {
+      console.log('Fecha form: ', this.bookForm.value.fecha)
+      console.log('Tipo de la fecha: ', typeof(this.bookForm.value.fecha))
       const book = {
         nombre: this.bookForm.value.nombre || '',
         apellidos: this.bookForm.value.apellidos || '',
@@ -65,14 +67,14 @@ export class BookComponent implements OnInit, OnDestroy{
       }
       this.bookService.postBooking(book).subscribe({
         next: (response) => {
-          console.log(book)
-          console.log('Respuesta:', response)
           this.matsnackbar.open('Reserva realizada.', 'Aceptar', {
             duration: 3000
           })
         },
         error: (error) => {
-          console.error(error)
+          this.matsnackbar.open('Ha ocurrido un error. Reserva no creada.', 'Aceptar', {
+            duration: 3000,
+          })
         }
       })
     }
