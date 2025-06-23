@@ -8,7 +8,7 @@
         @if(reservas) {
             
             <app-datatable [columns]="columns" [displayedColumns]="displayedColumns" [data]="reservas"
-             (selectionChange)="onSelectionChange($event)" [buttons]="botones" [eliminarSeleccionados]="modalEliminarSeleccionNewsletters.bind(this)">
+             (selectionChange)="onSelectionChange($event)" [buttons]="botones" [eliminarSeleccionados]="modalEliminarSeleccionReservas.bind(this)">
             </app-datatable>
             
         } @else {

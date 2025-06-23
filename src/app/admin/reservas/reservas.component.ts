@@ -91,13 +91,6 @@ export class ReservasComponent implements OnInit, OnDestroy{
     this.subscription.forEach(item => item.unsubscribe());
   }
 
-  // HACER TEST DE ESTO, A VER QUÉ LE PASA QUE PONE MM/DD/YYYY. INVALID DATE SI DD = 20 Y CREE QUE ES MM
-  transform(value: string) {
-    let datePipe = new DatePipe("es-ES");
-    value = datePipe.transform(value, 'dd/MM/yyyy')!;
-    return value;
-  }
-
   getReservas () {
     this.reservasService.getAllBookings().subscribe({
       next: (respuesta) => {
@@ -107,8 +100,16 @@ export class ReservasComponent implements OnInit, OnDestroy{
         })
         
       },
-      error: (error) => {
-        console.error(error)
+      error: (error: HttpErrorResponse) => {
+        if(error.status === 404) {
+          this.matsnackbar.open('Reserva no encontrada.', 'Aceptar', {
+            duration: 3000
+          })
+        } else {
+          this.matsnackbar.open('Ha ocurrido un error al buscar las reservas.', 'Aceptar', {
+            duration: 3000
+          })
+        }
       }
     })
   }
@@ -127,8 +128,16 @@ export class ReservasComponent implements OnInit, OnDestroy{
       next: (respuesta) => {
         this.reserva = respuesta.data
       },
-      error: (error) => {
-        console.error(error)
+      error: (error: HttpErrorResponse) => {
+        if(error.status === 404) {
+          this.matsnackbar.open('Reserva no encontrada.', 'Aceptar', {
+            duration: 3000
+          })
+        } else {
+          this.matsnackbar.open('Ha ocurrido un error al buscar la reserva.', 'Aceptar', {
+            duration: 3000
+          })
+        }
       }
     })
   }
@@ -162,7 +171,9 @@ export class ReservasComponent implements OnInit, OnDestroy{
           })
         },
         error: (error) => {
-          console.error(error)
+          this.matsnackbar.open('Ha ocurrido un error.', 'Aceptar', {
+            duration: 3000
+          })
         }
       })
     }
@@ -174,21 +185,22 @@ export class ReservasComponent implements OnInit, OnDestroy{
     let btnClass = 'guardar'
 
     this.reservasService.getBooking(id).subscribe((respuesta) => {
-      const fecha = respuesta.data.hora
-      const hours = fecha.slice(0,2)
-      const minutes = fecha.slice(3,5)
-      const nuevaFecha = new Date()
-      nuevaFecha.setHours(hours)
-      nuevaFecha.setMinutes(minutes)
-      console.log("Fecha string: ", hours + ':' + minutes)
-      this.editarReservaForm.patchValue({
-        nombre_editar: respuesta.data.nombre,
-        apellidos_editar: respuesta.data.apellidos,
-        email_editar: respuesta.data.email,
-        telefono_editar: Number(respuesta.data.telefono),
-        fecha_editar: new Date(respuesta.data.fecha),
-        hora_editar: hours + ':' + minutes,
-      })
+      if(respuesta.data) {
+        const fecha = respuesta.data.hora
+        const hours = fecha.slice(0,2)
+        const minutes = fecha.slice(3,5)
+        const nuevaFecha = new Date()
+        nuevaFecha.setHours(hours)
+        nuevaFecha.setMinutes(minutes)
+        this.editarReservaForm.patchValue({
+          nombre_editar: respuesta.data.nombre,
+          apellidos_editar: respuesta.data.apellidos,
+          email_editar: respuesta.data.email,
+          telefono_editar: Number(respuesta.data.telefono),
+          fecha_editar: new Date(respuesta.data.fecha),
+          hora_editar: hours + ':' + minutes,
+        })
+      }
     })
 
     await this.dialogService.openDialog({ html: this.modalEditar, title, btnCancel, btnClass}).then((confirm) => {
@@ -208,28 +220,42 @@ export class ReservasComponent implements OnInit, OnDestroy{
         fecha: this.editarReservaForm.value.fecha_editar?.toLocaleDateString('en-CA') || '', // Formato YYYY-MM-DD
         hora: this.editarReservaForm.value.hora_editar || '',
       }
-      console.log(editarReserva)
+      
       this.reservasService.updateBooking(id, editarReserva).subscribe({
         next: (respuesta) => {
           this.matsnackbar.open('Reserva actualizada.', 'Aceptar', {
             duration: 3000
           })
         },
-        error: (error) => {
-          console.error(error)
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            this.matsnackbar.open('Reserva no encontrada.', 'Aceptar', {
+              duration: 3000
+            })
+          } else {
+            this.matsnackbar.open('Ha ocurrido un error.', 'Aceptar', {
+              duration: 3000
+            })
+          }
         }
       })
     }
   }
 
-  modalEliminarReserva(id: string) {
+  async modalEliminarReserva(id: string) {
     let title: string = 'Eliminar reserva'; // Título del modal
     let btnClass = 'eliminar'; // Clase para el botón de eliminar
     let btnCancel = 'cancelar';
     
     this.reservasService.getBooking(id).subscribe({
-      next: (respuesta) => {
+      next: async (respuesta) => {
         this.reserva = respuesta.data
+
+        await this.dialogService.openDialog({html: this.modalEliminar, title, btnClass, btnCancel}).then(confirm => {
+          if (confirm) {
+            this.eliminarReserva(id)
+          }
+        })
       },
       error: (error: HttpErrorResponse) => {
         if(error.status === 404) {
@@ -245,11 +271,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
       }
     })
     
-    this.dialogService.openDialog({html: this.modalEliminar, title, btnClass, btnCancel}).then(confirm => {
-      if (confirm) {
-        this.eliminarReserva(id)
-      }
-    })
+    
   }
 
   eliminarReserva(id: string) {
@@ -260,17 +282,19 @@ export class ReservasComponent implements OnInit, OnDestroy{
         })
       },
       error: (error) => {
-        console.error(error)
+        this.matsnackbar.open('Ha ocurrido un error.', 'Aceptar', {
+          duration: 3000
+        })
       }
     })
   }
 
-  modalEliminarSeleccionNewsletters() {
+  async modalEliminarSeleccionReservas() {
     let title: string = 'Eliminar reservas'; // Título del modal
     let btnClass = 'eliminar'; // Clase para el botón de aceptar
     let btnCancel = 'cancelar';
 
-    this.dialogService.openDialog({html: this.modalEliminarSeleccion, title, btnClass, btnCancel}).then(confirm => {
+    await this.dialogService.openDialog({html: this.modalEliminarSeleccion, title, btnClass, btnCancel}).then(confirm => {
       if(confirm) {
         this.eliminarReservas()
       }
@@ -285,8 +309,16 @@ export class ReservasComponent implements OnInit, OnDestroy{
         })
         this.datatableService._observable$.next() // Emitimos observable para reiniciar las ids
       },
-      error: (error) => {
-        console.error(error)
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          this.matsnackbar.open('Reservas no encontradas.', 'Aceptar', {
+            duration: 3000
+          })
+        } else {
+          this.matsnackbar.open('Ha ocurrido un error.', 'Aceptar', {
+            duration: 3000
+          })
+        }
       }
     })
   }
