@@ -51,7 +51,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
     nombre_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     apellidos_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     email_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1), Validators.email])),
-    telefono_nuevo: new FormControl<number | null>(null, Validators.compose([Validators.required, Validators.min(1)])),
+    telefono_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.min(1)])),
     asunto_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     mensaje_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
   });
@@ -60,7 +60,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
     nombre_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     apellidos_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     email_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1), Validators.email])),
-    telefono_editar: new FormControl<number | null>(null, Validators.compose([Validators.required, Validators.min(1)])),
+    telefono_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.min(1)])),
     asunto_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     mensaje_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
   });
@@ -77,6 +77,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
     this.suscripcion.unsubscribe()
   }
 
+  // FECHA SIGUE SIN PODER VERSE EN LA TABLA. SÓLO SALE: INVALID DATE. PARECE QUE CONFUNDE EL DÍA CON EL MES
   getMensajes(): void { // LA PRIMERA FECHA SALE 'INVALID DATE', FALTA OPCIÓN VER MENSAJE
     this.mensajeService.getMessages().subscribe({
       next: (respuesta) => {
@@ -158,7 +159,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
       nombre: this.crearMensajeForm.value.nombre_nuevo || '',
       apellidos: this.crearMensajeForm.value.apellidos_nuevo || '',
       email: this.crearMensajeForm.value.email_nuevo || '',
-      telefono: this.crearMensajeForm.value.telefono_nuevo || 0,
+      telefono: this.crearMensajeForm.value.telefono_nuevo || '',
       asunto: this.crearMensajeForm.value.asunto_nuevo || '',
       mensaje: this.crearMensajeForm.value.mensaje_nuevo || '',
     }
@@ -222,7 +223,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
       nombre: this.editarMensajeForm.value.nombre_editar || '',
       apellidos: this.editarMensajeForm.value.apellidos_editar || '',
       email: this.editarMensajeForm.value.email_editar || '',
-      telefono: this.editarMensajeForm.value.telefono_editar || 0,
+      telefono: this.editarMensajeForm.value.telefono_editar || '',
       asunto: this.editarMensajeForm.value.asunto_editar || '',
       mensaje: this.editarMensajeForm.value.mensaje_editar || '',
     }

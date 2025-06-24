@@ -91,7 +91,7 @@ describe('ContactComponent', () => {
       nombre: "Pepe",
       apellidos: "López",
       email: "plopez@gmail.es",
-      telefono: 123456789,
+      telefono: '123456789',
       asunto: "Hola",
       mensaje: "Hola, éste es un mensaje",
     })

@@ -3,7 +3,7 @@ export interface Message {
     nombre: string,
     apellidos: string,
     email: string,
-    telefono: number,
+    telefono: string,
     asunto: string,
     mensaje: string,
     created_at: Date,

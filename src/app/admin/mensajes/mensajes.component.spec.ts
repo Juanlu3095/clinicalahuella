@@ -173,7 +173,7 @@ describe('MensajesComponent', () => {
       nombre_nuevo: 'Pepe',
       apellidos_nuevo: 'Pérez',
       email_nuevo: 'pperez@gmail.com',
-      telefono_nuevo: 644111222,
+      telefono_nuevo: '644111222',
       asunto_nuevo: 'Prueba test',
       mensaje_nuevo: 'Éste es el mensaje de la prueba para test'
     })
@@ -182,7 +182,7 @@ describe('MensajesComponent', () => {
       nombre: 'Pepe',
       apellidos: 'Pérez',
       email: 'pperez@gmail.com',
-      telefono: 644111222,
+      telefono: '644111222',
       asunto: 'Prueba test',
       mensaje: 'Éste es el mensaje de la prueba para test'
     }
@@ -222,7 +222,7 @@ describe('MensajesComponent', () => {
       nombre_editar: 'Pepe',
       apellidos_editar: 'Pérez',
       email_editar: 'pperez@gmail.com',
-      telefono_editar: 644111222,
+      telefono_editar: '644111222',
       asunto_editar: 'Prueba test',
       mensaje_editar: 'Éste es el mensaje de la prueba para test'
     })
@@ -231,7 +231,7 @@ describe('MensajesComponent', () => {
       nombre: 'Pepe',
       apellidos: 'Pérez',
       email: 'pperez@gmail.com',
-      telefono: 644111222,
+      telefono: '644111222',
       asunto: 'Prueba test',
       mensaje: 'Éste es el mensaje de la prueba para test'
     }

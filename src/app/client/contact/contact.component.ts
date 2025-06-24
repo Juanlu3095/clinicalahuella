@@ -32,7 +32,7 @@ export class ContactComponent implements OnInit, OnDestroy{
     nombre: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     apellidos: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     email: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1), Validators.email])),
-    telefono: new FormControl<number | null>(null, Validators.compose([Validators.required, Validators.min(1)])),
+    telefono: new FormControl<string>('', Validators.compose([Validators.required, Validators.min(1)])),
     asunto: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     mensaje: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
   })
@@ -56,7 +56,7 @@ export class ContactComponent implements OnInit, OnDestroy{
         nombre: this.contactForm.value.nombre || '',
         apellidos: this.contactForm.value.apellidos || '',
         email: this.contactForm.value.email || '',
-        telefono: this.contactForm.value.telefono || undefined,
+        telefono: this.contactForm.value.telefono || '',
         asunto: this.contactForm.value.asunto || '',
         mensaje: this.contactForm.value.mensaje || '',
       }

@@ -220,12 +220,11 @@ describe('ReservasComponent', () => {
 
   it('should open modal to edit a booking, modalEditarReserva()', async () => {
     const dialogServiceSpy = spyOn(dialogService, 'openDialog')
-    dialogServiceSpy.and.returnValue(Promise.resolve()) // La promesa devuelve 'confirm' por lo que se llama a editarReserva si el formulario es válido
     const bookingsServiceSpy = spyOn(bookingService, 'updateBooking')
-    bookingsServiceSpy.and.returnValue(of(mockApiResponse))
     const id = '1C1E2A0D4D0311F08DAED8BBC1B70204'
-
+    
     // No se pulsa el botón de confirmar
+    dialogServiceSpy.and.returnValue(Promise.resolve()) // La promesa devuelve 'confirm' por lo que se llama a editarReserva si el formulario es válido
     await component.modalEditarReserva(id)
     expect(dialogService.openDialog).toHaveBeenCalled()
     expect(mockBookingsService.updateBooking).not.toHaveBeenCalled()
@@ -241,6 +240,7 @@ describe('ReservasComponent', () => {
 
     // Formulario cumplimentado: se llama correctamente a crearReserva
     dialogServiceSpy.and.returnValue(Promise.resolve('confirm')) // Al poner 'confirm' también se llamará a updateBooking del servicio
+    bookingsServiceSpy.and.returnValue(of(mockApiResponse))
     await component.modalEditarReserva(id) // Al abrir el modal aparecen los datos de la reserva ya existente, POR ESO no se puede usar patchValue y esperar esos datos en el form
     expect(dialogService.openDialog).toHaveBeenCalled()
     expect(mockBookingsService.updateBooking).withContext('Formulario válido').toHaveBeenCalledWith(id, reservaForm)
@@ -250,7 +250,7 @@ describe('ReservasComponent', () => {
       nombre_editar: '',
       apellidos_editar: '',
       email_editar: '',
-      telefono_editar: null,
+      telefono_editar: '',
       fecha_editar: new Date,
       hora_editar: '',
     }
@@ -259,13 +259,16 @@ describe('ReservasComponent', () => {
       nombre_editar: '',
       apellidos_editar: '',
       email_editar: '',
-      telefono_editar: null,
+      telefono_editar: '',
       fecha_editar: new Date,
       hora_editar: '',
     })
 
     const getBookingServiceSpy = spyOn(bookingService, 'getBooking')
-    getBookingServiceSpy.and.returnValue(throwError(() => 'Reserva no encontrada.'))
+    getBookingServiceSpy.and.returnValue(throwError(() => ({
+      status: 404,
+      message: 'Reserva no encontrada.'
+    })))
     await component.modalEditarReserva(id)
     expect(dialogService.openDialog).toHaveBeenCalled()
     expect(mockBookingsService.getBooking).toHaveBeenCalledWith(id)

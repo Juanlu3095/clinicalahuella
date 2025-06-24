@@ -38,7 +38,7 @@ describe('MessageService', () => {
         "nombre": "Pepe",
         "apellidos": "López",
         "email": "pepe@gmail.com",
-        "telefono": 951248550,
+        "telefono": '951248550',
         "asunto": "Pregunta cita",
         "mensaje": "Hola, éste es un mensaje",
         "created_at": new Date("2025-04-10T09:51:42.000Z"),
@@ -49,7 +49,7 @@ describe('MessageService', () => {
         "nombre": "Pepe",
         "apellidos": "Romero",
         "email": "promero@gmail.com",
-        "telefono": 951221111,
+        "telefono": '951221111',
         "asunto": "Pregunta cita numero 2",
         "mensaje": "Hola, éste es un mensaje 2",
         "created_at": new Date("2025-04-11T09:51:42.000Z"),
@@ -111,7 +111,7 @@ describe('MessageService', () => {
       "nombre": "Pepe",
       "apellidos": "López",
       "email": "pepe@gmail.com",
-      "telefono": 951248550,
+      "telefono": '951248550',
       "asunto": "Pregunta cita",
       "mensaje": "Hola, éste es un mensaje",
       "created_at": new Date("2025-04-10T09:51:42.000Z"),
@@ -154,7 +154,7 @@ describe('MessageService', () => {
       "nombre": "Jacinto",
       "apellidos": "Gutiérrez",
       "email": "jguti@gmail.com",
-      "telefono": 951248860,
+      "telefono": '951248860',
       "asunto": "Crear mensaje",
       "mensaje": "Hola, ésta es una prueba para crear un mensaje"
     }
@@ -179,7 +179,7 @@ describe('MessageService', () => {
       "nombre": "Pepe",
       "apellidos": "Gutiérrez",
       "email": "jguti@gmail.com",
-      "telefono": 951248860,
+      "telefono": '951248860',
       "asunto": "Crear mensaje",
       "mensaje": "Hola, ésta es una prueba para crear un mensaje"
     }

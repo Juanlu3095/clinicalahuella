@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, TemplateRef, ViewChild, LOCALE_ID, OnDestroy } from '@angular/core';
-import { CommonModule, DatePipe, formatDate, registerLocaleData  } from '@angular/common';
+import { CommonModule, formatDate, registerLocaleData  } from '@angular/common';
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TableButton } from '../../interfaces/tablebutton';
 import { DatatableService } from '../../services/material/datatable.service';
