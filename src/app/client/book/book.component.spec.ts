@@ -75,7 +75,7 @@ describe('BookComponent', () => {
       nombre: 'Javier',
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: new Date('2025-06-18'),
       hora: '18:00',
     }
@@ -84,7 +84,7 @@ describe('BookComponent', () => {
       nombre: 'Javier',
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: new Date('2025-06-18').toLocaleDateString('en-CA'), // Dentro de solicitarReserva se hace esta transformación
       hora: '18:00',
     }

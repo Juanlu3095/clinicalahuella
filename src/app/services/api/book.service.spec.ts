@@ -129,7 +129,7 @@ describe('BookService', () => {
       nombre: 'Javier',
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: '2025-06-18',
       hora: '18:00',
     }
@@ -152,7 +152,7 @@ describe('BookService', () => {
     const bookingForm = {
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: '2025-06-18',
       hora: '18:00',
     }
@@ -180,7 +180,7 @@ describe('BookService', () => {
       nombre: 'Javier',
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: '2025-06-18',
       hora: '18:00',
     }
@@ -208,7 +208,7 @@ describe('BookService', () => {
       nombre: 'Javier',
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: '2025-06-18',
       hora: '17:00',
     }
@@ -233,7 +233,7 @@ describe('BookService', () => {
       nombre: 'Javier',
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: '2025-06-18',
       hora: '17:00',
     }
@@ -262,7 +262,7 @@ describe('BookService', () => {
     const updateForm = {
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: '2025-06-18',
       hora: '17:00',
     }

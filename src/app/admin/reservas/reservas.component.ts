@@ -63,7 +63,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
     nombre_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     apellidos_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     email_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1), Validators.email])),
-    telefono_nuevo: new FormControl<number | null>(null, Validators.compose([Validators.required, Validators.min(1)])),
+    telefono_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.min(1)])),
     fecha_nuevo: new FormControl<Date>(new Date, Validators.compose([Validators.required, Validators.minLength(4)])),
     hora_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(3)])),
   })
@@ -72,7 +72,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
     nombre_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     apellidos_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     email_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1), Validators.email])),
-    telefono_editar: new FormControl<number | null>(null, Validators.compose([Validators.required, Validators.min(1)])),
+    telefono_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.min(1)])),
     fecha_editar: new FormControl<Date>(new Date, Validators.compose([Validators.required, Validators.minLength(4)])),
     hora_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(3)])),
   })
@@ -196,7 +196,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
           nombre_editar: respuesta.data.nombre,
           apellidos_editar: respuesta.data.apellidos,
           email_editar: respuesta.data.email,
-          telefono_editar: Number(respuesta.data.telefono),
+          telefono_editar: respuesta.data.telefono,
           fecha_editar: new Date(respuesta.data.fecha),
           hora_editar: hours + ':' + minutes,
         })
@@ -216,7 +216,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
         nombre: this.editarReservaForm.value.nombre_editar || '',
         apellidos: this.editarReservaForm.value.apellidos_editar || '',
         email: this.editarReservaForm.value.email_editar || '',
-        telefono: this.editarReservaForm.value.telefono_editar || undefined,
+        telefono: this.editarReservaForm.value.telefono_editar || '',
         fecha: this.editarReservaForm.value.fecha_editar?.toLocaleDateString('en-CA') || '', // Formato YYYY-MM-DD
         hora: this.editarReservaForm.value.hora_editar || '',
       }

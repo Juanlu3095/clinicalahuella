@@ -21,7 +21,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMaterialTimepickerModule, NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Booking } from '../../interfaces/book';
+import { BookingPartial } from '../../interfaces/book';
 import { BookService } from '../../services/api/book.service';
 import { DatatableComponent } from '../../partials/datatable/datatable.component';
 import { TableButton } from '../../interfaces/tablebutton';
@@ -41,7 +41,7 @@ export class CitasComponent implements OnInit, OnDestroy {
   citas: Appointment[] = []
   cita: Appointment = {} as Appointment
   eventos: EventInput[] = []
-  reservas: Booking[] = []
+  reservas: BookingPartial[] = []
   private citasService = inject(AppointmentService)
   private reservasService = inject(BookService)
   private responsiveDesignService = inject(ResponsivedesignService)
@@ -78,7 +78,7 @@ export class CitasComponent implements OnInit, OnDestroy {
     nombre_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     apellidos_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     email_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1), Validators.email])),
-    telefono_nuevo: new FormControl<number | null>(null, Validators.compose([Validators.required, Validators.min(1)])),
+    telefono_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.min(1)])),
     fecha_nuevo: new FormControl<Date>(new Date, Validators.compose([Validators.required, Validators.minLength(4)])),
     hora_nuevo: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(3)])),
   })
@@ -87,7 +87,7 @@ export class CitasComponent implements OnInit, OnDestroy {
     nombre_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     apellidos_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     email_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1), Validators.email])),
-    telefono_editar: new FormControl<number | null>(null, Validators.compose([Validators.required, Validators.min(1)])),
+    telefono_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.min(1)])),
     fecha_editar: new FormControl<Date>(new Date, Validators.compose([Validators.required, Validators.minLength(4)])),
     hora_editar: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(3)])),
   })
@@ -97,7 +97,6 @@ export class CitasComponent implements OnInit, OnDestroy {
     this.responsiveDesign() 
     
     this.subscription.push(this.citasService.refresh$.subscribe(() => {
-        this.eventos = []
         this.getCitas()
       })
     )
@@ -116,6 +115,7 @@ export class CitasComponent implements OnInit, OnDestroy {
     this.citasService.getAllAppointments().subscribe({
       next: (respuesta) => {
         this.citas = respuesta.data
+        this.eventos = []
         this.citas.forEach((cita) => {
           let fechaCita = new Date(cita.fecha).toLocaleDateString('es', {year: 'numeric', month: '2-digit', day: '2-digit'}) // El 2º parámetro es el de las opciones
           let fecha = fechaCita.replace(/\//g, '-').split('-').reverse().join('-') // Le damos la vuelta al string de Date
@@ -177,7 +177,7 @@ export class CitasComponent implements OnInit, OnDestroy {
         nombre: this.nuevaCitaForm.value.nombre_nuevo || '',
         apellidos: this.nuevaCitaForm.value.apellidos_nuevo || '',
         email: this.nuevaCitaForm.value.email_nuevo || '',
-        telefono: this.nuevaCitaForm.value.telefono_nuevo || undefined,
+        telefono: this.nuevaCitaForm.value.telefono_nuevo || '',
         fecha: this.nuevaCitaForm.value.fecha_nuevo?.toLocaleDateString('en-CA') || '', // Formato YYYY-MM-DD
         hora: this.nuevaCitaForm.value.hora_nuevo || '',
       }
@@ -212,13 +212,13 @@ export class CitasComponent implements OnInit, OnDestroy {
       nuevaFecha.setMinutes(Number(minutes))
   
       this.editarCitaForm.patchValue({
-          nombre_editar: cita?.nombre,
-          apellidos_editar: cita?.apellidos,
-          email_editar: cita?.email,
-          telefono_editar: Number(cita?.telefono),
-          fecha_editar: cita?.fecha ? new Date(cita.fecha) : new Date,
-          hora_editar: hours + ':' + minutes,
-        })
+        nombre_editar: cita?.nombre,
+        apellidos_editar: cita?.apellidos,
+        email_editar: cita?.email,
+        telefono_editar: cita?.telefono,
+        fecha_editar: cita?.fecha ? new Date(cita.fecha) : new Date,
+        hora_editar: hours + ':' + minutes,
+      })
   
       await this.dialogService.openDialog({ html: this.modalEditar, title, btnCancel, btnClass}).then((confirm) => {
         if (confirm) {
@@ -254,12 +254,12 @@ export class CitasComponent implements OnInit, OnDestroy {
     }
   }
 
-  modalEliminarCita(id: string) {
+  async modalEliminarCita(id: string) {
     let title: string = 'Eliminar cita'; // Título del modal
     let btnClass = 'eliminar'; // Clase para el botón de eliminar
     let btnCancel = 'cancelar';
     
-    this.dialogService.openDialog({html: this.modalEliminar, title, btnClass, btnCancel}).then(confirm => {
+    await this.dialogService.openDialog({html: this.modalEliminar, title, btnClass, btnCancel}).then(confirm => {
       if (confirm) {
         this.eliminarCita(id)
       }
@@ -285,12 +285,12 @@ export class CitasComponent implements OnInit, OnDestroy {
   }
 
   // Método para ver las reservas de los clientes que se pueden añadir a las citas
-  modalAgregarReservaCita () {
+  async modalAgregarReservaCita () {
     let title: string = 'Crear cita desde reserva'; // Título del modal
     let btnCancel = 'cancelar';
 
     this.getReservas()
-    this.dialogService.openDialog({html: this.modalReservaCita, title, btnCancel})
+    await this.dialogService.openDialog({html: this.modalReservaCita, title, btnCancel})
   }
 
   // Obtiene todas las reservas para añadirla a una tabla con un botón para añadirla a las citas
@@ -310,11 +310,9 @@ export class CitasComponent implements OnInit, OnDestroy {
     })
   }
 
+  // Elimina la reserva, que se usa cuando se añade una reserva a las citas correctamente
   eliminarReserva(id: string) {
     this.reservasService.deleteBooking(id).subscribe({
-      next: (respuesta) => {
-        
-      },
       error: (error) => {
         this.matsnackbar.open('No se ha eliminado la reserva al crear la cita.', 'Aceptar', {
           duration: 3000
@@ -326,7 +324,7 @@ export class CitasComponent implements OnInit, OnDestroy {
   // Método para agregar una reserva a las citas
   crearReservaCita(id: string) {
     let reserva = this.reservas.find((reserva) => reserva.id == id)
-    const [dia, mes, año] = reserva!.fecha.split("/"); // Obtenemos dia mes y año separando por '/'
+    const [dia, mes, año] = reserva!.fecha!.split("/"); // Obtenemos dia mes y año separando por '/'
     let fechaConvertida = `${año}/${mes}/${dia}` // Modificamos el formato de la fecha para introducirla en las citas
     
     if (reserva) {
@@ -334,7 +332,7 @@ export class CitasComponent implements OnInit, OnDestroy {
         nombre: reserva.nombre || '',
         apellidos: reserva.apellidos || '',
         email: reserva.email || '',
-        telefono: Number(reserva.telefono) || undefined,
+        telefono: reserva.telefono || '',
         fecha: new Date(fechaConvertida).toLocaleDateString('en-CA') || '', // Formato YYYY-MM-DD
         hora: reserva.hora || '',
       }

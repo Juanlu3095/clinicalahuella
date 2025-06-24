@@ -3,7 +3,7 @@ export interface Booking {
     nombre: string,
     apellidos: string,
     email: string,
-    telefono: number,
+    telefono: string,
     fecha: string,
     hora: string,
     created_at: Date,

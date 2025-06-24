@@ -37,7 +37,7 @@ export class BookComponent implements OnInit, OnDestroy{
     nombre: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     apellidos: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1)])),
     email: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(1), Validators.email])),
-    telefono: new FormControl<number | null>(null, Validators.compose([Validators.required, Validators.min(1)])),
+    telefono: new FormControl<string>('', Validators.compose([Validators.required, Validators.min(1)])),
     fecha: new FormControl<Date>(new Date, Validators.compose([Validators.required, Validators.minLength(4)])),
     hora: new FormControl<string>('', Validators.compose([Validators.required, Validators.minLength(3)])),
   })
@@ -61,7 +61,7 @@ export class BookComponent implements OnInit, OnDestroy{
         nombre: this.bookForm.value.nombre || '',
         apellidos: this.bookForm.value.apellidos || '',
         email: this.bookForm.value.email || '',
-        telefono: this.bookForm.value.telefono || undefined,
+        telefono: this.bookForm.value.telefono || '',
         fecha: this.bookForm.value.fecha?.toLocaleDateString('en-CA') || '', // Formato YYYY-MM-DD
         hora: this.bookForm.value.hora || '',
       }

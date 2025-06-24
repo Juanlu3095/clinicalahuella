@@ -172,7 +172,7 @@ describe('ReservasComponent', () => {
       nombre: 'Javier',
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: '2025-06-18',
       hora: '18:00',
     }
@@ -181,7 +181,7 @@ describe('ReservasComponent', () => {
       nombre_nuevo: 'Javier',
       apellidos_nuevo: 'Lozano',
       email_nuevo: 'jlozano@gmail.com',
-      telefono_nuevo: 640876911,
+      telefono_nuevo: '640876911',
       fecha_nuevo: new Date('2025-06-18'),
       hora_nuevo: '18:00',
     })
@@ -192,7 +192,7 @@ describe('ReservasComponent', () => {
     expect(mockBookingsService.postBooking).toHaveBeenCalledWith(reservaForm)
   })
 
-  it('should create a booking, crearReserva()', async () => {
+  it('should create a booking, crearReserva()', () => {
     const bookingsServiceSpy = spyOn(bookingService, 'postBooking')
     bookingsServiceSpy.and.returnValue(of(mockApiResponse))
 
@@ -200,7 +200,7 @@ describe('ReservasComponent', () => {
       nombre: 'Javier',
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: '2025-06-18',
       hora: '18:00',
     }
@@ -209,12 +209,12 @@ describe('ReservasComponent', () => {
       nombre_nuevo: 'Javier',
       apellidos_nuevo: 'Lozano',
       email_nuevo: 'jlozano@gmail.com',
-      telefono_nuevo: 640876911,
+      telefono_nuevo: '640876911',
       fecha_nuevo: new Date('2025-06-18'),
       hora_nuevo: '18:00',
     })
 
-    await component.modalCrearReserva()
+    component.crearReserva()
     expect(mockBookingsService.postBooking).toHaveBeenCalledWith(reservaForm)
   })
 
@@ -225,7 +225,7 @@ describe('ReservasComponent', () => {
     bookingsServiceSpy.and.returnValue(of(mockApiResponse))
     const id = '1C1E2A0D4D0311F08DAED8BBC1B70204'
 
-    // Formulario no cumplimentado: no se llama correctamente a editarReserva porque el form no es válido
+    // No se pulsa el botón de confirmar
     await component.modalEditarReserva(id)
     expect(dialogService.openDialog).toHaveBeenCalled()
     expect(mockBookingsService.updateBooking).not.toHaveBeenCalled()
@@ -234,7 +234,7 @@ describe('ReservasComponent', () => {
       nombre: 'Pepe',
       apellidos: 'Gutiérrez Codes',
       email: 'pgutierrezcodes@hotmail.com',
-      telefono: 1234,
+      telefono: '1234',
       fecha: '2025-06-27',
       hora: '18:00'
     }
@@ -281,7 +281,7 @@ describe('ReservasComponent', () => {
       nombre: 'Javier',
       apellidos: 'Lozano',
       email: 'jlozano@gmail.com',
-      telefono: 640876911,
+      telefono: '640876911',
       fecha: '2025-06-18',
       hora: '18:00',
     }
@@ -290,7 +290,7 @@ describe('ReservasComponent', () => {
       nombre_editar: 'Javier',
       apellidos_editar: 'Lozano',
       email_editar: 'jlozano@gmail.com',
-      telefono_editar: 640876911,
+      telefono_editar: '640876911',
       fecha_editar: new Date('2025-06-18'),
       hora_editar: '18:00',
     })
@@ -379,10 +379,10 @@ describe('ReservasComponent', () => {
     // Todo correcto
     component.eliminarReservas()
     expect(mockBookingsService.deleteBookings).toHaveBeenCalledWith(ids)
-    expect(mockSnackbar.open).toHaveBeenCalled()
+    expect(mockSnackbar.open).toHaveBeenCalledWith('Reservas eliminadas.', 'Aceptar', { duration: 3000, })
 
     // Error 404
-    bookingsServiceSpy.and.returnValue(throwError(() => ({
+    bookingsServiceSpy.and.returnValue(throwError(() => ({ // Simulamos un error 404 de la API
       status: 404,
       message: 'Reservas no encontradas.'
     })))
@@ -391,7 +391,7 @@ describe('ReservasComponent', () => {
     expect(mockSnackbar.open).toHaveBeenCalledWith('Reservas no encontradas.', 'Aceptar', { duration: 3000, })
 
     // Error genérico
-    bookingsServiceSpy.and.returnValue(throwError(() => ({
+    bookingsServiceSpy.and.returnValue(throwError(() => ({ // Simulamos un error genérico de la API
       status: 500,
       message: 'Ha ocurrido un error.'
     })))
