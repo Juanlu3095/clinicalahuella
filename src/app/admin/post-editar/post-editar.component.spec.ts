@@ -118,6 +118,14 @@ describe('PostEditarComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have the correct title', () => {
+    const id = 1
+    const postServiceSpy = spyOn(postService, 'getPostById')
+    postServiceSpy.and.returnValue(of(mockGetPostServiceResponse))
+    component.getPost(id)
+    expect(component.title.getTitle()).toBe(`Editar: ${mockGetPostServiceResponse.data[0].titulo} < Clínica veterinaria La Huella`)
+  })
+
   it('should get all post categories', () => {
     const categoriasServiceSpy = spyOn(categoriasService, 'getCategories')
     categoriasServiceSpy.and.returnValue(of(mockCategoriasServiceResponse))
@@ -139,6 +147,7 @@ describe('PostEditarComponent', () => {
     const getPostServiceSpy = spyOn(postService, 'getPostById')
     getPostServiceSpy.and.returnValue(of(mockGetPostServiceResponse))
 
+    fixture.detectChanges()
     component.getPost(1)
 
     expect(postService.getPostById).toHaveBeenCalled()
@@ -154,12 +163,15 @@ describe('PostEditarComponent', () => {
   })
 
   it('should show input to send image, nuevaImagen()', async () => {
-    const btnImageInput = await loader.getAllHarnesses(MatButtonHarness.with({ selector: '.btn-nuevaimg' }))
+    const getPostServiceSpy = spyOn(postService, 'getPostById')
+    getPostServiceSpy.and.returnValue(of(mockGetPostServiceResponse))
     
     component.ngOnInit()
+    component.getPost(1)
+    const btnImageInput = await loader.getAllHarnesses(MatButtonHarness.with({ selector: '.btn-nuevaimg' }))
     expect(component.imagenActual.nativeElement.classList.contains('oculto')).toBeFalse() // El input de la imagen no tiene la clase 'oculto'
     expect(component.imagenNueva.nativeElement.classList.contains('oculto')).toBeTrue()
-
+    
     await btnImageInput[0].click()
 
     expect(component.imagenActual.nativeElement.classList.contains('oculto')).toBeTrue()
@@ -210,9 +222,7 @@ describe('PostEditarComponent', () => {
     fileInput.files = dt.files
     const changeEvent = new Event('change');
     fileInput.dispatchEvent(changeEvent)
-
     fixture.detectChanges();
-    expect(component.enviarImagen).toHaveBeenCalled()
     expect(component.enviarImagen).toHaveBeenCalledWith(changeEvent)
     expect(component.postEditarForm.value.imagen).not.toEqual(null) // imagen del form sigue siendo null, quizá porque la imagen es falsa?
   })

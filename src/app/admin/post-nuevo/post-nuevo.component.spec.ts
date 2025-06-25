@@ -96,6 +96,10 @@ describe('PostNuevoComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have the correct title', () => {
+    expect(component.title.getTitle()).toBe('Nueva entrada < Clínica veterinaria La Huella')
+  })
+
   it('should get all post categories', () => {
     const categoriasServiceSpy = spyOn(categoriasService, 'getCategories')
     categoriasServiceSpy.and.returnValue(of(mockCategoriasServiceResponse))

@@ -19,6 +19,7 @@ import localeEs from '@angular/common/locales/es';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 registerLocaleData(localeEs, 'es');
 
@@ -42,6 +43,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
   private responsiveDesignService = inject(ResponsivedesignService)
   private readonly datatableService = inject(DatatableService)
   private matsnackbar = inject(MatSnackBar)
+  title = inject(Title)
 
   columns: string[] = ['nombre', 'apellidos', 'fecha', 'hora'] // LA FECHA HAY QUE PONERLA EN DD-MM-YYYY (EN ESPAÑOL)
   displayedColumns = ['select',...this.columns, 'acciones'];
@@ -78,6 +80,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
   })
 
   ngOnInit(): void {
+    this.title.setTitle('Reservas < Clínica veterinaria La Huella')
     this.getReservas()
     this.responsiveDesign()
 

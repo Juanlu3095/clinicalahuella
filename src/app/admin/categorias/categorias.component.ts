@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatatableService } from '../../services/material/datatable.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-categorias',
@@ -31,6 +32,7 @@ export class CategoriasComponent implements OnInit, OnDestroy{
   displayedColumns = ['select',...this.columns, 'acciones'];
   selectedIds: number[] = [];
   suscripcion: Subscription = new Subscription();
+  title = inject(Title)
 
   public botones: TableButton[] = [
     {id: 1, nombre: 'Editar', class: 'editar', accion: (id:number) => this.modalEditarCategoria(id) }, // () => para poder usar this..., le pasamos la id del mensaje
@@ -52,6 +54,7 @@ export class CategoriasComponent implements OnInit, OnDestroy{
   });
   
   ngOnInit(): void {
+    this.title.setTitle('Categorías < Clínica veterinaria La Huella')
     this.getCategorias()
 
     this.suscripcion = this.categoryService.refresh$.subscribe(() => {

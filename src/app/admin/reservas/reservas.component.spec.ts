@@ -121,6 +121,10 @@ describe('ReservasComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have the correct title', () => {
+    expect(component.title.getTitle()).toBe('Reservas < Clínica veterinaria La Huella')
+  })
+
   it('should get all bookings, getReservas()', () => {
     const bookingsServiceSpy = spyOn(bookingService, 'getAllBookings')
     bookingsServiceSpy.and.returnValue(of(mockApiResponseWithData))

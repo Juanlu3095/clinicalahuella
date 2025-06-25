@@ -118,6 +118,11 @@ describe('NewslettersComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have the correct title', () => {
+    component.ngOnInit()
+    expect(component.title.getTitle()).toBe('Newsletters < Clínica veterinaria La Huella')
+  })
+
   it('should have all Newsletters in ngOnInit', () => {
     const newsletterServiceSpy = spyOn(newsletterService, 'getNewsletters')
     newsletterServiceSpy.and.returnValue(of(mockApiResponseWithData))

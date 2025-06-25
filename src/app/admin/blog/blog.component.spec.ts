@@ -134,6 +134,11 @@ describe('BlogComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have the correct title', () => {
+    component.ngOnInit()
+    expect(component.title.getTitle()).toBe('Blog < Clínica veterinaria La Huella')
+  })
+
   it('should get all posts', () => {
     const postServiceSpy = spyOn(postService, 'getPosts')
     postServiceSpy.and.returnValue(of(mockApiResponseWithData))

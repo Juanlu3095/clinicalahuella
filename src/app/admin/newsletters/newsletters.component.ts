@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-newsletters',
@@ -25,6 +26,7 @@ export class NewslettersComponent implements OnInit, OnDestroy{
 
   private readonly newsletterService = inject(NewsletterService)
   private snackbar = inject(MatSnackBar)
+  title = inject(Title)
   private readonly datatableService = inject(DatatableService)
   private readonly dialogService = inject(DialogService)
   public newsletters: Newsletter[] = []
@@ -55,6 +57,7 @@ export class NewslettersComponent implements OnInit, OnDestroy{
   constructor() {}
 
   ngOnInit(): void {
+    this.title.setTitle('Newsletters < Clínica veterinaria La Huella')
     this.getAllNewsletters()
 
     this.suscripcion = this.newsletterService.refresh$.subscribe(() => {

@@ -13,16 +13,17 @@ import { PostService } from '../../services/api/post.service';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DialogService } from '../../services/material/dialog.service';
 import { DialogPosition } from '@angular/material/dialog';
 import { AichatComponent } from '../../partials/aichat/aichat.component';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-post-nuevo',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule, AichatComponent],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterLink, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule, AichatComponent],
   templateUrl: './post-nuevo.component.html',
   styleUrl: './post-nuevo.component.scss'
 })
@@ -34,6 +35,7 @@ export class PostNuevoComponent implements OnInit, OnDestroy{
   private responsiveService = inject(ResponsivedesignService)
   private snackbar = inject(MatSnackBar)
   private router = inject(Router)
+  title = inject(Title)
   categorias: Category[] = []
   positionDialogueRight: string = '5rem'
   positionDialogueLeft: string = ''
@@ -59,6 +61,7 @@ export class PostNuevoComponent implements OnInit, OnDestroy{
   })
 
   ngOnInit(): void {
+    this.title.setTitle('Nueva entrada < Clínica veterinaria La Huella')
     this.getCategories()
     this.responsiveDesign()
   }

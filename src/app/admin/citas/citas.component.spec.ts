@@ -170,6 +170,10 @@ describe('CitasComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have the correct title', () => {
+    expect(component.title.getTitle()).toBe('Citas < Clínica veterinaria La Huella')
+  })
+
   it('should get all appointments, getCitas()', () => {
     const appointmentsServiceSpy = spyOn(appointmentService, 'getAllAppointments')
     appointmentsServiceSpy.and.returnValue(of(mockApiAppointmentsResponseWithData))

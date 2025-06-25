@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DialogService } from '../../services/material/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatatableService } from '../../services/material/datatable.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blog',
@@ -28,6 +29,7 @@ export class BlogComponent implements OnInit{
   selectedIds: number[] = [];
   suscripcion: Subscription = new Subscription();
   private router = inject(Router)
+  title = inject(Title)
 
   @ViewChild('contentEliminar') modalEliminar!: TemplateRef<HTMLElement>;
   @ViewChild('contentEliminarSeleccion') modalEliminarSeleccion!: TemplateRef<HTMLElement>;
@@ -46,6 +48,7 @@ export class BlogComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
+    this.title.setTitle('Blog < Clínica veterinaria La Huella')
     this.getPosts()
 
     this.suscripcion = this.postService.refresh$.subscribe(() => {
@@ -90,7 +93,13 @@ export class BlogComponent implements OnInit{
   verPost(id: number) {
     this.postService.getPostById(id).subscribe({
       next: (respuesta: ApiresponsePartial) => {
-        this.router.navigate(['/blog', respuesta.data[0].slug])
+        if(respuesta.data[0].estado === 'publicado') {
+          this.router.navigate(['/blog', respuesta.data[0].slug])
+        } else {
+          this.snackbar.open('Post no publicado.', 'Aceptar', {
+            duration: 3000
+          })
+        }
       },
       error: (error) => {
         console.error(error)

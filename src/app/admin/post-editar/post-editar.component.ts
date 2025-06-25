@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -13,18 +13,19 @@ import { PostService } from '../../services/api/post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PostPartial } from '../../interfaces/post';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { DialogPosition } from '@angular/material/dialog';
 import { DialogService } from '../../services/material/dialog.service';
 import { AichatComponent } from '../../partials/aichat/aichat.component';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-post-editar',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule, AichatComponent],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, MatFormFieldModule, MatInputModule, MatSelectModule, MatIcon, MatButtonModule, AichatComponent],
   templateUrl: './post-editar.component.html',
   styleUrl: './post-editar.component.scss'
 })
@@ -34,6 +35,7 @@ export class PostEditarComponent implements OnInit, OnDestroy{
   private postService = inject(PostService)
   private snackbar = inject(MatSnackBar)
   private activatedRoute = inject(ActivatedRoute)
+  title = inject(Title)
   categorias: Category[] = []
   post: PostPartial = {} as PostPartial
   idPost: number = 0
@@ -102,7 +104,7 @@ export class PostEditarComponent implements OnInit, OnDestroy{
         } else {
           this.post = respuesta.data
         }
-
+        this.title.setTitle(`Editar: ${this.post.titulo} < Clínica veterinaria La Huella`)
         this.postEditarForm.patchValue({
           titulo: this.post.titulo,
           slug: this.post.slug,

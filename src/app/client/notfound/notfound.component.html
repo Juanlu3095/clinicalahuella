@@ -1,1 +1,41 @@
-<p>notfound works!</p>
+<!-- HEADER -->
+<app-header></app-header>
+
+<main>
+    <section class="pagenotfound">
+
+        <div class="page-container">
+            <div class="encabezado">
+                <h1>¡Se busca! Página desaparecida</h1>
+                <h2> Su nombre es "{{ nombrePerro }}"</h2>
+                <img src="../../../assets/img/perro_perdido.webp" alt="foto de la página perdida">
+            </div>
+
+            <div class="cuerpo">
+                <p class="fecha">Se perdió el {{ fecha | date: 'fullDate' }}.</p>
+                <p>
+                    Igual que tu perro se puede escapar por la puerta sin avisar... esta página ha salido por patas.
+                    Aún estamos buscándola por el vecindario digital. Si la encuentras, contáctanos:
+                </p>
+                <br>
+                <ul>
+                    <li>📞 951234567</li>
+                    <li>📧 info&#64;clinicalahuella.es</li>
+                </ul>
+                <br>
+                <p>Mientras la encontramos, te ofrecemos estas alternativas:</p>
+            </div>
+    
+            <div class="soluciones">
+                <div class="links">
+                    <button mat-stroked-button class="btn-home"><a href="">Ir al inicio</a></button>
+                    <button mat-flat-button class="btn-contact"><a href="/contacto">Contáctanos</a></button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<!-- FOOTER -->
+<app-footer></app-footer>

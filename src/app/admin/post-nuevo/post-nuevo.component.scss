@@ -11,8 +11,14 @@ main{
     margin: 1rem 0;
 }
 
+.encabezado a {
+    font-size: var(--lengthMd1);
+    color: var(--lightbrown);
+}
+
 h1{
     font-size: var(--lengthLg1);
+    color: black;
 }
 
 // DIV CONTENIDO + ATRIBUTOS

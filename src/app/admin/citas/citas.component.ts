@@ -25,6 +25,7 @@ import { BookingPartial } from '../../interfaces/book';
 import { BookService } from '../../services/api/book.service';
 import { DatatableComponent } from '../../partials/datatable/datatable.component';
 import { TableButton } from '../../interfaces/tablebutton';
+import { Title } from '@angular/platform-browser';
 
 registerLocaleData(localeEs, 'es');
 
@@ -48,6 +49,7 @@ export class CitasComponent implements OnInit, OnDestroy {
   public readonly platformId = inject(PLATFORM_ID) // Se usa esto en el HTML para que el calendario sólo cargue cuando el renderizado ya se haya realizado con SSR
   public dialogService = inject(DialogService)
   private matsnackbar = inject(MatSnackBar)
+  title = inject(Title)
   subscription: Subscription[] = []
   rowHeight: string = ''
 
@@ -93,6 +95,7 @@ export class CitasComponent implements OnInit, OnDestroy {
   })
 
   ngOnInit(): void {
+    this.title.setTitle('Citas < Clínica veterinaria La Huella')
     this.getCitas()
     this.responsiveDesign() 
     

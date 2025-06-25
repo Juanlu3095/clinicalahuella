@@ -120,6 +120,11 @@ describe('MensajesComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have the correct title', () => {
+    component.ngOnInit()
+    expect(component.title.getTitle()).toBe('Mensajes < Clínica veterinaria La Huella')
+  })
+
   it('should have all messages when ngOnInit is called', () => {
     const messageServiceSpy = spyOn(messageService, 'getMessages')
     messageServiceSpy.and.returnValue(of(mockApiResponseWithData))

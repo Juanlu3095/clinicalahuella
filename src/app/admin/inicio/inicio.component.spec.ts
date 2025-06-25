@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InicioComponent } from './inicio.component';
+import { appConfig } from '../../app.config';
 
 describe('InicioComponent', () => {
   let component: InicioComponent;
@@ -8,7 +9,8 @@ describe('InicioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InicioComponent]
+      imports: [InicioComponent],
+      providers: [...appConfig.providers]
     })
     .compileComponents();
 
@@ -20,4 +22,8 @@ describe('InicioComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have the correct title', () => {
+    expect(component.title.getTitle()).toBe('Panel de control < Clínica veterinaria La Huella')
+  })
 });

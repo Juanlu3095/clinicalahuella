@@ -40,6 +40,10 @@ describe('CategoriasComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have the correct title', () => {
+    expect(component.title.getTitle()).toBe('Categorías < Clínica veterinaria La Huella')
+  })
+
   it('should have h1: Categorias', () => {
     const cardElement: HTMLElement = fixture.nativeElement
     expect(cardElement.textContent).toContain('Categorías')

@@ -13,6 +13,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatatableService } from '../../services/material/datatable.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-mensajes',
@@ -27,6 +28,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
   private snackbar = inject(MatSnackBar)
   private datatableService = inject(DatatableService)
   private dialogService = inject(DialogService)
+  title = inject(Title)
   public mensajes: Message[] = []
   public mensaje: Message = {} as Message // variable para el modal con el que eliminar el mensaje
   public mensajeVer: Message = {} as Message // variable para el modal con el que ver el mensaje
@@ -66,6 +68,7 @@ export class MensajesComponent implements OnInit, OnDestroy{
   });
 
   ngOnInit(): void {
+    this.title.setTitle('Mensajes < Clínica veterinaria La Huella')
     this.getMensajes()
 
     this.suscripcion = this.mensajeService.refresh$.subscribe(() => {

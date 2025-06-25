@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
     apiendpoint: 'http://localhost:3000',
     FilesEndpoint: 'http://localhost:3000/images/'
 };
