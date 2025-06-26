@@ -8,7 +8,7 @@ import { Geminiresponse } from '../../interfaces/geminiresponse';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonHarness } from '@angular/material/button/testing';
-import { MatSnackBarHarness } from '@angular/material/snack-bar/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // Mock de la respuesta que no devuelve datos
 const mockApiResponse = {
@@ -34,10 +34,13 @@ const mockApiResponseFail = {
 
 // Mock del servicio con sus propiedades y métodos
 const mockGeminiService: {
-  enviarPromptAI: () => Observable<Geminiresponse>
+  enviarPromptAI: (chatMessages: any[]) => Observable<Geminiresponse>
 } = {
   enviarPromptAI: () => of(mockApiResponse)
 }
+
+// Creamos un espia con createSpyObj en lugar de spyOn porque no tenemos una instancia de MatSnackBa, Angular la crea y la inyecta directamente
+const mockSnackbar = jasmine.createSpyObj(['open']); // Creamos un objeto sin nombre ni clase, sólo con la propiedad 'open', la cual espia al metodo open() de MatSnackBar
 
 describe('AichatComponent', () => {
   let component: AichatComponent;
@@ -50,8 +53,8 @@ describe('AichatComponent', () => {
       imports: [AichatComponent],
       providers: [
         ...appConfig.providers,
-        GeminiService,
-        {provide: GeminiService, useValue: mockGeminiService}
+        { provide: GeminiService, useValue: mockGeminiService },
+        { provide: MatSnackBar, useValue: mockSnackbar },
       ]
     })
     .compileComponents();
@@ -64,6 +67,7 @@ describe('AichatComponent', () => {
   });
 
   afterEach(() => {
+    sessionStorage.setItem('aichat', JSON.stringify([])) // Limpiamos los mensajes de sessionStorage para el buen funcionamiento de los tests
     fixture.destroy() // Se elimina el componente tras cada test, eliminando suscripciones y otras operaciones pendientes
   })
 
@@ -82,19 +86,32 @@ describe('AichatComponent', () => {
         message: '¡Hola!'
       }
     ]
+    const historialCompleto = [
+      {
+        actor: 'user',
+        message: '¡Hola!'
+      },
+      {
+        actor: 'model',
+        message: "¡Hola! ¿En qué puedo ayudarte hoy?\n"
+      }
+    ]
     
     expect(btnEnviarPrompt).toBeTruthy()
 
     await btnEnviarPrompt.click() // Hacemos click en el botón para enviar el mensaje a Gemini
-    expect(geminiService.enviarPromptAI).toHaveBeenCalled()
     expect(geminiService.enviarPromptAI).toHaveBeenCalledWith(mensajes) // Comprobamos que al servicio le llegan los parámetros correctos
     expect(component.prompt).toBe('') // Después de enviar el mensaje a Gemini, prompt se reinicia
+    expect(JSON.parse(sessionStorage.getItem('aichat')!)).toEqual(historialCompleto)
   })
 
   // ESTE TEST NO DETECTA EL SNACKBAR
   it('should open snackbar when Gemini utility fails', async () => {
     const geminiServiceSpy = spyOn(geminiService, 'enviarPromptAI') // Spy de la función del servicio para enviar y recibir datos con Gemini AI
-    geminiServiceSpy.and.returnValue(throwError(() => mockApiResponseFail.error))
+    geminiServiceSpy.and.returnValue(throwError(() => ({
+      status: 500,
+      message: mockApiResponseFail.error
+    })))
     component.prompt = '¡Hola!'
     const mensajes = [
       {
@@ -105,14 +122,12 @@ describe('AichatComponent', () => {
 
     component.enviarMensajeAi() // Ejecutamos la función para mandar mensaje a la IA
 
-    const snackbarError = await loader.getAllHarnesses(MatSnackBarHarness)
-    
-    expect(geminiService.enviarPromptAI).toHaveBeenCalled()
-    expect(geminiService.enviarPromptAI).toHaveBeenCalledWith(mensajes) // Comprobamos que al servicio le llegan los parámetros correctos
+    expect(mockGeminiService.enviarPromptAI).toHaveBeenCalledWith(mensajes) // Comprobamos que al servicio le llegan los parámetros correctos
     expect(component.prompt).toBe('') // Después de enviar el mensaje a Gemini, prompt se reinicia
-    console.log(snackbarError)
-    expect(snackbarError[0]).toBeTruthy() // Ahora no lo detecta
-    expect(await snackbarError[0].getMessage()).toBe('El asistente no puede responder. Inténtelo más tarde.')
+    expect(mockSnackbar.open).toHaveBeenCalledWith('El asistente no puede responder. Inténtelo más tarde.', 'Aceptar', {
+      duration: 3000,
+      panelClass: '.snackerror'
+    })
   })
 
   it('should format text', () => {

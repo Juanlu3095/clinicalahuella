@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../partials/skeleton/skeleton.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +15,7 @@ import { Geminiresponse } from '../../interfaces/geminiresponse';
   templateUrl: './aichat.component.html',
   styleUrl: './aichat.component.scss'
 })
-export class AichatComponent {
+export class AichatComponent implements OnInit{
 
   @ViewChild('chatHistory') historialChat!: ElementRef;
   private geminiService = inject(GeminiService)
@@ -23,6 +23,10 @@ export class AichatComponent {
   prompt: string = ''; // El mensaje que se le envía a Gemini AI. Necesitamos el import de FormsModule para que NgModel funcione
   loading: boolean = false; // Para desactivar el botón de enviar mensaje mientras Gemini AI procesa la respuesta
   chatMessages: any[] = []; // Guarda los mensajes del usuario y del bot
+
+  ngOnInit(): void {
+    this.chatMessages = JSON.parse(sessionStorage.getItem('aichat') || '[]') // Recuperamos la conversación con Gemini de sessionStorage
+  }
 
   enviarMensajeAi() {
     if(this.prompt && !this.loading) {
@@ -37,6 +41,7 @@ export class AichatComponent {
           this.chatMessages.push({actor: 'model', message: respuesta.candidates[0].content.parts[0].text })
           this.historialChat.nativeElement.scrollTop = this.historialChat.nativeElement.scrollHeight
           this.loading = false;
+          sessionStorage.setItem('aichat', JSON.stringify(this.chatMessages))
         },
         error: (error) => {
           this.loading = false;

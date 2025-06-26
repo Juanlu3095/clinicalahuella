@@ -2,17 +2,17 @@ import { Component, inject, OnInit, LOCALE_ID } from '@angular/core';
 import { HeaderComponent } from '../../partials/header/header.component';
 import { FooterComponent } from '../../partials/footer/footer.component';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
+import { RouterLink, ActivatedRoute, UrlSegment } from '@angular/router';
 import { CommonModule, registerLocaleData } from '@angular/common';
-import localeEs from '@angular/common/locales/es';
 import { Title } from '@angular/platform-browser';
+import localeEs from '@angular/common/locales/es';
 
 registerLocaleData(localeEs, 'es');
 
 @Component({
   selector: 'app-notfound',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CommonModule, MatButtonModule],
+  imports: [HeaderComponent, FooterComponent, CommonModule, RouterLink, MatButtonModule],
   providers: [{provide: LOCALE_ID, useValue: 'es'}],
   templateUrl: './notfound.component.html',
   styleUrl: './notfound.component.scss'
