@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authAdminGuard } from './guards/auth-admin.guard';
 
 export const routes: Routes = [
     {
@@ -22,8 +23,13 @@ export const routes: Routes = [
         loadComponent: () => import('./client/book/book.component').then((m) => m.BookComponent),
     },
     {
+        path: 'iniciosesion',
+        loadComponent: () => import('./client/login/login.component').then((m) => m.LoginComponent),
+    },
+    {
         path: 'admin',
         loadComponent: () => import('./admin/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+        canActivateChild: [authAdminGuard],
         children: [
             {
                 path: '',

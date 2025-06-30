@@ -1,0 +1,49 @@
+<main class="login-section">
+    <section class="logo-app">
+        <img mat-card-image src="../../../assets/logo/lahuella.png" alt="Photo of a Shiba Inu">
+    </section>
+
+    <section class="login-form">
+        <mat-card class="login-card">
+            <mat-card-header>
+                <mat-card-title>
+                    <h1>Inicio de sesión</h1>
+                </mat-card-title>
+            </mat-card-header>
+            <form [formGroup]="loginForm" (submit)="login()" ngNativeValidate>
+                <mat-card-content>
+                    <mat-grid-list class="input-list" cols="2" rowHeight="2.5:1">
+                        <mat-grid-tile [colspan]="2" [rowspan]="1">
+                            <mat-form-field class="email-input form-field" [style.width.%]="100">
+                                <mat-label>Correo electrónico: </mat-label>
+                                <input type="email" matInput formControlName="email" required>
+                            </mat-form-field>
+                        </mat-grid-tile>
+
+                        <mat-grid-tile [colspan]="2" [rowspan]="1">
+                            <mat-form-field class="password-input form-field" [style.width.%]="100">
+                                <mat-label>Contraseña: </mat-label>
+                                <input type="password" matInput formControlName="password" required>
+                            </mat-form-field>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </mat-card-content>
+
+                <mat-card-footer>
+                    <mat-checkbox class="checkbox" formControlName="politica">Acepto la política de privacidad.</mat-checkbox>
+                    <button type="submit" class="acceder" [disabled]="!loginForm.valid || btnDisabled" mat-flat-button>Acceder</button>
+                </mat-card-footer>
+            </form>
+        </mat-card>
+    </section>
+
+    <section class="links">
+
+        <p><a href="">¿Has olvidado tu contraseña?</a></p>
+        <p><a href="">← Volver a La Huella</a></p>
+    </section>
+
+    <section class="politica">
+        <a href="/politica-de-privacidad">Política de privacidad</a>
+    </section>
+</main>

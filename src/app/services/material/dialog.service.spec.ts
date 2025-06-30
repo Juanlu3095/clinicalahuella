@@ -41,6 +41,11 @@ describe('DialogService', () => {
     })
   })
 
+  it('should open spinner', () => {
+    service.openSpinner()
+    expect(dialogSpy.open).toHaveBeenCalled() // Comprobamos que se llame al método open() de MatDialog
+  })
+
   // Se comprueba que se haya llamado a la dependencia del servicio en el constructor: public dialog: MatDialog
   it('should work closeAll dialogs', () => {
     service.closeAll()

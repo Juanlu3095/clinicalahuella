@@ -85,6 +85,8 @@ $lahuella-theme: mat.define-theme((
     z-index: 1000 !important;
 }
 
+// Spinner color
+.mat-mdc-progress-spinner { --mdc-circular-progress-active-indicator-color: var(--lightbrown); }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
 // For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
