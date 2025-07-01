@@ -49,6 +49,19 @@ export class LoginComponent implements OnInit{
         next: async (respuesta) => {
           this.btnDisabled = false
           this.dialogService.closeAll()
+          // Obtenemos el nombre de usuario de la respuesta y lo guardamos en una cookie
+          if(respuesta.data) {
+            let expiration = new Date(Date.now() + 60 * 60 * 1000) // la expiración se establece a dentro de una hora
+            this.cookieService.set(
+              '_user_lh',
+              respuesta.data,
+              {
+                expires: expiration,
+                secure: true,
+                sameSite: 'Strict',
+              }
+            )
+          }
           await this.router.navigate(['/admin'])
         },
         error: (error: HttpErrorResponse) => {

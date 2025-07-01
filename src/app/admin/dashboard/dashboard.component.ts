@@ -7,7 +7,7 @@ import { MatIcon } from '@angular/material/icon';
 import { isPlatformBrowser } from '@angular/common';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../services/api/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,11 +21,12 @@ export class DashboardComponent implements OnInit, OnDestroy{
   private readonly platformId = inject(PLATFORM_ID)
   subscription: Subscription = new Subscription;
   dispositivo: string = ''; // Para indicar en el HTML el dispositivo usado.
+  user: string = ''
   open: boolean =  true; // Para abrir o no el sidenav.
   mode: MatDrawerMode = 'side'; // Para señalar cómo mostrar el sidenav, si como side, over o push.
   sidenavWidth: number = 15; // Para dar un ancho al sidenav.
   private responsiveDesignService = inject(ResponsivedesignService)
-  private authService = inject(AuthService)
+  private cookieService = inject(CookieService)
 
   constructor() {
    /*  afterRender(() => {
@@ -35,7 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }) */
   }
   ngOnInit(): void {
-    this.comprobarLogin()
+    this.getUser()
     this.disenoResponsivo()
     console.log('Has cambiado de página') // Sólo se está ejecutando una vez, sólo cuando se refresca la página 
   }
@@ -44,16 +45,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.subscription.unsubscribe()
   }
 
-  // PROBLEMA: Se carga la página de inicio del cliente antes de mostrar el panel de admin
-  comprobarLogin() {
-    this.authService.comprobarLogin().subscribe({
-      next: (respuesta) => {
-        console.log(respuesta)
-      },
-      error: (error => {
-        console.error(error)
-      })
-    })
+  getUser() {
+    this.user = this.cookieService.get('_user_lh')
   }
 
   disenoResponsivo() {
