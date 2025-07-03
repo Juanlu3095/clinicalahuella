@@ -59,7 +59,7 @@ export class NewslettersComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.title.setTitle('Newsletters < Clínica veterinaria La Huella')
     this.getAllNewsletters()
-
+    
     this.suscripcion = this.newsletterService.refresh$.subscribe(() => {
       this.getAllNewsletters()
     })
