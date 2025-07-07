@@ -53,7 +53,7 @@ export class PostService {
   }
 
   postPost(post: PostPartial): Observable<ApiresponsePartial> {
-    return this.http.post<ApiresponsePartial>(`${this.endpoint}/posts`, post).pipe(
+    return this.http.post<ApiresponsePartial>(`${this.endpoint}/posts`, post, { withCredentials: true }).pipe(
       tap(() => {
         this.refresh$.next()
       })
@@ -61,7 +61,7 @@ export class PostService {
   }
 
   updatePost(id: number, post: PostPartial): Observable<ApiresponsePartial> {
-    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/posts/${id}`, post).pipe(
+    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/posts/${id}`, post, { withCredentials: true }).pipe(
       tap(() => {
         this.refresh$.next()
       })
@@ -69,7 +69,7 @@ export class PostService {
   }
 
   deletePost(id: number): Observable<ApiresponsePartial> {
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/posts/${id}`).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/posts/${id}`, { withCredentials: true }).pipe(
       tap(() => {
         this.refresh$.next()
       })
@@ -80,7 +80,7 @@ export class PostService {
     let body = {
       ids: ids
     }
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/posts`, { body: body }).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/posts`, { body: body, withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })

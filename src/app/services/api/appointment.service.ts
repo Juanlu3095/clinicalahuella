@@ -33,7 +33,7 @@ export class AppointmentService {
   }
 
   postAppointment(appointment: AppointmentPartial): Observable<ApiresponsePartial> {
-    return this.http.post<ApiresponsePartial>(`${this.endpoint}/appointments`, appointment).pipe(
+    return this.http.post<ApiresponsePartial>(`${this.endpoint}/appointments`, appointment, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -41,7 +41,7 @@ export class AppointmentService {
   }
 
   updateAppointment(id: string, appointment: AppointmentPartial): Observable<ApiresponsePartial> {
-    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/appointments/${id}`, appointment).pipe(
+    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/appointments/${id}`, appointment, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -49,7 +49,7 @@ export class AppointmentService {
   }
 
   deleteAppointment(id: string) {
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/appointments/${id}`).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/appointments/${id}`, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })

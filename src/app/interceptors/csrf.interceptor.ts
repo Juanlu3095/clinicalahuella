@@ -13,7 +13,10 @@ export const csrfInterceptor: HttpInterceptorFn = (req, next) => {
   if(req.method.toUpperCase() != 'GET') {
     if(xsrfToken) {
       const cloned = req.clone({
-        headers: req.headers.set('_xsrf_token', xsrfToken),
+        setHeaders: {
+          "_xsrf_token": xsrfToken,
+          "Content-Type": "application/json"
+        }
       });
       return next(cloned)
     } else {

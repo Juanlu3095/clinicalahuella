@@ -8,6 +8,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { Subscription } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../../services/api/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +27,9 @@ export class DashboardComponent implements OnInit, OnDestroy{
   mode: MatDrawerMode = 'side'; // Para señalar cómo mostrar el sidenav, si como side, over o push.
   sidenavWidth: number = 15; // Para dar un ancho al sidenav.
   private responsiveDesignService = inject(ResponsivedesignService)
+  private authService = inject(AuthService)
   private cookieService = inject(CookieService)
+  private router = inject(Router)
 
   constructor() {
    /*  afterRender(() => {
@@ -47,6 +50,19 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
   getUser() {
     this.user = this.cookieService.get('_user_lh')
+  }
+
+  logout () {
+    this.authService.logout().subscribe({
+      next: (respuesta) => {
+        this.cookieService.delete('_user_lh')
+        this.cookieService.delete('_xsrf_token')
+        this.router.navigate([''])
+      },
+      error: (error) => {
+        console.error(error)
+      }
+    })
   }
 
   disenoResponsivo() {

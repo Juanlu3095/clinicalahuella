@@ -16,6 +16,6 @@ export class GeminiService {
     const body = {
       messages: chatMessages
     }
-    return this.http.post<Geminiresponse>(`${this.endpoint}/ai`, body)
+    return this.http.post<Geminiresponse>(`${this.endpoint}/ai`, body, { withCredentials: true })
   }
 }

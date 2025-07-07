@@ -29,7 +29,7 @@ export class BookService {
   }
   
   postBooking(book: BookingPartial): Observable<ApiresponsePartial> {
-    return this.http.post<ApiresponsePartial>(`${this.endpoint}/bookings`, book).pipe(
+    return this.http.post<ApiresponsePartial>(`${this.endpoint}/bookings`, book, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -37,7 +37,7 @@ export class BookService {
   }
 
   updateBooking(id: string, book: BookingPartial): Observable<ApiresponsePartial> {
-    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/bookings/${id}`, book).pipe(
+    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/bookings/${id}`, book, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -45,7 +45,7 @@ export class BookService {
   }
 
   deleteBooking(id: string) {
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/bookings/${id}`).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/bookings/${id}`, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -56,7 +56,7 @@ export class BookService {
     const body = { // No va a modificarse el contenido una vez se pasen los parámetros, por eso const
       ids: ids
     }
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/bookings`, { body: body }).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/bookings`, { body: body, withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })

@@ -30,7 +30,7 @@ export class NewsletterService {
 
   postNewsletter(newsletter: NewsletterOptional): Observable<ApiresponsePartial> {
     const { email } = newsletter
-    return this.http.post<ApiresponsePartial>(`${this.endpoint}/newsletters`, { email }).pipe(
+    return this.http.post<ApiresponsePartial>(`${this.endpoint}/newsletters`, { email }, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -39,7 +39,7 @@ export class NewsletterService {
 
   updateNewsletter(id: string, newsletter: NewsletterOptional): Observable<ApiresponsePartial> {
     const { email } = newsletter
-    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/newsletters/${id}`, { email }).pipe(
+    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/newsletters/${id}`, { email }, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -47,7 +47,7 @@ export class NewsletterService {
   }
 
   deleteNewsletter(id: string): Observable<ApiresponsePartial> {
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/newsletters/${id}`).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/newsletters/${id}`, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -58,7 +58,7 @@ export class NewsletterService {
     const body = { // No va a modificarse el contenido una vez se pasen los parámetros, por eso const
       ids: ids
     }
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/newsletters`, { body: body }).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/newsletters`, { body: body, withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })

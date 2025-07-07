@@ -32,7 +32,7 @@ export class MessageService {
     const {nombre, apellidos, email, telefono, asunto, mensaje} = message
     return this.http.post<ApiresponsePartial>(`${this.endpoint}/messages`, {
       nombre, apellidos, email, telefono, asunto, mensaje
-    }).pipe(
+    }, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -43,7 +43,7 @@ export class MessageService {
     const {nombre, apellidos, email, telefono, asunto, mensaje} = messageForm
     return this.http.patch<ApiresponsePartial>(`${this.endpoint}/messages/${id}`, {
       nombre, apellidos, email, telefono, asunto, mensaje
-    }).pipe(
+    }, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -51,7 +51,7 @@ export class MessageService {
   }
 
   deleteMessage(id: string): Observable<ApiresponsePartial> {
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/messages/${id}`).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/messages/${id}`, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -62,7 +62,7 @@ export class MessageService {
     let body = {
       ids: ids
     }
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/messages`, { body: body }).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/messages`, { body: body, withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })

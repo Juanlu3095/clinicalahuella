@@ -30,7 +30,7 @@ export class CategoryService {
   }
 
   postCategory(categoryForm: CategoryPartial): Observable<ApiresponsePartial> {
-    return this.http.post<ApiresponsePartial>(`${this.endpoint}/categories`, categoryForm).pipe(
+    return this.http.post<ApiresponsePartial>(`${this.endpoint}/categories`, categoryForm, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -38,7 +38,7 @@ export class CategoryService {
   }
 
   updateCategory(id: number, categoryForm: CategoryPartial): Observable<ApiresponsePartial> {
-    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/categories/${id}`, categoryForm).pipe(
+    return this.http.patch<ApiresponsePartial>(`${this.endpoint}/categories/${id}`, categoryForm, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -46,7 +46,7 @@ export class CategoryService {
   }
 
   deleteCategory(id: number): Observable<ApiresponsePartial> {
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/categories/${id}`).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/categories/${id}`, { withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
@@ -57,7 +57,7 @@ export class CategoryService {
     let body = {
       ids: ids
     }
-    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/categories`, { body: body }).pipe(
+    return this.http.delete<ApiresponsePartial>(`${this.endpoint}/categories`, { body: body, withCredentials: true }).pipe(
       tap(() => {
         this._refresh$.next()
       })
