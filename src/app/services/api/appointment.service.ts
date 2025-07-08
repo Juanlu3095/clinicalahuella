@@ -24,12 +24,13 @@ export class AppointmentService {
     return this.http.get<ApiresponsePartial>(`${this.endpoint}/appointments`, {
       params: {
         timestamp: Date.now().toString() // esto evita cache por culpa de SSR
-      }
+      },
+      withCredentials: true
     });
   }
 
   getAppointment(id: string): Observable<ApiresponsePartial> {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/appointments/${id}`)
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/appointments/${id}`, { withCredentials: true })
   }
 
   postAppointment(appointment: AppointmentPartial): Observable<ApiresponsePartial> {

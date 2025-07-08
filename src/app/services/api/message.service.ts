@@ -21,11 +21,11 @@ export class MessageService {
   }
 
   getMessages(): Observable<ApiresponsePartial> {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/messages`)
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/messages`, { withCredentials: true })
   }
 
   getMessage(id: string): Observable<ApiresponsePartial> {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/messages/${id}`)
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/messages/${id}`, { withCredentials: true })
   }
 
   postMessage(message: MessagePartial): Observable<ApiresponsePartial> {

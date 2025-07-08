@@ -15,15 +15,15 @@ export class AuthService {
 
   login(authForm: any) {
     const { email, password } = authForm
-    return this.http.post<ApiresponsePartial>(`${this.endpoint}/login`, {email, password}, {withCredentials: true})
+    return this.http.post<ApiresponsePartial>(`${this.endpoint}/auth/login`, {email, password}, {withCredentials: true})
   }
   
   comprobarLogin() {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/login`, { withCredentials: true })
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/auth/login`, { withCredentials: true })
   }
 
   logout() {
-    return this.http.post<ApiresponsePartial>(`${this.endpoint}/logout`, null, { withCredentials: true })
+    return this.http.post<ApiresponsePartial>(`${this.endpoint}/auth/logout`, null, { withCredentials: true })
   }
 
 }

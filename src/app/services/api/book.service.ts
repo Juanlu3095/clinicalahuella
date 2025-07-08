@@ -21,11 +21,11 @@ export class BookService {
   }
 
   getAllBookings (): Observable<ApiresponsePartial> {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/bookings`)
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/bookings`, { withCredentials: true })
   }
 
   getBooking(id: string): Observable<ApiresponsePartial> {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/bookings/${id}`)
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/bookings/${id}`, { withCredentials: true })
   }
   
   postBooking(book: BookingPartial): Observable<ApiresponsePartial> {

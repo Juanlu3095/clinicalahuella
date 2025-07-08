@@ -21,11 +21,11 @@ export class NewsletterService {
   }
 
   getNewsletters(): Observable<ApiresponsePartial> {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/newsletters`)
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/newsletters`, { withCredentials: true })
   }
 
   getNewsletter(id: string): Observable<ApiresponsePartial> {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/newsletters/${id}`)
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/newsletters/${id}`, { withCredentials: true })
   }
 
   postNewsletter(newsletter: NewsletterOptional): Observable<ApiresponsePartial> {
