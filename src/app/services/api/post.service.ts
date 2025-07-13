@@ -41,15 +41,15 @@ export class PostService {
       params = params.set('limit', limit)
     }
     
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/posts`, {params: params}) // Si se cumplen varias condiciones también se guardan en params
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/posts`, { params: params, withCredentials: true }) // Si se cumplen varias condiciones también se guardan en params
   }
 
   getPostById (id: number) {
-    return this.http.get<ApiresponsePostPartial>(`${this.endpoint}/posts/${id}`)
+    return this.http.get<ApiresponsePostPartial>(`${this.endpoint}/posts/${id}`, { withCredentials: true })
   }
 
   getPostBySlug(slug: string) {
-    return this.http.get<ApiresponsePartial>(`${this.endpoint}/posts/slug/${slug}`)
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/posts/slug/${slug}`, { withCredentials: true })
   }
 
   postPost(post: PostPartial): Observable<ApiresponsePartial> {

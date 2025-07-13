@@ -129,7 +129,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
   getReserva(id: string) {
     this.reservasService.getBooking(id).subscribe({
       next: (respuesta) => {
-        this.reserva = respuesta.data
+        this.reserva = respuesta.data[0]
       },
       error: (error: HttpErrorResponse) => {
         if(error.status === 404) {
@@ -189,18 +189,18 @@ export class ReservasComponent implements OnInit, OnDestroy{
 
     this.reservasService.getBooking(id).subscribe((respuesta) => {
       if(respuesta.data) {
-        const fecha = respuesta.data.hora
+        const fecha = respuesta.data[0].hora
         const hours = fecha.slice(0,2)
         const minutes = fecha.slice(3,5)
         const nuevaFecha = new Date()
         nuevaFecha.setHours(hours)
         nuevaFecha.setMinutes(minutes)
         this.editarReservaForm.patchValue({
-          nombre_editar: respuesta.data.nombre,
-          apellidos_editar: respuesta.data.apellidos,
-          email_editar: respuesta.data.email,
-          telefono_editar: respuesta.data.telefono,
-          fecha_editar: new Date(respuesta.data.fecha),
+          nombre_editar: respuesta.data[0].nombre,
+          apellidos_editar: respuesta.data[0].apellidos,
+          email_editar: respuesta.data[0].email,
+          telefono_editar: respuesta.data[0].telefono,
+          fecha_editar: new Date(respuesta.data[0].fecha),
           hora_editar: hours + ':' + minutes,
         })
       }
@@ -252,7 +252,7 @@ export class ReservasComponent implements OnInit, OnDestroy{
     
     this.reservasService.getBooking(id).subscribe({
       next: async (respuesta) => {
-        this.reserva = respuesta.data
+        this.reserva = respuesta.data[0]
 
         await this.dialogService.openDialog({html: this.modalEliminar, title, btnClass, btnCancel}).then(confirm => {
           if (confirm) {
