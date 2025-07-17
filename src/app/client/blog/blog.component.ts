@@ -34,7 +34,7 @@ export class BlogComponent implements OnInit{
   pageSize = 6; // Número de elementos por página por defecto
   currentPage = 0; // Usamos esto para el slice de paginateData
 
-  filesEndPoint: string = environment.FilesEndpoint
+  filesEndPoint: string = environment.DriveEndPoint
 
   ngOnInit(): void {
     this.title.setTitle('Blog - Clínica veterinaria La Huella')

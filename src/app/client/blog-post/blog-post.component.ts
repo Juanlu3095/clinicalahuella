@@ -28,7 +28,7 @@ export class BlogPostComponent implements OnInit, OnDestroy{
   slug: string = ''
   post: PostPartial = {}
   lastposts: PostPartial[] = []
-  filesEndPoint: string = environment.FilesEndpoint
+  filesEndPoint: string = environment.DriveEndPoint
   suscripcion: Subscription = new Subscription()
   private title = inject(Title)
   private meta = inject(Meta)

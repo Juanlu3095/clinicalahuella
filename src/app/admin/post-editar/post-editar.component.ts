@@ -44,7 +44,7 @@ export class PostEditarComponent implements OnInit, OnDestroy{
   @ViewChild('imagenActual') imagenActual: ElementRef<HTMLElement> = {} as ElementRef
   @ViewChild('imagenNueva') imagenNueva: ElementRef<HTMLElement> = {} as ElementRef
 
-  filesEndPoint = environment.FilesEndpoint
+  filesEndPoint = environment.DriveEndPoint
 
   // CHATBOT
   @ViewChild('AIchat') aiChat!: TemplateRef<HTMLElement>;

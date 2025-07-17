@@ -28,7 +28,7 @@
               <!-- Poner un if para el caso en que el post no tenga imagen, y usar environment para guardar url del directorio -->
               <div class="img-container">
                 @if (post.imagen != null) {
-                  <img mat-card-image src="{{ filesEndPoint + post.imagen }}" alt="Foto de portada del post">
+                  <img mat-card-image src="{{ filesEndPoint + post.imagen }}&sz=w400" alt="Foto de portada del post">
                 } @else {
                   <img mat-card-image src="../../../assets/img/sinimagen.png" alt="Sin categoria">
                 }

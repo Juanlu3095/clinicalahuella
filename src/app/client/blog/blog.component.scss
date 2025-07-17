@@ -88,7 +88,7 @@ section.blog {
 }
 
 .img-container img {
-    object-fit: contain; // Para que las imágenes no se estiren
+    object-fit: cover; // Para que las imágenes no se estiren
 }
 
 mat-card-content {
