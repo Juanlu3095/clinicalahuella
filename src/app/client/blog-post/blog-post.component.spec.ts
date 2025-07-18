@@ -5,6 +5,8 @@ import { Observable, of, throwError } from 'rxjs';
 import { ApiresponsePartial } from '../../interfaces/apiresponse';
 import { appConfig } from '../../app.config';
 import { PostService } from '../../services/api/post.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const mockApiOnepostResponse = {
   "message": "Post encontrado.",
@@ -52,11 +54,13 @@ const mockApiResponseNotfound = {
 
 const mockPostService: {
   getPosts: () => Observable<ApiresponsePartial>,
-  getPostBySlug: () => Observable<ApiresponsePartial>
+  getPostBySlug: (slug: string) => Observable<ApiresponsePartial>
 } = {
   getPosts: () => of({}),
-  getPostBySlug: () => of({})
+  getPostBySlug: (slug: string) => of({})
 }
+
+const mockSnackBar = jasmine.createSpyObj(['open'])
 
 describe('BlogPostComponent', () => {
   let component: BlogPostComponent;
@@ -66,7 +70,8 @@ describe('BlogPostComponent', () => {
     await TestBed.configureTestingModule({
       imports: [BlogPostComponent],
       providers: [...appConfig.providers,
-        { provide: PostService, useValue: mockPostService }
+        { provide: PostService, useValue: mockPostService },
+        { provide: MatSnackBar, useValue: mockSnackBar }
       ]
     })
     .compileComponents();
@@ -84,16 +89,18 @@ describe('BlogPostComponent', () => {
     // CORRECT
     const spyGetPost = spyOn(mockPostService, 'getPostBySlug')
     spyGetPost.and.returnValue(of(mockApiOnepostResponse))
-    component.slug = "5-consejos"
+    component.slug = "5-consejos-para-cuidadores"
     component.getPost()
-    expect(mockPostService.getPostBySlug).toHaveBeenCalled()
+    expect(mockPostService.getPostBySlug).toHaveBeenCalledWith(component.slug)
+    expect(component.post).toBe(mockApiOnepostResponse.data[0])
 
     // INCORRECT: 404
-    spyGetPost.and.returnValue(throwError(() => 'Posts no encontrados.'))
+    spyGetPost.and.returnValue(throwError(() => new HttpErrorResponse({ error: mockApiResponseNotfound, status: 404 })))
     component.post = {}
     component.getPost()
-    expect(mockPostService.getPostBySlug).toHaveBeenCalled()
+    expect(mockPostService.getPostBySlug).toHaveBeenCalledWith(component.slug)
     expect(component.post).toEqual({})
+    expect(mockSnackBar.open).toHaveBeenCalledWith('Post no encontrado.', 'Aceptar', { duration: 3000 })
   })
 
   it('should get last 3 posts, getLastPosts()', () => {
