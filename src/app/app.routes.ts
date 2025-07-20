@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authAdminGuard } from './guards/auth-admin.guard';
+import { authAdminGuard, authAdminGuardReverse } from './guards/auth-admin.guard';
 
 export const routes: Routes = [
     {
@@ -25,6 +25,7 @@ export const routes: Routes = [
     {
         path: 'iniciosesion',
         loadComponent: () => import('./client/login/login.component').then((m) => m.LoginComponent),
+        canActivate: [authAdminGuardReverse]
     },
     {
         path: 'admin',

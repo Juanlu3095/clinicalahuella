@@ -18,3 +18,25 @@ export const authAdminGuard: CanActivateFn = (route, state) => {
     })
   )
 };
+
+// Guard para el caso en el que el usuario esté logueado y quiera acceder al inicio de sesión
+export const authAdminGuardReverse: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.comprobarLogin().pipe(
+    map((respuesta) => {
+      if(respuesta.message) {
+        router.navigate(['/admin']);
+        return false
+      }
+      return true
+    }),
+    catchError((error) => {
+      if (error.status === 401) {
+        return of(true)
+      }
+      return of(false)
+    })
+  )
+}
