@@ -5,6 +5,10 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
 }
 
 .title {
@@ -21,7 +25,9 @@
 .sidenav{
     background-color: var(--lightbrown);
     border-radius: 0;
-    text-align: center; 
+    text-align: center;
+    position: fixed;
+    padding-top: 5rem;
 }
 
 .logo-container img{
@@ -38,4 +44,8 @@
 .active-link{
     background-color: #d9d9d9; /* Cambia a tu color deseado */
     font-weight: bold;
+}
+
+.data {
+    padding-top: 4rem;
 }

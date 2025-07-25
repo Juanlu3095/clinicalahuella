@@ -1,27 +1,73 @@
-# Lahuella
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+# Clínica La Huella
 
-## Development server
+Clínica La Huella es una web hecha con Angular SSR sobre una clínica veterinaria ficticia. El proyecto hace especial hincapié en Server Side Rendering y el SEO amigable.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Características del proyecto
 
-## Code scaffolding
+- Sitio web hecho con Angular SSR con SEO amigable.
+- Panel de administración para la clínica.
+- Reservas para consultas y citas flexibles con calendario.
+- Google Analytics para las métricas.
+- Suscripciones a la newsletter.
+- Formulario de contacto.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Diseño
 
-## Build
+![Home Screenshot](src/assets/img/capturapantalla_lahuella.png)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Diseño realizado en Figma. Para ver el diseño completo, haz clic <a href="https://www.figma.com/design/LsuXa2O8Y0vWcQDWlzBIlg/Cl%C3%ADnica-veterinaria?m=auto&t=T4pKS07hZqb7ry0L-1">aquí</a>.
 
-## Running unit tests
+## Requisitos
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Para utilizar esta API necesitas tener instalado lo siguiente: 
 
-## Running end-to-end tests
+**Angular:** v18.2.11  
+**Node.js:** v20.13.1 o superior.  
+**NVM** (Recomendable)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Instalación
 
-## Further help
+1. Clona el repositorio
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+  git clone https://github.com/Juanlu3095/clinicalahuella.git
+```
+2. Instala las dependencias
+
+```bash
+  npm install
+```
+3. Configura las variables de entorno.
+
+- Edita el archivo environment correspondiente.
+- apiendpoint para el endpoint de la API para el backend.
+- FilesEndpoint si vas a usar el disco local para el almacenamiento.
+- DriveEndPoint para usar almacenamiento de Drive.
+
+4. Ejecuta la aplicación.
+
+```bash
+  ng serve
+```
+
+o si quieres que se abra directamente una ventana en tu navegador: 
+
+```bash
+  ng serve --o
+```
+
+## Testing
+
+La aplicación web utiliza karma y jasmine para las pruebas unitarias. Para ejecutar todos los tests:
+
+```bash
+  ng test
+```
+
+o para ejecuta uno en concreto:
+
+```bash
+  npm run test:url --url=[url]
+```
+donde [url] es la url del .spec desde 'src/app'.
