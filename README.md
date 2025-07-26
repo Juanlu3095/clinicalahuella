@@ -8,9 +8,12 @@ Clínica La Huella es una web hecha con Angular SSR sobre una clínica veterinar
 - Sitio web hecho con Angular SSR con SEO amigable.
 - Panel de administración para la clínica.
 - Reservas para consultas y citas flexibles con calendario.
+- Envío de email con Gmail API al confirmar una cita.
 - Google Analytics para las métricas.
 - Suscripciones a la newsletter.
 - Formulario de contacto.
+- Gestión de blog.
+- Chat con Gemini IA integrado en el panel de administración.
 
 ## Diseño
 
@@ -20,7 +23,7 @@ Diseño realizado en Figma. Para ver el diseño completo, haz clic <a href="http
 
 ## Requisitos
 
-Para utilizar esta API necesitas tener instalado lo siguiente: 
+Para utilizar esta aplicación necesitas tener instalado lo siguiente: 
 
 **Angular:** v18.2.11  
 **Node.js:** v20.13.1 o superior.  
@@ -28,12 +31,12 @@ Para utilizar esta API necesitas tener instalado lo siguiente:
 
 ## Instalación
 
-1. Clona el repositorio
+1. Clona el repositorio.
 
 ```bash
   git clone https://github.com/Juanlu3095/clinicalahuella.git
 ```
-2. Instala las dependencias
+2. Instala las dependencias.
 
 ```bash
   npm install
