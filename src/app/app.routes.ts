@@ -23,6 +23,18 @@ export const routes: Routes = [
         loadComponent: () => import('./client/book/book.component').then((m) => m.BookComponent),
     },
     {
+        path: 'aviso-legal',
+        loadComponent: () => import('./client/avisolegal/avisolegal.component').then((m) => m.AvisolegalComponent),
+    },
+    {
+        path: 'politica-privacidad',
+        loadComponent: () => import('./client/politica-privacidad/politica-privacidad.component').then((m) => m.PoliticaPrivacidadComponent),
+    },
+    {
+        path: 'politica-cookies',
+        loadComponent: () => import('./client/politica-cookies/politica-cookies.component').then((m) => m.PoliticaCookiesComponent),
+    },
+    {
         path: 'iniciosesion',
         loadComponent: () => import('./client/login/login.component').then((m) => m.LoginComponent),
         canActivate: [authAdminGuardReverse]
