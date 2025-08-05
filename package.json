@@ -1,5 +1,5 @@
 {
-  "name": "lahuella",
+  "name": "clinicalahuella",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:url": "ng test --include=src/app/%npm_config_url%",
-    "serve:ssr:lahuella": "node dist/lahuella/server/server.mjs",
+    "serve:ssr:lahuella": "node dist/clinicalahuella/server/server.mjs",
     "deploy": "ng build --prod --base-href=/clinicalahuella/"
   },
   "private": true,

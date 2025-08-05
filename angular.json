@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lahuella": {
+    "clinicalahuella": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/lahuella",
+            "outputPath": "dist/clinicalahuella",
             "baseHref": "/clinicalahuella/",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -31,6 +31,10 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "public"
               }
             ],
             "styles": [
@@ -83,10 +87,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "lahuella:build:production"
+              "buildTarget": "clinicalahuella:build:production"
             },
             "development": {
-              "buildTarget": "lahuella:build:development"
+              "buildTarget": "clinicalahuella:build:development"
             }
           },
           "defaultConfiguration": "development"
