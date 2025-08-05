@@ -12,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class CookiebannerComponent{
   cookieService = inject(CookieService)
-  private _bottomSheetRef = inject<MatBottomSheetRef<CookiebannerComponent>>(MatBottomSheetRef); // Referencia al banner
+  public _bottomSheetRef = inject<MatBottomSheetRef<CookiebannerComponent>>(MatBottomSheetRef); // Referencia al banner
 
   openLink(event: MouseEvent): void {
     this._bottomSheetRef.dismiss(); // Se cerrará el banner al pulsar un botón
