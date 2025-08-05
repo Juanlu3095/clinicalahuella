@@ -9,7 +9,7 @@
     "test": "ng test",
     "test:url": "ng test --include=src/app/%npm_config_url%",
     "serve:ssr:lahuella": "node dist/lahuella/server/server.mjs",
-    "deploy": "ng build --prod --base-href=/lahuella/"
+    "deploy": "ng build --prod --base-href=/clinicalahuella/"
   },
   "private": true,
   "dependencies": {
