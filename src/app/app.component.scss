@@ -11,27 +11,6 @@ $laptopMAX: 1201px;
     color: var(--lightbrown) !important;
     z-index: 999;
     height: 50px;
-    top: 43rem;
+    bottom: 0rem;
     right: 1rem;
-
-    // LAPTOP
-    @media (min-width: $laptopMIN) and (max-width: $laptopMAX) {
-        height: 85px;
-        top: 77rem;
-        right: 3rem;
-    }
-
-    // TABLET
-    @media (min-width: $tabletMIN) and (max-width: $tabletMAX) {
-        height: 68px;
-        top: 53rem;
-        right: 1rem;
-    }
-
-    // MOBILE
-    @media (max-width: $mobileMAX) {
-        height: 50px;
-        top: 38rem;
-        right: 1rem;
-    }
 }
