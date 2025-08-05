@@ -9,7 +9,7 @@
             @if (post.imagen) {
                 <img src="{{ filesEndPoint + post.imagen }}&sz=w500" alt="Imagen de portada del post">
             } @else {
-                <img src="../../../assets/img/sinimagen.png" alt="Sin imagen">
+                <img src="assets/img/sinimagen.png" alt="Sin imagen">
             }
             <p class="post-content">{{ post.contenido }}</p>
 
@@ -27,7 +27,7 @@
                         @if (post.imagen) {
                             <img mat-card-image src="{{ filesEndPoint + post.imagen }}" alt="Imagen de portada del post">
                         } @else {
-                            <img mat-card-image src="../../../assets/img/sinimagen.png" alt="Sin imagen">
+                            <img mat-card-image src="assets/img/sinimagen.png" alt="Sin imagen">
                         }
                         <mat-card-header>
                             <mat-card-title class="txt-lightbrown font-semibold">{{ post.titulo }}</mat-card-title>
