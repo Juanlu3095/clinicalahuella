@@ -88,6 +88,19 @@ $lahuella-theme: mat.define-theme((
 // Spinner color
 .mat-mdc-progress-spinner { --mdc-circular-progress-active-indicator-color: var(--lightbrown); }
 
+div.banner-consentimiento {
+  z-index: 1000;
+  width: 50%;
+
+  @media (max-width: 1023px) {
+    width: 100%;
+  }
+}
+
+.mat-bottom-sheet-container {
+  min-width: 50% !important;
+}
+
 // Comment out the line below if you want to use the pre-defined typography utility classes.
 // For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
 // @include mat.typography-hierarchy($lahuella-theme);

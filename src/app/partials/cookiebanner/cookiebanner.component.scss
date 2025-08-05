@@ -1,0 +1,46 @@
+h2 {
+    text-align: center;
+    font-size: var(--lengthMd2);
+    font-weight: 600;
+    margin: 1rem 0;
+}
+
+p {
+    margin: 1rem 0;
+}
+
+div.btn-consentimiento {
+    margin: 1rem 0;
+    display: flex;
+    justify-content:center;
+    gap: 2rem;
+}
+
+div.btn-consentimiento .btn-aceptar {
+    background-color: var(--lightbrown);
+    width: 20%;
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+div.btn-consentimiento .btn-denegar {
+    background-color: var(--dark);
+    width: 20%;
+    padding: 0.5rem;
+    border-radius: 10px;    
+}
+
+div.txt-legal {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1rem 0;
+}
+
+div.txt-legal a {
+    color: var(--lightbrown);
+    text-decoration: underline;
+
+    @media (max-width: 767px) {
+        font-size: var(--lengthSm3);
+    }
+}
