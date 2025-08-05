@@ -1,16 +1,22 @@
 <!doctype html>
 <html lang="es">
 <head>
-<!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3ZGKXK440B"></script>
+  <!-- Google tag (gtag.js) -->
   <script>
     if (localStorage.getItem('consentimiento_ga') === 'true') {
+    var gtagScript = document.createElement('script');
+    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-3ZGKXK440B';
+    gtagScript.async = true;
+    document.head.appendChild(gtagScript);
+
+    // Espera a que el script cargue antes de llamar a gtag
+    gtagScript.onload = function () {
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-  
       gtag('config', 'G-3ZGKXK440B');
-    }
+    };
+  }
   </script>
   <meta charset="utf-8">
   <title>Clínica veterinaria La Huella</title>
