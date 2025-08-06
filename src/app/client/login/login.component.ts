@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit{
                 sameSite: 'Strict',
               }
             )
-            this.cookieService.delete('_xsrf_token')
+            this.cookieService.delete('lh_xsrf_token')
           }
           await this.router.navigate(['/admin'])
         },
