@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiendpoint: 'http://localhost:3000',
-    FilesEndpoint: 'http://localhost:3000/images/',
+    apiendpoint: 'https://clinicalahuellaapi.onrender.com',
+    FilesEndpoint: 'https://clinicalahuellaapi.onrender.com/images/',
     DriveEndPoint: 'https://drive.google.com/thumbnail?id='
 };
