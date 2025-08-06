@@ -8,7 +8,7 @@ export const csrfInterceptor: HttpInterceptorFn = (req, next) => {
   const cookieService = inject(CookieService)
   const csrfService = inject(CsrfService)
 
-  let xsrfToken = cookieService.get('_xsrf_token')
+  let xsrfToken = cookieService.get('front_xsrf_token')
 
   if(req.method.toUpperCase() != 'GET') {
     if(xsrfToken) {
@@ -22,11 +22,12 @@ export const csrfInterceptor: HttpInterceptorFn = (req, next) => {
     } else {
       return csrfService.getCsrf().pipe(
       // Modificamos internamente el valor emitido por el observable o lo que ocurre dentro
-      map(() => {
-        xsrfToken = cookieService.get('_xsrf_token') // Tenemos que volver a asignar aquí el token, de lo contrario xsrfToken será el que había antes cuando se declaró antes del if
+      map((respuesta) => {
+        xsrfToken = respuesta.data // Tenemos que volver a asignar aquí el token, de lo contrario xsrfToken será el que había antes cuando se declaró antes del if
         const cloned = req.clone({
           headers: req.headers.set('_xsrf_token', xsrfToken),
         });
+        cookieService.set('front_xsrf_token', xsrfToken)
         return cloned;
       }),
       // Esperamos a que se resuelva el observable y cambia el flujo del observable sin romper la asincronía, es decir, intercambia el observable
