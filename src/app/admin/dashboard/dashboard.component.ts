@@ -31,13 +31,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
   private cookieService = inject(CookieService)
   private router = inject(Router)
 
-  constructor() {
-   /*  afterRender(() => {
-      if(isPlatformBrowser(this.platformId)) {
-          alert(location.href);
-        }
-    }) */
-  }
   ngOnInit(): void {
     this.getUser()
     this.disenoResponsivo()
@@ -57,6 +50,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
       next: (respuesta) => {
         this.cookieService.delete('_user_lh')
         this.cookieService.delete('_xsrf_token')
+        this.cookieService.delete('lh_xsrf_token')
         this.router.navigate([''])
       },
       error: (error) => {
