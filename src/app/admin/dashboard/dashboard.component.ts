@@ -1,14 +1,14 @@
-import { afterRender, Component, inject, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
-import { isPlatformBrowser } from '@angular/common';
 import { ResponsivedesignService } from '../../services/responsivedesign.service';
 import { Subscription } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../../services/api/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
       next: (respuesta) => {
         this.cookieService.delete('_user_lh')
         this.cookieService.delete('_xsrf_token')
-        this.cookieService.delete('lh_xsrf_token')
+        this.cookieService.delete('lh_xsrf_token', '/', environment.frontDomain)
         this.router.navigate([''])
       },
       error: (error) => {

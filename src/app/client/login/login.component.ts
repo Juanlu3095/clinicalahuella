@@ -13,6 +13,7 @@ import { AuthService } from '../../services/api/auth.service';
 import { Router } from '@angular/router';
 import { DialogService } from '../../services/material/dialog.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -61,7 +62,7 @@ export class LoginComponent implements OnInit{
                 sameSite: 'Strict',
               }
             )
-            this.cookieService.delete('lh_xsrf_token')
+            this.cookieService.delete('lh_xsrf_token', '/', environment.frontDomain)
           }
           await this.router.navigate(['/admin'])
         },

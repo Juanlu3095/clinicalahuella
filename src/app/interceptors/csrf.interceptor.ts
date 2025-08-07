@@ -3,6 +3,7 @@ import { inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { CsrfService } from '../services/api/csrf.service';
 import { map, switchMap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export const csrfInterceptor: HttpInterceptorFn = (req, next) => {
   const cookieService = inject(CookieService)
@@ -27,7 +28,10 @@ export const csrfInterceptor: HttpInterceptorFn = (req, next) => {
         const cloned = req.clone({
           headers: req.headers.set('_xsrf_token', xsrfToken),
         });
-        cookieService.set('lh_xsrf_token', xsrfToken)
+        cookieService.set('lh_xsrf_token', xsrfToken, {
+          path: '/',
+          domain: environment.frontDomain
+        })
         return cloned;
       }),
       // Esperamos a que se resuelva el observable y cambia el flujo del observable sin romper la asincronía, es decir, intercambia el observable
