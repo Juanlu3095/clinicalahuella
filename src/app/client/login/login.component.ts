@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit{
               '_user_lh',
               respuesta.data,
               {
+                path: '/',
                 expires: expiration,
                 secure: true,
                 sameSite: 'Strict',

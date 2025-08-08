@@ -48,9 +48,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
   logout () {
     this.authService.logout().subscribe({
       next: (respuesta) => {
-        this.cookieService.delete('_user_lh')
-        this.cookieService.delete('_xsrf_token')
-        this.cookieService.delete('lh_xsrf_token', '/', environment.frontDomain)
+        this.cookieService.delete('_user_lh', '/', environment.frontDomain, true, 'Strict')
+        this.cookieService.delete('lh_xsrf_token', '/', environment.frontDomain, true, 'Strict')
         this.router.navigate([''])
       },
       error: (error) => {

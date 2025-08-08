@@ -30,7 +30,9 @@ export const csrfInterceptor: HttpInterceptorFn = (req, next) => {
         });
         cookieService.set('lh_xsrf_token', xsrfToken, {
           path: '/',
-          domain: environment.frontDomain
+          domain: environment.frontDomain,
+          sameSite: 'Strict',
+          secure: true
         })
         return cloned;
       }),
