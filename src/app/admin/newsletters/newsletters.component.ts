@@ -117,13 +117,11 @@ export class NewslettersComponent implements OnInit, OnDestroy{
     }
     this.newsletterService.postNewsletter(newsletter).subscribe({
       next: (respuesta: ApiresponsePartial) => {
-        console.log(respuesta)
         this.snackbar.open('Newsletter creada.', 'Aceptar', {
           duration: 3000
         })
       },
       error: (error: HttpErrorResponse) => {
-        console.error(error)
         this.snackbar.open('Ha ocurrido un error.', 'Aceptar', {
           duration: 3000
         })

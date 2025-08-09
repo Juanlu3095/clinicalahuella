@@ -34,7 +34,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.getUser()
     this.disenoResponsivo()
-    console.log('Has cambiado de página') // Sólo se está ejecutando una vez, sólo cuando se refresca la página 
   }
 
   ngOnDestroy(): void {

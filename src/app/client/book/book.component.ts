@@ -55,8 +55,6 @@ export class BookComponent implements OnInit, OnDestroy{
 
   solicitarReserva() {
     if(this.bookForm.valid && this.bookForm.value) {
-      console.log('Fecha form: ', this.bookForm.value.fecha)
-      console.log('Tipo de la fecha: ', typeof(this.bookForm.value.fecha))
       const book = {
         nombre: this.bookForm.value.nombre || '',
         apellidos: this.bookForm.value.apellidos || '',

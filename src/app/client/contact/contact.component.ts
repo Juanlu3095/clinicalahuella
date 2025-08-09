@@ -96,10 +96,10 @@ export class ContactComponent implements OnInit, OnDestroy{
         switch(dispositivo) {
           case 'Móvil':
             this.rowHeight = "4:1";
-            break;
+          break;
           default:
             this.rowHeight = "7:1";
-            break;
+          break;
         }
       },
       error: (error) => {
