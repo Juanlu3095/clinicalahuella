@@ -74,3 +74,7 @@ o para ejecuta uno en concreto:
   npm run test:url --url=[url]
 ```
 donde [url] es la url del .spec desde 'src/app'.
+
+## Documentación
+
+Para ver la documentación de la aplicación haz clic <a href="https://drive.google.com/file/d/1YsyizaXtn3pvTXsNxCqhE_TFZQihNGDB/view?usp=drive_link">aquí</a>.
