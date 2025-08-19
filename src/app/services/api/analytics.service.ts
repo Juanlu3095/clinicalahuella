@@ -21,6 +21,10 @@ export class AnalyticsService {
     return this.http.get<ApiresponsePartial>(`${this.endpoint}/analytics/country`, { withCredentials: true })
   }
 
+  getCitiesData () {
+    return this.http.get<ApiresponsePartial>(`${this.endpoint}/analytics/city`, { withCredentials: true })
+  }
+
   getDevicesData () {
     return this.http.get<ApiresponsePartial>(`${this.endpoint}/analytics/device`, { withCredentials: true })
   }

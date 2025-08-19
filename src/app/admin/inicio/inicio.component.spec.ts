@@ -8,11 +8,11 @@ import { ApiresponsePartial } from '../../interfaces/apiresponse';
 
 const mockAnalyticsService: {
   getPageUrlData: () => Observable<ApiresponsePartial>,
-  getCountriesData: () => Observable<ApiresponsePartial>,
+  getCitiesData: () => Observable<ApiresponsePartial>,
   getDevicesData: () => Observable<ApiresponsePartial>,
 } = {
   getPageUrlData: () => of({}),
-  getCountriesData: () => of({}),
+  getCitiesData: () => of({}),
   getDevicesData: () => of({})
 }
 
@@ -30,11 +30,11 @@ const mockAnalyticsPageUrl = {
     ]
   }
 
-  const mockAnalyticsCountry = {
+  const mockAnalyticsCity = {
     "message": "Datos encontrados.",
     "data": [
       {
-        "dimension": "Spain",
+        "dimension": "Malaga",
         "value": "323"
       }
     ]
@@ -118,30 +118,30 @@ describe('InicioComponent', () => {
     })
   })
 
-  it('should get Analytics data by country, getCountriesData()', () => {
-    const spyAnalyticsService = spyOn(analyticsService, 'getCountriesData')
-    spyAnalyticsService.and.returnValue(of(mockAnalyticsCountry))
+  it('should get Analytics data by city, getCitiesData()', () => {
+    const spyAnalyticsService = spyOn(analyticsService, 'getCitiesData')
+    spyAnalyticsService.and.returnValue(of(mockAnalyticsCity))
 
-    component.getCountriesData()
+    component.getCitiesData()
 
-    expect(mockAnalyticsService.getCountriesData).toHaveBeenCalled()
-    expect(component.dataByCountries).toBe(mockAnalyticsCountry.data)
+    expect(mockAnalyticsService.getCitiesData).toHaveBeenCalled()
+    expect(component.dataByCity).toBe(mockAnalyticsCity.data)
   })
 
-  it('should not get Analytics data by country because error server 500, getCountriesData()', () => {
-    const spyAnalyticsService = spyOn(analyticsService, 'getCountriesData')
+  it('should not get Analytics data by city because error server 500, getCitiesData()', () => {
+    const spyAnalyticsService = spyOn(analyticsService, 'getCitiesData')
     spyAnalyticsService.and.returnValue(throwError(() => ({
       status: 500,
       error: 'Datos no encontrados.'
     })))
 
-    component.dataByCountries = []
-    component.getCountriesData()
+    component.dataByCity = []
+    component.getCitiesData()
 
-    expect(mockAnalyticsService.getCountriesData).toHaveBeenCalled()
-    expect(component.dataByCountries).toEqual([])
+    expect(mockAnalyticsService.getCitiesData).toHaveBeenCalled()
+    expect(component.dataByCity).toEqual([])
     
-    analyticsService.getCountriesData().subscribe({
+    analyticsService.getCitiesData().subscribe({
       next: () => fail(),
       error: (error) => {
         expect(error.error).toBe(mockAnalyticsError.error)

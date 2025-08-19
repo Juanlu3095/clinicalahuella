@@ -49,13 +49,13 @@
                 </table>
             </div>
 
-            <!-- VISITAS POR PAÍS -->
-            <h2>Visitas por país</h2>
+            <!-- VISITAS POR CIUDAD -->
+            <h2>Visitas por ciudad</h2>
             <div class="tabla table-responsive mat-elevation-z8">
-                <table mat-table [dataSource]="dataByCountries" class="mat-elevation-z8 demo-table">
+                <table mat-table [dataSource]="dataByCity" class="mat-elevation-z8 demo-table">
                     <!-- Producto Column -->
                     <ng-container matColumnDef="dimension">
-                        <th mat-header-cell *matHeaderCellDef> <b>País</b> </th>
+                        <th mat-header-cell *matHeaderCellDef> <b>Ciudad</b> </th>
                         <td mat-cell *matCellDef="let data"> {{data.dimension}} </td>
                     </ng-container>
             

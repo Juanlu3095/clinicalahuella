@@ -17,14 +17,14 @@ export class InicioComponent implements OnInit{
   public title = inject(Title)
   public analyticsService = inject(AnalyticsService)
   dataByPageurl: Analyticsdata[] = []
-  dataByCountries: Analyticsdata[] = []
+  dataByCity: Analyticsdata[] = []
   dataByDevices: Analyticsdata[] = []
   displayedColumns: string[] = ['dimension', 'value']
 
   ngOnInit(): void {
     this.title.setTitle('Panel de control < Clínica veterinaria La Huella')
     this.getPageUrslData()
-    this.getCountriesData()
+    this.getCitiesData()
     this.getDevicesData()
   }
 
@@ -39,10 +39,10 @@ export class InicioComponent implements OnInit{
     })
   }
 
-  getCountriesData () {
-    this.analyticsService.getCountriesData().subscribe({
+  getCitiesData () {
+    this.analyticsService.getCitiesData().subscribe({
       next: (respuesta) => {
-        this.dataByCountries = respuesta.data
+        this.dataByCity = respuesta.data
       },
       error: (error) => {
         console.error(error)

@@ -33,6 +33,16 @@ describe('AnalyticsService', () => {
     ]
   }
 
+  const mockAnalyticsCity = {
+    "message": "Datos encontrados.",
+    "data": [
+      {
+        "dimension": "Malaga",
+        "value": "323"
+      }
+    ]
+  }
+
   const mockAnalyticsDevice = {
     "message": "Datos encontrados.",
     "data": [
@@ -86,6 +96,18 @@ describe('AnalyticsService', () => {
     expect(mockRequest.request.withCredentials).toBeTrue() // Comprobamos que el param sea el correcto
 
     mockRequest.flush(mockAnalyticsCountry)
+  })
+
+  it('should get Analytics data by city, getCitiesData()', () => {
+    service.getCitiesData().subscribe((respuesta) => {
+      expect(respuesta.data).toBe(mockAnalyticsCity.data)
+    })
+
+    const mockRequest = httpTestingController.expectOne(`${baseUrl}/city`) // Hacemos la petición
+    expect(mockRequest.request.method).toEqual('GET')
+    expect(mockRequest.request.withCredentials).toBeTrue() // Comprobamos que el param sea el correcto
+
+    mockRequest.flush(mockAnalyticsCity)
   })
 
   it('should get Analytics data by device, getDevicesData()', () => {
