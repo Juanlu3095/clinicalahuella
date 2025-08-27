@@ -25,6 +25,7 @@ import { environment } from '../../../environments/environment';
 export class LoginComponent implements OnInit{
 
   btnDisabled: boolean = false; // Se usa para impedir múltiples solicitudes de login al backend 
+  baseUrl: string = environment.baseUrl
   title = inject(Title)
   dialogService = inject(DialogService)
   cookieService = inject(CookieService)

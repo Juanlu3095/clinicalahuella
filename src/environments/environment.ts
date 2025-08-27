@@ -3,5 +3,6 @@ export const environment = {
     apiendpoint: 'https://clinicalahuellaapi.onrender.com',
     FilesEndpoint: 'https://clinicalahuellaapi.onrender.com/images/',
     DriveEndPoint: 'https://drive.google.com/thumbnail?id=',
-    frontDomain: 'juanlu3095.github.io'
+    frontDomain: 'juanlu3095.github.io',
+    baseUrl: 'clinicalahuella'
 };
