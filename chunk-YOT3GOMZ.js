@@ -1,0 +1,1 @@
+var i={production:!0,apiendpoint:"https://clinicalahuellaapi.onrender.com",FilesEndpoint:"https://clinicalahuellaapi.onrender.com/images/",DriveEndPoint:"https://drive.google.com/thumbnail?id=",frontDomain:"juanlu3095.github.io",baseUrl:"clinicalahuella"};export{i as a};
